@@ -2,6 +2,7 @@ from pytest import raises, mark
 from intervals import (
     Interval, IntervalException, RangeBoundsException
 )
+from infinity import inf
 
 
 class TestIntervalInit(object):
@@ -33,7 +34,12 @@ class TestIntervalInit(object):
     def test_empty_string_as_upper_bound(self):
         interval = Interval('[1,)')
         assert interval.lower == 1
-        assert interval.upper == float('inf')
+        assert interval.upper == inf
+
+    def test_empty_string_as_lower_bound(self):
+        interval = Interval('[,1)')
+        assert interval.lower == -inf
+        assert interval.upper == 1
 
     def test_supports_exact_ranges_as_strings(self):
         interval = Interval('3')

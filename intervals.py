@@ -5,7 +5,7 @@ try:
     from functools import total_ordering
 except ImportError:
     from total_ordering import total_ordering
-
+from infinity import inf
 import six
 
 
@@ -143,7 +143,7 @@ class Interval(object):
     @lower.setter
     def lower(self, value):
         if value is None:
-            self._lower = -float('inf')
+            self._lower = -inf
         else:
             self._lower = value
 
@@ -154,7 +154,7 @@ class Interval(object):
     @upper.setter
     def upper(self, value):
         if value is None:
-            self._upper = float('inf')
+            self._upper = inf
         else:
             self._upper = value
 
