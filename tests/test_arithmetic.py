@@ -1,3 +1,4 @@
+from pytest import mark
 from intervals import Interval
 
 
@@ -17,3 +18,11 @@ class TestArithmeticOperators(object):
         range_ = Interval(1, 2)
         range_ += Interval(1, 2)
         assert range_ == Interval(2, 4)
+
+    @mark.parametrize(('first', 'second', 'intersection'), (
+        ('[1, 5]', '[2, 9]', '[2, 5]'),
+        ('[3, 4]', '[3, 9]', '[3, 4]'),
+        ('(3, 6]', '[2, 6)', '(3, 6)')
+    ))
+    def test_intersection(self, first, second, intersection):
+        Interval(first) & Interval(second) == Interval(intersection)
