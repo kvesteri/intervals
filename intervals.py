@@ -307,3 +307,18 @@ class Interval(object):
             )
         except AttributeError:
             return NotImplemented
+
+    def __and__(self, other):
+        """
+        Defines the intersection operator
+        """
+        if self.lower <= other.lower <= self.upper:
+            return Interval(
+                other.lower,
+                other.upper if other.upper < self.upper else self.upper
+            )
+        elif self.lower <= other.upper <= self.upper:
+            return Interval(
+                other.lower if other.lower > self.lower else self.lower,
+                other.upper
+            )
