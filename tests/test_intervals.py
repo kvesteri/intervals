@@ -10,52 +10,80 @@ class TestIntervalInit(object):
         interval = Interval(Interval(1, 3))
         assert interval.lower == 1
         assert interval.upper == 3
+        assert not interval.lower_inc
+        assert not interval.upper_inc
 
     def test_supports_multiple_args(self):
         interval = Interval(1, 3)
         assert interval.lower == 1
         assert interval.upper == 3
+        assert not interval.lower_inc
+        assert not interval.upper_inc
 
     def test_supports_strings(self):
         interval = Interval('1-3')
         assert interval.lower == 1
         assert interval.upper == 3
+        assert interval.lower_inc
+        assert interval.upper_inc
+
+    def test_supports_infinity(self):
+        interval = Interval(-inf, inf)
+        assert interval.lower == -inf
+        assert interval.upper == inf
+        assert not interval.lower_inc
+        assert not interval.upper_inc
 
     def test_supports_strings_with_spaces(self):
         interval = Interval('1 - 3')
         assert interval.lower == 1
         assert interval.upper == 3
+        assert interval.lower_inc
+        assert interval.upper_inc
 
     def test_supports_strings_with_bounds(self):
         interval = Interval('[1, 3]')
         assert interval.lower == 1
         assert interval.upper == 3
+        assert interval.lower_inc
+        assert interval.upper_inc
 
     def test_empty_string_as_upper_bound(self):
         interval = Interval('[1,)')
         assert interval.lower == 1
         assert interval.upper == inf
+        assert interval.lower_inc
+        assert not interval.upper_inc
 
     def test_empty_string_as_lower_bound(self):
         interval = Interval('[,1)')
         assert interval.lower == -inf
         assert interval.upper == 1
+        assert interval.lower_inc
+        assert not interval.upper_inc
 
     def test_supports_exact_ranges_as_strings(self):
         interval = Interval('3')
         assert interval.lower == 3
         assert interval.upper == 3
+        assert interval.lower_inc
+        assert interval.upper_inc
 
     def test_supports_integers(self):
         interval = Interval(3)
         assert interval.lower == 3
         assert interval.upper == 3
+        assert interval.lower_inc
+        assert interval.upper_inc
 
 
 def test_str_representation():
     assert str(Interval(1, 3)) == '1 - 3'
     assert str(Interval(1, 1)) == '1'
 
+
+def test_normalized_str():
+    assert Interval(1, inf).normalized == '(1,)'
 
 
 @mark.parametrize('number_range',

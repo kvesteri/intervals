@@ -5,7 +5,7 @@ try:
     from functools import total_ordering
 except ImportError:
     from total_ordering import total_ordering
-from infinity import inf
+from infinity import inf, Infinity
 import six
 
 
@@ -25,10 +25,16 @@ def is_number(number):
     return isinstance(number, (float, int, Decimal))
 
 
+def is_infinite(value):
+    return value == inf or value == -inf
+
+
 def parse_number(number):
     if number is None or number == '':
         return None
     elif is_number(number):
+        return number
+    elif isinstance(number, Infinity):
         return number
     else:
         return int(number)
@@ -242,10 +248,10 @@ class Interval(object):
 
     @property
     def normalized(self):
-        return '%s%s, %s%s' % (
+        return '%s%s,%s%s' % (
             '[' if self.lower_inc else '(',
-            self.lower if self.lower != -float('inf') else '',
-            self.upper if self.upper != float('inf') else '',
+            self.lower if not is_infinite(self.lower) else '',
+            ' ' + self.upper if not is_infinite(self.upper) else '',
             ']' if self.upper_inc else ')'
         )
 
