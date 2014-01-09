@@ -285,6 +285,14 @@ class Interval(object):
     def length(self):
         return abs(self.upper - self.lower)
 
+    @property
+    def radius(self):
+        return self.length / 2
+
+    @property
+    def centre(self):
+        return (self.upper - self.lower) / 2
+
     def __repr__(self):
         return 'Interval(%r, %r)' % (self.lower, self.upper)
 
