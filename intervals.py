@@ -9,6 +9,9 @@ from infinity import inf
 import six
 
 
+__version__ = '0.1.1'
+
+
 class IntervalException(Exception):
     pass
 
