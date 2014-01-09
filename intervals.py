@@ -5,7 +5,7 @@ try:
     from functools import total_ordering
 except ImportError:
     from total_ordering import total_ordering
-from infinity import inf, Infinity
+from infinity import inf
 import six
 
 
@@ -34,7 +34,7 @@ def parse_number(number):
         return None
     elif is_number(number):
         return number
-    elif isinstance(number, Infinity):
+    elif is_infinite(number):
         return number
     else:
         return int(number)
@@ -277,6 +277,10 @@ class Interval(object):
             return self.lower > other.lower and self.upper > other.upper
         except AttributeError:
             return NotImplemented
+
+    @property
+    def length(self):
+        return abs(self.upper - self.lower)
 
     def __repr__(self):
         return 'Interval(%r, %r)' % (self.lower, self.upper)

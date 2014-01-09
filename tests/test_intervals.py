@@ -86,6 +86,13 @@ def test_normalized_str():
     assert Interval(1, inf).normalized == '(1,)'
 
 
+def test_length():
+    assert Interval([1, 4]).length == 3
+    assert Interval([-1, 1]).length == 2
+    assert Interval(-inf, inf).length == inf
+    assert Interval(1, inf).length == inf
+
+
 @mark.parametrize('number_range',
     (
         (3, 2),
