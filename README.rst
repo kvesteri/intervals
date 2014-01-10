@@ -4,10 +4,8 @@ intervals
 Python tools for handling intervals (ranges of comparable objects).
 
 
-.. highlight:: python
+.. code-block:: python
 
-
-::
 
     # All integers between 1 and 4
     interval = Interval([1, 4])
