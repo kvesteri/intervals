@@ -261,8 +261,8 @@ class Interval(object):
     def normalized(self):
         return '%s%s,%s%s' % (
             '[' if self.lower_inc else '(',
-            self.lower if not is_infinite(self.lower) else '',
-            ' ' + self.upper if not is_infinite(self.upper) else '',
+            str(self.lower) if not is_infinite(self.lower) else '',
+            ' ' + str(self.upper) if not is_infinite(self.upper) else '',
             ']' if self.upper_inc else ')'
         )
 
@@ -308,7 +308,7 @@ class Interval(object):
         return float((self.lower + self.upper)) / 2
 
     def __repr__(self):
-        return 'Interval(%r, %r)' % (self.lower, self.upper)
+        return "Interval(%r)" % self.normalized
 
     def __str__(self):
         if self.lower != self.upper:
