@@ -122,19 +122,7 @@ class Interval(object):
             >>> range.upper_inc
             False
 
-        2. Sequence of arguments
-
-        ::
-
-
-            >>> range = Interval(23, 45)
-            >>> range.lower
-            23
-            >>> range.upper
-            45
-
-
-        3. Lists and tuples as an argument
+        2. Lists and tuples as an argument
 
         ::
 
@@ -154,7 +142,7 @@ class Interval(object):
             >>> range.closed
             False
 
-        4. Integer argument
+        3. Integer argument
 
         ::
 
@@ -164,7 +152,7 @@ class Interval(object):
             True
 
 
-        5. Object argument
+        4. Object argument
 
         ::
 
