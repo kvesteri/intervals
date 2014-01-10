@@ -68,6 +68,16 @@ class TestIntervalProperties(object):
     def test_closed(self, number_range, is_closed):
         assert Interval(number_range).closed == is_closed
 
+    @mark.parametrize(('number_range', 'degenerate'),
+        (
+            ((2, 4), False),
+            ('(2, 2)', True),
+            ('[0, 0)', True),
+        )
+    )
+    def test_degenerate(self, number_range, degenerate):
+        assert Interval(number_range).degenerate == degenerate
+
     @mark.parametrize(('obj_range', 'discrete'),
         (
             ((2, 3), True),

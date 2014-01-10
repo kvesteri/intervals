@@ -100,6 +100,13 @@ Properties
 
     Interval([-1, 1]).centre            # 0
 
+* Interval [a, b] is `degenerate` if a == b
+
+.. code-block:: python
+
+    Interval([1, 1]).degenerate         # True
+    Interval([1, 2]).degenerate         # False
+
 
 Operators
 ---------

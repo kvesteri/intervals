@@ -402,6 +402,10 @@ class Interval(object):
         return float(self.length) / 2
 
     @property
+    def degenerate(self):
+        return self.upper == self.lower
+
+    @property
     def centre(self):
         return float((self.lower + self.upper)) / 2
 
