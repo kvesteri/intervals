@@ -21,6 +21,40 @@ Interval initialization
     interval.upper_inc  # True
 
 
+Open, half-open and closed intervals
+------------------------------------
+
+Intervals can be either open, half-open or closed. Properties `lower_inc` and `upper_inc` denote whether or not given endpoint is included (open) or not.
+
+* An open interval is an interval where both endpoints are open.
+
+.. code-block:: python
+
+    interval = Interval((1, 4))
+
+    interval.open           # True
+    interval.lower_inc      # False
+    interval.upper_inc      # False
+
+
+* Half-open interval has one of the endpoints as open
+
+    interval = Interval('[1, 4)')
+
+    interval.open           # False
+    interval.lower_inc      # True
+    interval.upper_inc      # False
+
+* Closed interval includes both endpoints
+
+    interval = Interval([1, 4])
+
+    interval.closed         # True
+    interval.lower_inc      # True
+    interval.upper_inc      # True
+
+
+
 Interval types
 --------------
 
