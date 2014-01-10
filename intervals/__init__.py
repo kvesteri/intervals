@@ -11,7 +11,7 @@ from infinity import inf, is_infinite, Infinity
 import six
 
 
-__version__ = '0.1.1'
+__version__ = '0.2.0'
 
 
 class IntervalException(Exception):
