@@ -78,6 +78,23 @@ intervals tries to guess the type of the interval.
     Interval([date(2000, 1, 1), inf])   # date
 
 
+
+Properties
+----------
+
+* `radius` gives the half-length of an interval
+
+    Interval([1, 4]).radius             # 2.5
+
+* `length` gives the length of an interval.
+
+    Interval([1, 4]).length             # 3
+
+* `centre` gives the centre (midpoint) of an interval
+
+    Interval([-1, 1]).centre            # 0
+
+
 Operators
 ---------
 
