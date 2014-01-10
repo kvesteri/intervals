@@ -11,6 +11,7 @@ Here you can see the full list of changes between each intervals release.
 - Added centre, radius, discrete and length properties
 - Added support for custom typed intervals
 - Added support for discrete intervals
+- Added support for __radd__ and __rsub__
 - Updated infinity dependency to 0.1.3
 
 
