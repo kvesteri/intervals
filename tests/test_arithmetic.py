@@ -3,8 +3,14 @@ from intervals import Interval
 
 
 class TestArithmeticOperators(object):
-    def test_add_operator(self):
-        assert Interval([1, 2]) + Interval([1, 2]) == Interval([2, 4])
+    @mark.parametrize(('first', 'second', 'result'), (
+        (Interval([1, 3]), Interval([1, 2]), [2, 5]),
+        (Interval([1, 3]), 1, [2, 4]),
+        (1, Interval([1, 3]), [2, 4]),
+        ([1, 2], Interval([1, 2]), [2, 4])
+    ))
+    def test_add_operator(self, first, second, result):
+        assert first + second == Interval(result)
 
     @mark.parametrize(('first', 'second', 'result'), (
         (Interval([1, 3]), Interval([1, 2]), [-1, 2]),

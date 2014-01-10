@@ -350,9 +350,8 @@ class Interval(object):
             self.type == other.type
         )
 
+    @coerce_interval
     def __eq__(self, other):
-        if isinstance(other, six.integer_types):
-            return self.lower == other == self.upper
         try:
             if self.discrete:
                 return canonicalize(self).equals(canonicalize(other))
@@ -363,13 +362,9 @@ class Interval(object):
     def __ne__(self, other):
         return not (self == other)
 
+    @coerce_interval
     def __gt__(self, other):
-        if isinstance(other, six.integer_types):
-            return self.lower > other and self.upper > other
-        try:
-            return self.lower > other.lower and self.upper > other.upper
-        except AttributeError:
-            return NotImplemented
+        return self.lower > other.lower and self.upper > other.upper
 
     @property
     def discrete(self):
@@ -405,16 +400,15 @@ class Interval(object):
         """
         [a, b] + [c, d] = [a + c, b + d]
         """
-        try:
-            return Interval([
-                    self.lower + other.lower,
-                    self.upper + other.upper
-                ],
-                lower_inc=self.lower_inc if self < other else other.lower_inc,
-                upper_inc=self.upper_inc if self > other else other.upper_inc,
-            )
-        except AttributeError:
-            return NotImplemented
+        return Interval([
+                self.lower + other.lower,
+                self.upper + other.upper
+            ],
+            lower_inc=self.lower_inc if self < other else other.lower_inc,
+            upper_inc=self.upper_inc if self > other else other.upper_inc,
+        )
+
+    __radd__ = __add__
 
     @coerce_interval
     def __sub__(self, other):
