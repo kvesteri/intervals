@@ -107,4 +107,4 @@ class TestTypeGuessing(object):
         )
     )
     def test_guesses_types(self, number_range, type):
-        assert isinstance(Interval(number_range).type, type)
+        assert Interval(number_range).type == type
