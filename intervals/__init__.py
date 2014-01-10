@@ -29,17 +29,6 @@ def is_number(number):
     return isinstance(number, (float, int, Decimal))
 
 
-def parse_number(number):
-    if number is None or number == '':
-        return None
-    elif is_number(number):
-        return number
-    elif is_infinite(number):
-        return number
-    else:
-        return int(number)
-
-
 def canonicalize_lower(interval, inc=True):
     if not interval.lower_inc and inc:
         return interval.lower + interval.step
@@ -168,6 +157,7 @@ class Interval(object):
         """
         self.lower_canonicalizer = lower_canonicalizer
         self.upper_canonicalizer = upper_canonicalizer
+        self.type = type
 
         if isinstance(bounds, six.string_types):
             self.parse_string(bounds)
@@ -183,9 +173,8 @@ class Interval(object):
         if lower_inc is not None:
             self.lower_inc = lower_inc
 
-        self.type = (
-            self._guess_type(self.lower, self.upper) if type is None else type
-        )
+        if not self.type:
+            self.type = self._guess_type(self.lower, self.upper)
         self.step = (
             self._guess_step(self.type) if step is None else step
         )
@@ -273,6 +262,24 @@ class Interval(object):
         """
         return self.lower_inc and self.upper_inc
 
+    def guess_literal_type(self, value):
+        try:
+            return int(value)
+        except:
+            return float(value)
+
+    def parse_value(self, value):
+        if value is None or value == '':
+            return None
+        elif is_infinite(value):
+            return value
+        elif isinstance(value, basestring):
+            if self.type is not None:
+                return self.type(value)
+            else:
+                return self.guess_literal_type(value)
+        return value
+
     def parse_object(self, obj):
         self.lower = obj.lower
         self.upper = obj.upper
@@ -287,8 +294,8 @@ class Interval(object):
 
     def parse_sequence(self, seq):
         lower, upper = seq
-        self.lower = parse_number(lower)
-        self.upper = parse_number(upper)
+        self.lower = self.parse_value(lower)
+        self.upper = self.parse_value(upper)
         if isinstance(seq, tuple):
             self.lower_inc = self.upper_inc = False
         else:
@@ -302,7 +309,7 @@ class Interval(object):
         values = value.strip()[1:-1].split(',')
         try:
             lower, upper = map(
-                lambda a: parse_number(a.strip()), values
+                lambda a: self.parse_value(a.strip()), values
             )
         except ValueError as e:
             raise IntervalException(e.message)
@@ -315,11 +322,11 @@ class Interval(object):
     def parse_hyphen_range(self, value):
         values = value.split('-')
         if len(values) == 1:
-            self.lower = self.upper = parse_number(value.strip())
+            self.lower = self.upper = self.parse_value(value.strip())
         else:
             try:
                 self.lower, self.upper = map(
-                    lambda a: parse_number(a.strip()), values
+                    lambda a: self.parse_value(a.strip()), values
                 )
             except ValueError as e:
                 raise IntervalException(str(e))
