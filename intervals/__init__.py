@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from collections import Iterable
-from datetime import datetime
+from datetime import datetime, date
 from decimal import Decimal
 try:
     from functools import total_ordering
@@ -44,6 +44,7 @@ def guess_type(value, value2):
     def compare_type(value):
         types = [
             datetime,
+            date,
             Decimal,
             float,
             int,
@@ -51,7 +52,7 @@ def guess_type(value, value2):
         ]
         return types.index(value.__class__)
 
-    return min(value, value2, key=compare_type)
+    return min(value, value2, key=compare_type).__class__
 
 
 
@@ -287,6 +288,10 @@ class Interval(object):
             return self.lower > other.lower and self.upper > other.upper
         except AttributeError:
             return NotImplemented
+
+    @property
+    def discrete(self):
+        return (self.type in six.integer_types) or self.type == date
 
     @property
     def length(self):

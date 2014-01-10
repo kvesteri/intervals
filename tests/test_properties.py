@@ -1,3 +1,5 @@
+from datetime import datetime, date
+from decimal import Decimal
 from pytest import mark
 from intervals import Interval
 from infinity import inf
@@ -65,3 +67,16 @@ class TestIntervalProperties(object):
     )
     def test_closed(self, number_range, is_closed):
         assert Interval(number_range).closed == is_closed
+
+    @mark.parametrize(('obj_range', 'discrete'),
+        (
+            ((2, 3), True),
+            (5, True),
+            (3.5, False),
+            (Decimal('2.4'), False),
+            (datetime(2002, 1, 1), False),
+            (date(2002, 1, 1), True)
+        )
+    )
+    def test_discrete(self, obj_range, discrete):
+        assert Interval(obj_range).discrete == discrete
