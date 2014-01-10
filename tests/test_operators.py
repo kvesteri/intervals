@@ -33,6 +33,22 @@ class TestComparisonOperators(object):
         assert Interval([2, 2]) == 2
         assert Interval([2, 2]) != 3
 
+    @mark.parametrize('value', (
+        Interval([0, 2]),
+        1,
+        (-1, 1),
+    ))
+    def test_contains_operator_for_inclusive_interval(self, value):
+        assert value in Interval([-1, 2])
+
+    @mark.parametrize('value', (
+        Interval([0, 2]),
+        2,
+        '[-1, 1]',
+    ))
+    def test_contains_operator_for_non_inclusive_interval(self, value):
+        assert value not in Interval((-1, 2))
+
 
 class TestDiscreteRangeComparison(object):
     @mark.parametrize(('interval', 'interval2'), (

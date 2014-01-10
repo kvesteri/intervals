@@ -2,6 +2,7 @@
 from collections import Iterable
 from datetime import datetime, date, timedelta
 from decimal import Decimal
+import operator
 try:
     from functools import total_ordering
 except ImportError:
@@ -365,6 +366,24 @@ class Interval(object):
     @coerce_interval
     def __gt__(self, other):
         return self.lower > other.lower and self.upper > other.upper
+
+    @coerce_interval
+    def __contains__(self, other):
+        lower_op = (
+            operator.le
+            if self.lower_inc or (not self.lower_inc and not other.lower_inc)
+            else operator.lt
+        )
+
+        upper_op = (
+            operator.ge
+            if self.upper_inc or (not self.upper_inc and not other.upper_inc)
+            else operator.gt
+        )
+        return (
+            lower_op(self.lower,other.lower) and
+            upper_op(self.upper, other.upper)
+        )
 
     @property
     def discrete(self):
