@@ -12,6 +12,7 @@ Here you can see the full list of changes between each intervals release.
 - Added support for custom typed intervals
 - Added support for discrete intervals
 - Added support for __radd__ and __rsub__
+- Added degenerate property
 - Added support for contains
 - Updated infinity dependency to 0.1.3
 
