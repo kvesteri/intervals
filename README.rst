@@ -40,14 +40,20 @@ intervals tries to guess the type of the interval.
     Interval([date(2000, 1, 1), inf])   # date
 
 
-Comparison
-----------
+Operators
+---------
 
 .. code-block:: python
 
-    Interval([1, 5]) > Interval([0, 3])
+    Interval([1, 5]) > Interval([0, 3])     # True
 
-    Interval([1, 5]) == Interval([1, 5])
+    Interval([1, 5]) == Interval([1, 5])    # True
+
+    Interval([2, 3]) in Interval([2, 6])    # True
+
+    Interval([2, 3]) in Interval([2, 3])    # True
+
+    Interval([2, 3]) in Interval((2, 3))    # False
 
 
 Arithmetics
