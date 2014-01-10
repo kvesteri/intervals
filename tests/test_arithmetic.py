@@ -6,8 +6,13 @@ class TestArithmeticOperators(object):
     def test_add_operator(self):
         assert Interval([1, 2]) + Interval([1, 2]) == Interval([2, 4])
 
-    def test_sub_operator(self):
-        assert Interval([1, 3]) - Interval([1, 2]) == Interval([-1, 2])
+    @mark.parametrize(('first', 'second', 'result'), (
+        (Interval([1, 3]), Interval([1, 2]), [-1, 2]),
+        (Interval([1, 3]), 1, [0, 2]),
+        (1, Interval([1, 3]), [-2, 0])
+    ))
+    def test_sub_operator(self, first, second, result):
+        assert first - second == Interval(result)
 
     def test_isub_operator(self):
         range_ = Interval([1, 3])

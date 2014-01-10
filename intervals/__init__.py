@@ -76,6 +76,15 @@ def canonicalize(interval, lower_inc=True, upper_inc=False):
     )
 
 
+def coerce_interval(func):
+    def wrapper(self, arg):
+        try:
+            return func(self, Interval(arg))
+        except IntervalException:
+            return NotImplemented
+    return wrapper
+
+
 @total_ordering
 class Interval(object):
     def __init__(
@@ -391,6 +400,7 @@ class Interval(object):
             return '%s - %s' % (self.lower, self.upper)
         return str(self.lower)
 
+    @coerce_interval
     def __add__(self, other):
         """
         [a, b] + [c, d] = [a + c, b + d]
@@ -406,6 +416,7 @@ class Interval(object):
         except AttributeError:
             return NotImplemented
 
+    @coerce_interval
     def __sub__(self, other):
         """
         Defines the substraction operator.
@@ -414,13 +425,17 @@ class Interval(object):
 
         [a, b] − [c, d] = [a − d, b − c]
         """
-        try:
-            return Interval([
-                self.lower - other.upper,
-                self.upper - other.lower
-            ])
-        except AttributeError:
-            return NotImplemented
+        return Interval([
+            self.lower - other.upper,
+            self.upper - other.lower
+        ])
+
+    @coerce_interval
+    def __rsub__(self, other):
+        return Interval([
+            other.lower - self.upper,
+            other.upper - self.lower
+        ])
 
     def __and__(self, other):
         """
