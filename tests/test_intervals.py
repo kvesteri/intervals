@@ -1,5 +1,4 @@
-from pytest import raises, mark
-from intervals import Interval, RangeBoundsException
+from intervals import Interval
 from infinity import inf
 
 
