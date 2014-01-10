@@ -84,13 +84,19 @@ Properties
 
 * `radius` gives the half-length of an interval
 
+.. code-block:: python
+
     Interval([1, 4]).radius             # 2.5
 
 * `length` gives the length of an interval.
 
+.. code-block:: python
+
     Interval([1, 4]).length             # 3
 
 * `centre` gives the centre (midpoint) of an interval
+
+.. code-block:: python
 
     Interval([-1, 1]).centre            # 0
 
