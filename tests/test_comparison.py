@@ -1,3 +1,4 @@
+from pytest import mark
 from intervals import Interval
 
 
@@ -31,3 +32,13 @@ class TestComparisonOperators(object):
         assert Interval([1, 3]) >= 0
         assert Interval([2, 2]) == 2
         assert Interval([2, 2]) != 3
+
+
+class TestDiscreteRangeComparison(object):
+    @mark.parametrize(('interval', 'interval2'), (
+        ([1, 3], '[1, 4)'),
+        ('(1, 5]', '[2, 5]'),
+        ('(1, 6)', '[2, 5]'),
+    ))
+    def test_eq_operator(self, interval, interval2):
+        assert Interval(interval) == Interval(interval2)

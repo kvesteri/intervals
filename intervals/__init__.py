@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from collections import Iterable
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from decimal import Decimal
 try:
     from functools import total_ordering
@@ -40,25 +40,53 @@ def parse_number(number):
         return int(number)
 
 
-def guess_type(value, value2):
-    def compare_type(value):
-        types = [
-            datetime,
-            date,
-            Decimal,
-            float,
-            int,
-            Infinity
-        ]
-        return types.index(value.__class__)
+def canonicalized_bounds(interval, lower_inc=True, upper_inc=False):
+    if not interval.discrete:
+        raise TypeError('Only discrete ranges can be canonicalized')
 
-    return min(value, value2, key=compare_type).__class__
+    if not interval.lower_inc and lower_inc:
+        lower = interval.lower + interval.step
+    elif not lower_inc and interval.lower_inc:
+        lower = interval.lower - interval.step
+    else:
+        lower = interval.lower
 
+    if not interval.upper_inc and upper_inc:
+        upper = interval.upper - interval.step
+    elif not upper_inc and interval.upper_inc:
+        upper = interval.upper + interval.step
+    else:
+        upper = interval.upper
+    return lower, upper
+
+
+def canonicalize(interval, lower_inc=True, upper_inc=False):
+    """
+    Canonicalize converts equivalent discrete intervals to different
+    representations.
+    """
+    lower, upper = canonicalized_bounds(interval, lower_inc, upper_inc)
+
+    return Interval(
+        [lower, upper],
+        lower_inc=lower_inc,
+        upper_inc=upper_inc,
+        type=interval.type,
+        step=interval.step
+    )
 
 
 @total_ordering
 class Interval(object):
-    def __init__(self, bounds, lower_inc=None, upper_inc=None, type=None):
+    def __init__(
+        self,
+        bounds,
+        lower_inc=None,
+        upper_inc=None,
+        type=None,
+        step=None,
+        canonicalizer=canonicalize
+    ):
         """
         Parses given args and assigns lower and upper bound for this number
         range.
@@ -147,11 +175,49 @@ class Interval(object):
         else:
             self.parse_single_value(bounds)
 
-        if type is None:
-            self.type = guess_type(self.lower, self.upper)
+        if upper_inc is not None:
+            self.upper_inc = upper_inc
+        if lower_inc is not None:
+            self.lower_inc = lower_inc
+
+        self.type = (
+            self._guess_type(self.lower, self.upper) if type is None else type
+        )
+        self.step = (
+            self._guess_step(self.type) if step is None else step
+        )
 
         if self.lower > self.upper:
             raise RangeBoundsException(self.lower, self.upper)
+
+    def _guess_type(self, value, value2):
+        def compare_type(value):
+            types = [
+                datetime,
+                date,
+                Decimal,
+                float,
+                int,
+                Infinity
+            ]
+            return types.index(value.__class__)
+
+        return min(value, value2, key=compare_type).__class__
+
+    def _guess_step(self, type):
+        steps = {
+            int: 1,
+            date: timedelta(days=1),
+        }
+        return steps.get(type, None)
+
+    def copy_args(self, interval):
+        self.lower_inc = interval.lower_inc
+        self.upper_inc = interval.upper_inc
+        self.lower = interval.lower
+        self.upper = interval.upper
+        self.type = interval.type
+        self.canonicalizer = interval.canonicalizer
 
     @property
     def lower(self):
@@ -266,14 +332,22 @@ class Interval(object):
             ']' if self.upper_inc else ')'
         )
 
+    def equals(self, other):
+        return (
+            self.lower == other.lower and
+            self.upper == other.upper and
+            self.lower_inc == other.lower_inc and
+            self.upper_inc == other.upper_inc and
+            self.type == other.type
+        )
+
     def __eq__(self, other):
         if isinstance(other, six.integer_types):
             return self.lower == other == self.upper
         try:
-            return (
-                self.lower == other.lower and
-                self.upper == other.upper
-            )
+            if self.discrete:
+                return canonicalize(self).equals(canonicalize(other))
+            return self.equals(other)
         except AttributeError:
             return NotImplemented
 
@@ -283,7 +357,6 @@ class Interval(object):
     def __gt__(self, other):
         if isinstance(other, six.integer_types):
             return self.lower > other and self.upper > other
-
         try:
             return self.lower > other.lower and self.upper > other.upper
         except AttributeError:
@@ -291,6 +364,9 @@ class Interval(object):
 
     @property
     def discrete(self):
+        """
+        Returns whether or not this interval is discrete.
+        """
         return (self.type in six.integer_types) or self.type == date
 
     @property
