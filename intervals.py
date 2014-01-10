@@ -287,11 +287,13 @@ class Interval(object):
 
     @property
     def radius(self):
-        return self.length / 2
+        if self.length == inf:
+            return inf
+        return float(self.length) / 2
 
     @property
     def centre(self):
-        return (self.upper - self.lower) / 2
+        return float((self.lower + self.upper)) / 2
 
     def __repr__(self):
         return 'Interval(%r, %r)' % (self.lower, self.upper)

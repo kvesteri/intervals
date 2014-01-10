@@ -4,11 +4,39 @@ from infinity import inf
 
 
 class TestIntervalProperties(object):
-    def test_length(self):
-        assert Interval([1, 4]).length == 3
-        assert Interval([-1, 1]).length == 2
-        assert Interval(-inf, inf).length == inf
-        assert Interval(1, inf).length == inf
+    @mark.parametrize(('number_range', 'length'),
+        (
+            ([1, 4], 3),
+            ([-1, 1], 2),
+            ((-inf, inf), inf),
+            ((1, inf), inf),
+        )
+    )
+    def test_length(self, number_range, length):
+        assert Interval(number_range).length == length
+
+    @mark.parametrize(('number_range', 'radius'),
+        (
+            ([1, 4], 1.5),
+            ([-1, 1], 1.0),
+            ([-4, -1], 1.5),
+            ((-inf, inf), inf),
+            ((1, inf), inf),
+        )
+    )
+    def test_radius(self, number_range, radius):
+        assert Interval(number_range).radius == radius
+
+    @mark.parametrize(('number_range', 'centre'),
+        (
+            ([1, 4], 2.5),
+            ([-1, 1], 0),
+            ([-4, -1], -2.5),
+            ((1, inf), inf),
+        )
+    )
+    def test_centre(self, number_range, centre):
+        assert Interval(number_range).centre == centre
 
     @mark.parametrize(('number_range', 'is_open'),
         (
