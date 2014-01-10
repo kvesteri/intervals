@@ -39,6 +39,8 @@ Intervals can be either open, half-open or closed. Properties `lower_inc` and `u
 
 * Half-open interval has one of the endpoints as open
 
+.. code-block:: python
+
     interval = Interval('[1, 4)')
 
     interval.open           # False
@@ -46,6 +48,8 @@ Intervals can be either open, half-open or closed. Properties `lower_inc` and `u
     interval.upper_inc      # False
 
 * Closed interval includes both endpoints
+
+.. code-block:: python
 
     interval = Interval([1, 4])
 
