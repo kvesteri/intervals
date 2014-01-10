@@ -5,7 +5,7 @@ try:
     from functools import total_ordering
 except ImportError:
     from total_ordering import total_ordering
-from infinity import inf
+from infinity import inf, is_infinite
 import six
 
 
@@ -26,10 +26,6 @@ class RangeBoundsException(IntervalException):
 
 def is_number(number):
     return isinstance(number, (float, int, Decimal))
-
-
-def is_infinite(value):
-    return value == inf or value == -inf
 
 
 def parse_number(number):
