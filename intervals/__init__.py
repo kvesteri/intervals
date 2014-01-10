@@ -274,7 +274,7 @@ class Interval(object):
             return None
         elif is_infinite(value):
             return value
-        elif isinstance(value, basestring):
+        elif isinstance(value, six.string_types):
             if self.type is not None:
                 return self.type(value)
             else:
