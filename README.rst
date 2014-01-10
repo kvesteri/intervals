@@ -38,3 +38,22 @@ intervals tries to guess the type of the interval.
     Interval([1.5, 4]).type             # float
 
     Interval([date(2000, 1, 1), inf])   # date
+
+
+Comparison
+----------
+
+.. code-block:: python
+
+    Interval([1, 5]) > Interval([0, 3])
+
+    Interval([1, 5]) == Interval([1, 5])
+
+
+Arithmetics
+-----------
+
+.. code-block:: python
+
+
+    Interval([1, 5]) + Interval([1, 8])     # Interval([2, 13])
