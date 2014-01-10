@@ -6,28 +6,21 @@ from infinity import inf
 
 class TestIntervalInit(object):
     def test_floats(self):
-        interval = Interval(0.2, 0.5)
+        interval = Interval((0.2, 0.5))
         assert interval.lower == 0.2
         assert interval.upper == 0.5
         assert not interval.lower_inc
         assert not interval.upper_inc
 
     def test_decimals(self):
-        interval = Interval(Decimal('0.2'), Decimal('0.5'))
+        interval = Interval((Decimal('0.2'), Decimal('0.5')))
         assert interval.lower == Decimal('0.2')
         assert interval.upper == Decimal('0.5')
         assert not interval.lower_inc
         assert not interval.upper_inc
 
     def test_support_range_object(self):
-        interval = Interval(Interval(1, 3))
-        assert interval.lower == 1
-        assert interval.upper == 3
-        assert not interval.lower_inc
-        assert not interval.upper_inc
-
-    def test_supports_multiple_args(self):
-        interval = Interval(1, 3)
+        interval = Interval(Interval((1, 3)))
         assert interval.lower == 1
         assert interval.upper == 3
         assert not interval.lower_inc
@@ -41,7 +34,7 @@ class TestIntervalInit(object):
         assert interval.upper_inc
 
     def test_supports_infinity(self):
-        interval = Interval(-inf, inf)
+        interval = Interval((-inf, inf))
         assert interval.lower == -inf
         assert interval.upper == inf
         assert not interval.lower_inc
@@ -101,3 +94,17 @@ class TestIntervalInit(object):
     def test_raises_exception_for_badly_constructed_range(self, number_range):
         with raises(RangeBoundsException):
             Interval(number_range)
+
+
+class TestTypeGuessing(object):
+    @mark.parametrize(('number_range', 'type'),
+        (
+            ((2, 3), int),
+            ([-6, 8], int),
+            (8.5, float),
+            ([Decimal(2), 9], Decimal),
+            ([Decimal('0.5'), 9], Decimal),
+        )
+    )
+    def test_guesses_types(self, number_range, type):
+        assert isinstance(Interval(number_range).type, type)
