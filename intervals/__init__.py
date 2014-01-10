@@ -40,24 +40,22 @@ def parse_number(number):
         return int(number)
 
 
-def canonicalized_bounds(interval, lower_inc=True, upper_inc=False):
-    if not interval.discrete:
-        raise TypeError('Only discrete ranges can be canonicalized')
-
-    if not interval.lower_inc and lower_inc:
-        lower = interval.lower + interval.step
-    elif not lower_inc and interval.lower_inc:
-        lower = interval.lower - interval.step
+def canonicalize_lower(interval, inc=True):
+    if not interval.lower_inc and inc:
+        return interval.lower + interval.step
+    elif not inc and interval.lower_inc:
+        return interval.lower - interval.step
     else:
-        lower = interval.lower
+        return interval.lower
 
-    if not interval.upper_inc and upper_inc:
-        upper = interval.upper - interval.step
-    elif not upper_inc and interval.upper_inc:
-        upper = interval.upper + interval.step
+
+def canonicalize_upper(interval, inc=False):
+    if not interval.upper_inc and inc:
+        return interval.upper - interval.step
+    elif not inc and interval.upper_inc:
+        return interval.upper + interval.step
     else:
-        upper = interval.upper
-    return lower, upper
+        return interval.upper
 
 
 def canonicalize(interval, lower_inc=True, upper_inc=False):
@@ -65,7 +63,11 @@ def canonicalize(interval, lower_inc=True, upper_inc=False):
     Canonicalize converts equivalent discrete intervals to different
     representations.
     """
-    lower, upper = canonicalized_bounds(interval, lower_inc, upper_inc)
+    if not interval.discrete:
+        raise TypeError('Only discrete ranges can be canonicalized')
+
+    lower = canonicalize_lower(interval, lower_inc)
+    upper = canonicalize_upper(interval, upper_inc)
 
     return Interval(
         [lower, upper],
@@ -94,7 +96,8 @@ class Interval(object):
         upper_inc=None,
         type=None,
         step=None,
-        canonicalizer=canonicalize
+        lower_canonicalizer=canonicalize_lower,
+        upper_canonicalizer=canonicalize_upper
     ):
         """
         Parses given args and assigns lower and upper bound for this number
@@ -163,6 +166,9 @@ class Interval(object):
             30
 
         """
+        self.lower_canonicalizer = lower_canonicalizer
+        self.upper_canonicalizer = upper_canonicalizer
+
         if isinstance(bounds, six.string_types):
             self.parse_string(bounds)
         elif isinstance(bounds, Iterable):
@@ -214,7 +220,6 @@ class Interval(object):
         self.lower = interval.lower
         self.upper = interval.upper
         self.type = interval.type
-        self.canonicalizer = interval.canonicalizer
 
     @property
     def lower(self):
