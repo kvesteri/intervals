@@ -15,9 +15,14 @@ class TestComparisonOperators(object):
         assert Interval([1, 3]) > Interval([0, 2])
         assert not Interval([2, 3]) > Interval([2, 3])
 
-    def test_ge_operator(self):
-        assert Interval([1, 3]) >= Interval([0, 2])
-        assert Interval([1, 3]) >= Interval([1, 3])
+    @mark.parametrize(('comparison', 'result'), (
+        (Interval([1, 3]) >= Interval([0, 2]), True),
+        (Interval((1, 4)) >= 1, False),
+        (Interval((1, 6)) >= [1, 6], False),
+        (Interval((1, 6)) >= 0, True)
+    ))
+    def test_ge_operator(self, comparison, result):
+        assert comparison == result
 
     def test_lt_operator(self):
         assert Interval([0, 2]) < Interval([1, 3])

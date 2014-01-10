@@ -56,6 +56,16 @@ Operators
     Interval([2, 3]) in Interval((2, 3))    # False
 
 
+Discrete intervals
+------------------
+
+
+.. code-block:: python
+
+
+    Interval([2, 4]) == Interval((1, 5))    # True
+
+
 Arithmetics
 -----------
 
@@ -63,3 +73,8 @@ Arithmetics
 
 
     Interval([1, 5]) + Interval([1, 8])     # Interval([2, 13])
+
+
+    # intersection
+
+    Interval([2, 6]) & Interval([3, 8])     # Interval([3, 6])

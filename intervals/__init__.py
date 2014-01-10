@@ -333,8 +333,7 @@ class Interval(object):
                 raise IntervalException(str(e))
         self.lower_inc = self.upper_inc = True
 
-    @property
-    def normalized(self):
+    def __str__(self):
         return '%s%s,%s%s' % (
             '[' if self.lower_inc else '(',
             str(self.lower) if not is_infinite(self.lower) else '',
@@ -407,12 +406,20 @@ class Interval(object):
         return float((self.lower + self.upper)) / 2
 
     def __repr__(self):
-        return "Interval(%r)" % self.normalized
+        return "Interval('%r')" % str(self)
 
-    def __str__(self):
-        if self.lower != self.upper:
-            return '%s - %s' % (self.lower, self.upper)
-        return str(self.lower)
+    @property
+    def hyphenized(self):
+        if not self.discrete:
+            raise TypeError('Only discrete intervals have hyphenized format.')
+        c = canonicalize(self, True, True)
+
+        if c.lower != c.upper:
+            return '%s -%s' % (
+                str(c.lower) if not is_infinite(c.lower) else '',
+                ' ' + str(c.upper) if not is_infinite(c.upper) else ''
+            )
+        return str(c.lower)
 
     @coerce_interval
     def __add__(self, other):

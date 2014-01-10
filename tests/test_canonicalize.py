@@ -3,13 +3,13 @@ from intervals import Interval, canonicalize
 
 
 def test_canonicalize_integer_intervals():
-    assert canonicalize(Interval([1, 4])).normalized == '[1, 5)'
-    assert canonicalize(
+    assert str(canonicalize(Interval([1, 4]))) == '[1, 5)'
+    assert str(canonicalize(
         Interval((1, 7)), lower_inc=True, upper_inc=True
-    ).normalized == '[2, 6]'
-    assert canonicalize(
+    )) == '[2, 6]'
+    assert str(canonicalize(
         Interval([1, 7]), lower_inc=False, upper_inc=True
-    ).normalized == '(0, 7]'
+    )) == '(0, 7]'
 
 
 def test_canonicalize_date_intervals():
