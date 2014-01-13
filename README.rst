@@ -62,8 +62,8 @@ Intervals can be either open, half-open or closed. Properties `lower_inc` and `u
 Interval types
 --------------
 
-Each interval encapsulates a type. You can pass the type as a constructor parameter. If no type is given as a constructor parameter
-intervals tries to guess the type of the interval.
+Each interval encapsulates a type. Interval is not actually a class. Its a convenient factory that generates `AbstractInterval` subclasses. Whenever you call `Interval()` the IntervalFactory tries to guess to best matching interval for given bounds.
+
 
 
 .. code-block:: python
@@ -71,12 +71,27 @@ intervals tries to guess the type of the interval.
     from datetime import date
 
 
-    Interval([1, 4]).type               # int
+    interval = Interval([1, 4])
+    interval                        # IntInterval('[1, 4]')
+    interval.type                   # int
 
-    Interval([1.5, 4]).type             # float
+    interval = Interval([1.5, 4])
+    interval                        # FloatInterval('[1.5, 4]')
+    interval.type                   # float
 
-    Interval([date(2000, 1, 1), inf])   # date
+    interval = Interval([date(2000, 1, 1), inf])
+    interval                        # DateInterval('[2000-1-1,)')
+    interval.type                   # date
 
+
+You can also create interval subtypes directly (this is also faster than using `Interval`).
+
+
+.. code-block:: python
+
+    IntInterval([1, 4])
+
+    FloatInterval((1.4, 2.7))
 
 
 Properties
