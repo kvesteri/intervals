@@ -14,6 +14,7 @@ Here you can see the full list of changes between each intervals release.
 - Added support for __radd__ and __rsub__
 - Added degenerate property
 - Added support for contains
+- Added Interval subclasses (IntInterval, DateInterval, DateTimeInterval, FloatInterval and DecimalInterval)
 - Updated infinity dependency to 0.1.3
 
 

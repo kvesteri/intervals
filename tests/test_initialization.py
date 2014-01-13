@@ -1,19 +1,25 @@
 from decimal import Decimal
 from pytest import raises, mark
-from intervals import IntInterval, Interval, RangeBoundsException
+from intervals import (
+    DecimalInterval,
+    FloatInterval,
+    Interval,
+    IntInterval,
+    RangeBoundsException
+)
 from infinity import inf
 
 
 class TestIntervalInit(object):
     def test_floats(self):
-        interval = IntInterval((0.2, 0.5))
+        interval = FloatInterval((0.2, 0.5))
         assert interval.lower == 0.2
         assert interval.upper == 0.5
         assert not interval.lower_inc
         assert not interval.upper_inc
 
     def test_decimals(self):
-        interval = IntInterval((Decimal('0.2'), Decimal('0.5')))
+        interval = DecimalInterval((Decimal('0.2'), Decimal('0.5')))
         assert interval.lower == Decimal('0.2')
         assert interval.upper == Decimal('0.5')
         assert not interval.lower_inc
@@ -102,8 +108,8 @@ class TestTypeGuessing(object):
             ((2, 3), int),
             ([-6, 8], int),
             (8.5, float),
-            ([Decimal(2), 9], Decimal),
-            ([Decimal('0.5'), 9], Decimal),
+            ([Decimal(2), 9], int),
+            ([Decimal('0.5'), 9], float),
         )
     )
     def test_guesses_types(self, number_range, type):

@@ -6,7 +6,7 @@ try:
     from functools import total_ordering
 except ImportError:
     from total_ordering import total_ordering
-from infinity import inf, is_infinite, Infinity
+from infinity import inf, is_infinite
 import six
 from .parser import IntervalParser
 from .exc import IntervalException, RangeBoundsException
@@ -26,20 +26,20 @@ def is_number(number):
 
 def canonicalize_lower(interval, inc=True):
     if not interval.lower_inc and inc:
-        return interval.lower + interval.step
+        return interval.lower + interval.step, True
     elif not inc and interval.lower_inc:
-        return interval.lower - interval.step
+        return interval.lower - interval.step, False
     else:
-        return interval.lower
+        return interval.lower, interval.lower_inc
 
 
 def canonicalize_upper(interval, inc=False):
     if not interval.upper_inc and inc:
-        return interval.upper - interval.step
+        return interval.upper - interval.step, True
     elif not inc and interval.upper_inc:
-        return interval.upper + interval.step
+        return interval.upper + interval.step, False
     else:
-        return interval.upper
+        return interval.upper, interval.upper_inc
 
 
 def canonicalize(interval, lower_inc=True, upper_inc=False):
@@ -50,8 +50,8 @@ def canonicalize(interval, lower_inc=True, upper_inc=False):
     if not interval.discrete:
         raise TypeError('Only discrete ranges can be canonicalized')
 
-    lower = canonicalize_lower(interval, lower_inc)
-    upper = canonicalize_upper(interval, upper_inc)
+    lower, lower_inc = canonicalize_lower(interval, lower_inc)
+    upper, upper_inc = canonicalize_upper(interval, upper_inc)
 
     return interval.__class__(
         [lower, upper],
@@ -172,10 +172,14 @@ class AbstractInterval(object):
             return value
         elif isinstance(value, six.string_types):
             return self.coerce_string(value)
-        return value
+        else:
+            return self.coerce_obj(value)
 
     def coerce_string(self, value):
         return self.type(value)
+
+    def coerce_obj(self, obj):
+        return obj
 
     @property
     def lower(self):
@@ -308,7 +312,7 @@ class AbstractInterval(object):
         return float((self.lower + self.upper)) / 2
 
     def __repr__(self):
-        return "%r('%r')" % (self.__class__, str(self))
+        return "%s(%r)" % (self.__class__.__name__, str(self))
 
     @property
     def hyphenized(self):
@@ -373,44 +377,19 @@ class AbstractInterval(object):
             ])
 
 
-class IntervalFactory(object):
-    def _guess_type(self, value, value2):
-        def compare_type(value):
-            types = [
-                datetime,
-                date,
-                Decimal,
-                float,
-                int,
-                Infinity
-            ]
-            return types.index(value.__class__)
-
-        return min(value, value2, key=compare_type).__class__
-
-    def _guess_step(self, type):
-        steps = {
-            int: 1,
-            date: timedelta(days=1),
-        }
-        return steps.get(type, None)
-
-    def guess_literal_type(self, value):
-        try:
-            return int(value)
-        except:
-            return float(value)
-
-    def __call__(self, bounds, lower_inc, upper_inc):
-        pass
-
-
-Interval = IntervalFactory()
-
-
 class IntInterval(AbstractInterval):
     step = 1
     type = int
+
+    def coerce_obj(self, obj):
+        if isinstance(obj, float) or isinstance(obj, Decimal):
+            if str(int(obj)) != str(obj):
+                raise IntervalException(
+                    'Could not coerce %s to int. Decimal places would '
+                    'be lost.'
+                )
+            return int(obj)
+        return obj
 
 
 class DateInterval(AbstractInterval):
@@ -428,3 +407,25 @@ class FloatInterval(AbstractInterval):
 
 class DecimalInterval(AbstractInterval):
     type = Decimal
+
+
+class IntervalFactory(object):
+    interval_classes = [
+        IntInterval,
+        FloatInterval,
+        DecimalInterval,
+        DateInterval,
+        DateTimeInterval
+    ]
+
+    def __call__(self, bounds, lower_inc=None, upper_inc=None):
+        for interval_class in self.interval_classes:
+            try:
+                return interval_class(bounds, lower_inc, upper_inc)
+            except IntervalException:
+                pass
+        raise IntervalException(
+            'Could not initialize interval.'
+        )
+
+Interval = IntervalFactory()
