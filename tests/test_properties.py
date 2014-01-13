@@ -1,7 +1,9 @@
 from datetime import datetime, date
 from decimal import Decimal
 from pytest import mark
-from intervals import Interval
+from intervals import (
+    IntInterval, FloatInterval, DateInterval, DateTimeInterval, DecimalInterval
+)
 from infinity import inf
 
 
@@ -15,7 +17,7 @@ class TestIntervalProperties(object):
         )
     )
     def test_length(self, number_range, length):
-        assert Interval(number_range).length == length
+        assert IntInterval(number_range).length == length
 
     @mark.parametrize(('number_range', 'radius'),
         (
@@ -27,7 +29,7 @@ class TestIntervalProperties(object):
         )
     )
     def test_radius(self, number_range, radius):
-        assert Interval(number_range).radius == radius
+        assert IntInterval(number_range).radius == radius
 
     @mark.parametrize(('number_range', 'centre'),
         (
@@ -38,7 +40,7 @@ class TestIntervalProperties(object):
         )
     )
     def test_centre(self, number_range, centre):
-        assert Interval(number_range).centre == centre
+        assert IntInterval(number_range).centre == centre
 
     @mark.parametrize(('number_range', 'is_open'),
         (
@@ -52,7 +54,7 @@ class TestIntervalProperties(object):
         )
     )
     def test_open(self, number_range, is_open):
-        assert Interval(number_range).open == is_open
+        assert IntInterval(number_range).open == is_open
 
     @mark.parametrize(('number_range', 'is_closed'),
         (
@@ -66,7 +68,7 @@ class TestIntervalProperties(object):
         )
     )
     def test_closed(self, number_range, is_closed):
-        assert Interval(number_range).closed == is_closed
+        assert IntInterval(number_range).closed == is_closed
 
     @mark.parametrize(('number_range', 'degenerate'),
         (
@@ -76,17 +78,17 @@ class TestIntervalProperties(object):
         )
     )
     def test_degenerate(self, number_range, degenerate):
-        assert Interval(number_range).degenerate == degenerate
+        assert IntInterval(number_range).degenerate == degenerate
 
-    @mark.parametrize(('obj_range', 'discrete'),
+    @mark.parametrize(('interval', 'discrete'),
         (
-            ((2, 3), True),
-            (5, True),
-            (3.5, False),
-            (Decimal('2.4'), False),
-            (datetime(2002, 1, 1), False),
-            (date(2002, 1, 1), True)
+            (IntInterval((2, 3)), True),
+            (IntInterval(5), True),
+            (FloatInterval(3.5), False),
+            (DecimalInterval(Decimal('2.4')), False),
+            (DateTimeInterval(datetime(2002, 1, 1)), False),
+            (DateInterval(date(2002, 1, 1)), True)
         )
     )
-    def test_discrete(self, obj_range, discrete):
-        assert Interval(obj_range).discrete == discrete
+    def test_discrete(self, interval, discrete):
+        assert interval.discrete == discrete

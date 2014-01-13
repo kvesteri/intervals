@@ -1,5 +1,5 @@
 from pytest import mark
-from intervals import Interval
+from intervals import IntInterval
 from infinity import inf
 
 
@@ -9,7 +9,7 @@ from infinity import inf
     ([1, inf], '[1,]')
 ))
 def test_str_representation(interval, string):
-    assert str(Interval(interval)) == string
+    assert str(IntInterval(interval)) == string
 
 
 @mark.parametrize(('interval', 'string'), (
@@ -20,5 +20,5 @@ def test_str_representation(interval, string):
     ('[1,]', '1 -')
 ))
 def test_hyphenized(interval, string):
-    assert Interval(interval).hyphenized == string
+    assert IntInterval(interval).hyphenized == string
 
