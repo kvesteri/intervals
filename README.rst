@@ -95,11 +95,11 @@ You can also create interval subtypes directly (this is also faster than using `
 
 Currently provided subtypes are:
 
-    * `IntInterval`
-    * `FloatInterval`
-    * `DecimalInterval`
-    * `DateInterval`
-    * `DateTimeInterval`
+* `IntInterval`
+* `FloatInterval`
+* `DecimalInterval`
+* `DateInterval`
+* `DateTimeInterval`
 
 
 Properties
