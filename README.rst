@@ -93,6 +93,14 @@ You can also create interval subtypes directly (this is also faster than using `
 
     FloatInterval((1.4, 2.7))
 
+Currently provided subtypes are:
+
+    * `IntInterval`
+    * `FloatInterval`
+    * `DecimalInterval`
+    * `DateInterval`
+    * `DateTimeInterval`
+
 
 Properties
 ----------
