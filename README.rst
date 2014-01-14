@@ -1,6 +1,8 @@
 intervals
 =========
 
+|Build Status| |Version Status| |Downloads|
+
 Python tools for handling intervals (ranges of comparable objects).
 
 
@@ -169,3 +171,11 @@ Arithmetics
     # intersection
 
     Interval([2, 6]) & Interval([3, 8])     # Interval([3, 6])
+
+
+.. |Build Status| image:: https://travis-ci.org/kvesteri/intervals.png?branch=master
+   :target: https://travis-ci.org/kvesteri/intervals
+.. |Version Status| image:: https://pypip.in/v/intervals/badge.png
+   :target: https://crate.io/packages/intervals/
+.. |Downloads| image:: https://pypip.in/d/intervals/badge.png
+   :target: https://crate.io/packages/intervals/

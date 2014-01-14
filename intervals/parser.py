@@ -1,6 +1,5 @@
 from collections import Iterable
 import six
-from .exc import IntervalException
 
 
 strip = lambda a: a.strip()
@@ -28,11 +27,7 @@ class IntervalParser(object):
 
     def parse_bounded_range(self, value):
         values = value.strip()[1:-1].split(',')
-        try:
-            lower, upper = map(strip, values)
-        except ValueError as e:
-            raise IntervalException(e.message)
-
+        lower, upper = map(strip, values)
         return lower, upper, value[0] == '[', value[-1] == ']'
 
     def parse_hyphen_range(self, value):
@@ -40,10 +35,7 @@ class IntervalParser(object):
         if len(values) == 1:
             lower = upper = value.strip()
         else:
-            try:
-                lower, upper = map(strip, values)
-            except ValueError as e:
-                raise IntervalException(str(e))
+            lower, upper = map(strip, values)
         return lower, upper, True, True
 
     def __call__(self, bounds, lower_inc=None, upper_inc=None):
