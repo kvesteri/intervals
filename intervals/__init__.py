@@ -366,15 +366,31 @@ class AbstractInterval(object):
         Defines the intersection operator
         """
         if self.lower <= other.lower <= self.upper:
-            return self.__class__([
+            intersection = self.__class__([
                 other.lower,
                 other.upper if other.upper < self.upper else self.upper
             ])
+            intersection.lower_inc = other.lower_inc
+            intersection.upper_inc = (
+                other.upper_inc if other.upper < self.upper else self.upper_inc
+            )
+            return (
+                None if intersection.degenerate and not intersection.closed
+                else intersection
+            )
         elif self.lower <= other.upper <= self.upper:
-            return self.__class__([
+            intersection = self.__class__([
                 other.lower if other.lower > self.lower else self.lower,
                 other.upper
             ])
+            intersection.lower_inc = (
+                other.lower_inc if other.lower > self.lower else self.lower_inc
+            )
+            intersection.upper_inc = other.upper_inc
+            return (
+                None if intersection.degenerate and not intersection.closed
+                else intersection
+            )
 
 
 class IntInterval(AbstractInterval):
