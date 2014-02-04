@@ -70,6 +70,19 @@ class TestIntervalProperties(object):
     def test_closed(self, number_range, is_closed):
         assert IntInterval(number_range).closed == is_closed
 
+    @mark.parametrize(('number_range', 'empty'),
+        (
+            ((2, 3), False),
+            ([2, 3], False),
+            ([2, 2], False),
+            ((2, 2), True),
+            ('[2, 2)', True),
+            ('(2, 2]', True),
+        )
+    )
+    def test_empty(self, number_range, empty):
+        assert IntInterval(number_range).empty == empty
+
     @mark.parametrize(('number_range', 'degenerate'),
         (
             ((2, 4), False),
