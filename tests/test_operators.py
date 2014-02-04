@@ -63,3 +63,28 @@ class TestDiscreteRangeComparison(object):
     ))
     def test_eq_operator(self, interval, interval2):
         assert IntInterval(interval) == IntInterval(interval2)
+
+
+class TestBinaryOperators(object):
+    @mark.parametrize(('interval1', 'interval2', 'result'), (
+        ((2, 3), (3, 4), (3, 3)),
+        ((2, 3), [3, 4], '[3, 3)'),
+        ((2, 5), (3, 10), (3, 5)),
+        ('(2, 3]', '[3, 4)', [3, 3]),
+        ('(2, 10]', '[3, 40]', [3, 10]),
+        ((2, 10), (3, 8), (3, 8)),
+    ))
+    def test_and_operator(self, interval1, interval2, result):
+        assert (
+            IntInterval(interval1) & IntInterval(interval2) ==
+            IntInterval(result)
+        )
+
+    @mark.parametrize(('interval1', 'interval2', 'empty'), (
+        ((2, 3), (3, 4), True),
+        ((2, 3), [3, 4], True),
+        ([2, 3], (3, 4), True),
+        ('(2, 3]', '[3, 4)', False),
+    ))
+    def test_and_operator_for_empty_results(self, interval1, interval2, empty):
+        assert (IntInterval(interval1) & IntInterval(interval2)).empty == empty

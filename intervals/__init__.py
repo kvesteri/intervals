@@ -50,6 +50,9 @@ def canonicalize(interval, lower_inc=True, upper_inc=False):
     if not interval.discrete:
         raise TypeError('Only discrete ranges can be canonicalized')
 
+    if interval.empty:
+        return interval
+
     lower, lower_inc = canonicalize_lower(interval, lower_inc)
     upper, upper_inc = canonicalize_upper(interval, upper_inc)
 
@@ -308,6 +311,18 @@ class AbstractInterval(object):
         return self.upper == self.lower
 
     @property
+    def empty(self):
+        if self.discrete and not self.degenerate:
+            return (
+                self.upper - self.lower == self.step
+                and not (self.upper_inc or self.lower_inc)
+            )
+        return (
+            self.upper == self.lower
+            and not (self.lower_inc and self.upper_inc)
+        )
+
+    @property
     def centre(self):
         return float((self.lower + self.upper)) / 2
 
@@ -365,16 +380,27 @@ class AbstractInterval(object):
         """
         Defines the intersection operator
         """
+        if self.upper < other.lower or other.upper < self.lower:
+            return self.__class__((0, 0))
         if self.lower <= other.lower <= self.upper:
-            return self.__class__([
+            intersection = self.__class__([
                 other.lower,
                 other.upper if other.upper < self.upper else self.upper
             ])
+            intersection.lower_inc = other.lower_inc
+            intersection.upper_inc = (
+                other.upper_inc if other.upper < self.upper else self.upper_inc
+            )
         elif self.lower <= other.upper <= self.upper:
-            return self.__class__([
+            intersection = self.__class__([
                 other.lower if other.lower > self.lower else self.lower,
                 other.upper
             ])
+            intersection.lower_inc = (
+                other.lower_inc if other.lower > self.lower else self.lower_inc
+            )
+            intersection.upper_inc = other.upper_inc
+        return intersection
 
 
 class IntInterval(AbstractInterval):
