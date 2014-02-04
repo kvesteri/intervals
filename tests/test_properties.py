@@ -72,12 +72,14 @@ class TestIntervalProperties(object):
 
     @mark.parametrize(('number_range', 'empty'),
         (
-            ((2, 3), False),
+            ((2, 3), True),
             ([2, 3], False),
             ([2, 2], False),
             ((2, 2), True),
             ('[2, 2)', True),
             ('(2, 2]', True),
+            ('[2, 3)', False),
+            ((2, 10), False),
         )
     )
     def test_empty(self, number_range, empty):

@@ -312,9 +312,14 @@ class AbstractInterval(object):
 
     @property
     def empty(self):
+        if self.discrete and not self.degenerate:
+            return (
+                self.upper - self.lower == self.step
+                and not (self.upper_inc or self.lower_inc)
+            )
         return (
-            self.upper == self.lower and not
-            (self.lower_inc and self.upper_inc)
+            self.upper == self.lower
+            and not (self.lower_inc and self.upper_inc)
         )
 
     @property
