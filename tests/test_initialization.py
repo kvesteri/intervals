@@ -88,6 +88,12 @@ class TestIntervalInit(object):
         assert interval.lower_inc
         assert interval.upper_inc
 
+    def test_uses_two_numbers_with_parentheses_as_open_interval(self):
+        assert IntInterval(1, 2) == IntInterval((1, 2))
+
+    def test_uses_two_numbers_with_square_brackets_as_closed_interval(self):
+        assert IntInterval[1, 2] == IntInterval([1, 2])
+
     @mark.parametrize('number_range',
         (
             (3, 2),

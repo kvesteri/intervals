@@ -72,8 +72,24 @@ def coerce_interval(func):
     return wrapper
 
 
+class ClosedInterval(type):
+    """
+    Supports initialization of intervals using square brackets and makes them
+    closed intervals.
+
+    eg.
+
+    IntInterval[1, 4] == IntInterval([1, 4])
+    """
+    def __getitem__(self, bounds):
+        lower_inc = upper_inc = True
+        return self(bounds, lower_inc, upper_inc)
+
+
 @total_ordering
 class AbstractInterval(object):
+    __metaclass__ = ClosedInterval
+
     step = None
     type = None
     parser = IntervalParser()
@@ -151,6 +167,20 @@ class AbstractInterval(object):
             30
 
         """
+
+        # This if-block adds support for parentheses as open intervals.
+        # Note: If the interval is initialized with the parentheses with two
+        #       objects of same type, eg.
+        #       IntInterval(1, 4)
+        #       the bounds and lower_inc are received of that type and
+        #       upper_inc is None.
+        #
+        # eg.
+        # IntInterval(1, 4) == IntInterval((1, 4))
+        if type(bounds) == type(lower_inc) and not upper_inc:
+            bounds = (bounds, lower_inc)
+            lower_inc = upper_inc = None
+
         self.lower, self.upper, self.lower_inc, self.upper_inc = (
             self.parser(bounds, lower_inc, upper_inc)
         )
