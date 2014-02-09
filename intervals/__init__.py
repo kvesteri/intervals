@@ -151,6 +151,12 @@ class AbstractInterval(object):
             30
 
         """
+
+        if type(bounds) == type(lower_inc) == int and not upper_inc:
+            bounds = (bounds, lower_inc)
+            lower_inc = None
+            upper_inc = None
+
         self.lower, self.upper, self.lower_inc, self.upper_inc = (
             self.parser(bounds, lower_inc, upper_inc)
         )

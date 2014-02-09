@@ -91,7 +91,7 @@ class TestIntervalInit(object):
     def test_uses_two_numbers_with_parentheses_as_open_interval(self):
         assert IntInterval(1, 2) == IntInterval((1, 2))
 
-    def test_uses_two_numbers_with_closed_brackets_as_closed_interval(self):
+    def test_uses_two_numbers_with_square_brackets_as_closed_interval(self):
         assert IntInterval[1, 2] == IntInterval([1, 2])
 
     @mark.parametrize('number_range',
