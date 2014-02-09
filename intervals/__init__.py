@@ -151,11 +151,18 @@ class AbstractInterval(object):
             30
 
         """
-
-        if type(bounds) == type(lower_inc) == int and not upper_inc:
+        # This if-block adds support for parentheses as open intervals.
+        # Note: If the interval is initialized with the parentheses with two
+        #       objects of same type, eg.
+        #       IntInterval(1, 4)
+        #       the bounds and lower_inc are received of that type and
+        #       upper_inc is None.
+        #
+        # eg.
+        # IntInterval(1, 4) == IntInterval((1, 4))
+        if type(bounds) == type(lower_inc) and not upper_inc:
             bounds = (bounds, lower_inc)
-            lower_inc = None
-            upper_inc = None
+            lower_inc = upper_inc = None
 
         self.lower, self.upper, self.lower_inc, self.upper_inc = (
             self.parser(bounds, lower_inc, upper_inc)
