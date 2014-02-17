@@ -3,6 +3,11 @@ Changelog
 
 Here you can see the full list of changes between each intervals release.
 
+0.2.1 (2014-02-17)
+^^^^^^^^^^^^^^^^^^
+
+- Fix __lt__ and __le__ operators (total_ordering was not working)
+
 
 0.2.0 (2014-01-10)
 ^^^^^^^^^^^^^^^^^^
