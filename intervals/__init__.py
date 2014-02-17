@@ -72,7 +72,6 @@ def coerce_interval(func):
     return wrapper
 
 
-@total_ordering
 class AbstractInterval(object):
     step = None
     type = None
@@ -270,6 +269,18 @@ class AbstractInterval(object):
     @coerce_interval
     def __gt__(self, other):
         return self.lower > other.lower and self.upper > other.upper
+
+    @coerce_interval
+    def __lt__(self, other):
+        return self.lower < other.lower and self.upper < other.upper
+
+    @coerce_interval
+    def __ge__(self, other):
+        return self == other or self > other
+
+    @coerce_interval
+    def __le__(self, other):
+        return self == other or self < other
 
     @coerce_interval
     def __contains__(self, other):

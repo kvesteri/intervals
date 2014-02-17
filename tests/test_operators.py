@@ -1,19 +1,37 @@
 from pytest import mark
+from infinity import inf
 from intervals import IntInterval
 
 
 class TestComparisonOperators(object):
-    def test_eq_operator(self):
-        assert IntInterval([1, 3]) == IntInterval([1, 3])
-        assert not IntInterval([1, 3]) == IntInterval([1, 4])
+    @mark.parametrize(('comparison', 'result'), (
+        (IntInterval([1, 3]) == IntInterval([1, 3]), True),
+        (IntInterval([1, 3]) == IntInterval([1, 4]), False),
+        (IntInterval([inf, inf]) == inf, True),
+        (IntInterval([3, 3]) == 3, True),
+        (IntInterval([3, 3]) == 5, False)
+    ))
+    def test_eq_operator(self, comparison, result):
+        assert comparison is result
 
-    def test_ne_operator(self):
-        assert not IntInterval([1, 3]) != IntInterval([1, 3])
-        assert IntInterval([1, 3]) != IntInterval([1, 4])
+    @mark.parametrize(('comparison', 'result'), (
+        (IntInterval([1, 3]) != IntInterval([1, 3]), False),
+        (IntInterval([1, 3]) != IntInterval([1, 4]), True),
+        (IntInterval([inf, inf]) != inf, False),
+        (IntInterval([3, 3]) != 3, False),
+        (IntInterval([3, 3]) != 5, True)
+    ))
+    def test_ne_operator(self, comparison, result):
+        assert comparison is result
 
-    def test_gt_operator(self):
-        assert IntInterval([1, 3]) > IntInterval([0, 2])
-        assert not IntInterval([2, 3]) > IntInterval([2, 3])
+    @mark.parametrize(('comparison', 'result'), (
+        (IntInterval([1, 3]) > IntInterval([0, 2]), True),
+        (IntInterval((1, 4)) > 1, False),
+        (IntInterval((1, 6)) > [1, 6], False),
+        (IntInterval((1, 6)) > 0, True)
+    ))
+    def test_gt_operator(self, comparison, result):
+        assert comparison is result
 
     @mark.parametrize(('comparison', 'result'), (
         (IntInterval([1, 3]) >= IntInterval([0, 2]), True),
@@ -22,15 +40,27 @@ class TestComparisonOperators(object):
         (IntInterval((1, 6)) >= 0, True)
     ))
     def test_ge_operator(self, comparison, result):
-        assert comparison == result
+        assert comparison is result
 
-    def test_lt_operator(self):
-        assert IntInterval([0, 2]) < IntInterval([1, 3])
-        assert not IntInterval([2, 3]) < IntInterval([2, 3])
+    @mark.parametrize(('comparison', 'result'), (
+        (IntInterval([0, 2]) < IntInterval([1, 3]), True),
+        (IntInterval([2, 3]) < IntInterval([2, 3]), False),
+        (IntInterval([2, 5]) < 6, True),
+        (IntInterval([2, 5]) < 5, False),
+        (IntInterval([2, 5]) < inf, True)
+    ))
+    def test_lt_operator(self, comparison, result):
+        assert comparison is result
 
-    def test_le_operator(self):
-        assert IntInterval([0, 2]) <= IntInterval([1, 3])
-        assert IntInterval([1, 3]) >= IntInterval([1, 3])
+    @mark.parametrize(('comparison', 'result'), (
+        (IntInterval([0, 2]) <= IntInterval([1, 3]), True),
+        (IntInterval([1, 3]) <= IntInterval([1, 3]), True),
+        (IntInterval([1, 7]) <= 8, True),
+        (IntInterval([1, 6]) <= 5, False),
+        (IntInterval([1, 5]) <= inf, True)
+    ))
+    def test_le_operator(self, comparison, result):
+        assert comparison is result
 
     def test_integer_comparison(self):
         assert IntInterval([2, 2]) <= 3
