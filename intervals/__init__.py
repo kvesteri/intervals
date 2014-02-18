@@ -1,3 +1,11 @@
+"""
+http://grouper.ieee.org/groups/1788/PositionPapers/ARITHYY.pdf
+
+http://grouper.ieee.org/groups/1788/PositionPapers/overlapping.pdf
+
+www.wikipedia.org/Interval
+"""
+
 # -*- coding: utf-8 -*-
 from datetime import datetime, date, timedelta
 from decimal import Decimal
