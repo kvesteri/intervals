@@ -9,7 +9,8 @@ class TestComparisonOperators(object):
         (IntInterval([1, 3]) == IntInterval([1, 4]), False),
         (IntInterval([inf, inf]) == inf, True),
         (IntInterval([3, 3]) == 3, True),
-        (IntInterval([3, 3]) == 5, False)
+        (IntInterval([3, 3]) == 5, False),
+        (IntInterval('(,)') == None, False)
     ))
     def test_eq_operator(self, comparison, result):
         assert comparison is result
@@ -19,7 +20,8 @@ class TestComparisonOperators(object):
         (IntInterval([1, 3]) != IntInterval([1, 4]), True),
         (IntInterval([inf, inf]) != inf, False),
         (IntInterval([3, 3]) != 3, False),
-        (IntInterval([3, 3]) != 5, True)
+        (IntInterval([3, 3]) != 5, True),
+        (IntInterval('(,)') != None, True)
     ))
     def test_ne_operator(self, comparison, result):
         assert comparison is result

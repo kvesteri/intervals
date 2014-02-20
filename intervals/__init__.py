@@ -25,7 +25,7 @@ __all__ = (
 )
 
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 
 
 def is_number(number):
@@ -74,7 +74,9 @@ def canonicalize(interval, lower_inc=True, upper_inc=False):
 def coerce_interval(func):
     def wrapper(self, arg):
         try:
-            return func(self, self.__class__(arg))
+            if arg is not None:
+                arg = self.__class__(arg)
+            return func(self, arg)
         except IntervalException:
             return NotImplemented
     return wrapper
@@ -381,7 +383,7 @@ class AbstractInterval(object):
         """
         Defines the substraction operator.
 
-        [a, b] − [c, d] = [a − d, b − c]
+        [a, b] - [c, d] = [a - d, b - c]
         """
         return self.__class__([
             self.lower - other.upper,
