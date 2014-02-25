@@ -190,15 +190,46 @@ Discrete intervals
 Arithmetics
 -----------
 
+
+Arithmetic operators
+^^^^^^^^^^^^^^^^^^^^
+
 .. code-block:: python
 
 
-    Interval([1, 5]) + Interval([1, 8])     # Interval([2, 13])
+    Interval([1, 5]) + Interval([1, 8])     # IntInterval([2, 13])
+
+
+    Interval([1, 4]) - 1                    # IntInterval([0, 3])
 
 
     # intersection
 
-    Interval([2, 6]) & Interval([3, 8])     # Interval([3, 6])
+    Interval([2, 6]) & Interval([3, 8])     # IntInterval([3, 6])
+
+
+Arithmetic functions
+^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+
+        interval = IntInterval([1, 3])
+
+        # greatest lower bound
+        interval.glb(IntInterval([1, 2]))   # IntInterval([1, 2])
+
+
+        # least upper bound
+        interval.lub(IntInterval([1, 2]))   # IntInterval([1, 2])
+
+        # infimum
+        interval.inf(IntInterval[1, 2])     # IntInterval([1, 2])
+
+
+        # supremum
+        interval.sup(IntInterval[1, 2])     # IntInterval([1, 3])
+
 
 
 .. |Build Status| image:: https://travis-ci.org/kvesteri/intervals.png?branch=master
