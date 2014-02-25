@@ -1,5 +1,6 @@
 from collections import Iterable
 import six
+from .exc import IntervalException
 
 
 strip = lambda a: a.strip()
@@ -31,11 +32,34 @@ class IntervalParser(object):
         return lower, upper, value[0] == '[', value[-1] == ']'
 
     def parse_hyphen_range(self, value):
-        values = value.split('-')
+        """
+        Parse hyphen ranges such as: 2 - 5, -2 - -1, -3 - 5
+        """
+        values = value.strip().split('-')
         if len(values) == 1:
             lower = upper = value.strip()
+        elif len(values) == 2:
+            lower, upper = values
+            if lower == '':
+                # Parse range such as '-3'
+                upper = '-' + upper
+                lower = upper
         else:
-            lower, upper = map(strip, values)
+            if len(values) > 4:
+                raise IntervalException(
+                    'Unknown interval format given.'
+                )
+            values_copy = []
+            for key, value in enumerate(values):
+                if value != '':
+                    try:
+                        if values[key - 1] == '':
+                            value = '-' + value
+                    except IndexError:
+                        pass
+                    values_copy.append(value)
+            lower, upper = values_copy
+
         return lower, upper, True, True
 
     def __call__(self, bounds, lower_inc=None, upper_inc=None):

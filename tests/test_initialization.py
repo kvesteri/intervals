@@ -88,6 +88,20 @@ class TestIntervalInit(object):
         assert interval.lower_inc
         assert interval.upper_inc
 
+    @mark.parametrize(('number_range', 'lower', 'upper'),
+        (
+            ('-2-2', -2, 2),
+            ('-3--2', -3, -2),
+            ('2-3', 2, 3),
+            ('2-', 2, inf),
+            ('-5', -5, -5)
+        )
+    )
+    def test_hyphen_format(self, number_range, lower, upper):
+        interval = IntInterval(number_range)
+        assert interval.lower == lower
+        assert interval.upper == upper
+
     @mark.parametrize('number_range',
         (
             (3, 2),

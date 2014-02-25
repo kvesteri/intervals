@@ -37,3 +37,33 @@ class TestArithmeticOperators(object):
     ))
     def test_intersection(self, first, second, intersection):
         IntInterval(first) & IntInterval(second) == IntInterval(intersection)
+
+
+class TestArithmeticFunctions(object):
+    @mark.parametrize(('first', 'second', 'result'), (
+        (IntInterval([1, 3]), IntInterval([1, 2]), [1, 2]),
+        (IntInterval([-2, 2]), 1, [-2, 1])
+    ))
+    def test_glb(self, first, second, result):
+        assert first.glb(second) == IntInterval(result)
+
+    @mark.parametrize(('first', 'second', 'result'), (
+        (IntInterval([1, 3]), IntInterval([1, 2]), [1, 3]),
+        (IntInterval([-2, 2]), 1, [1, 2])
+    ))
+    def test_lub(self, first, second, result):
+        assert first.lub(second) == IntInterval(result)
+
+    @mark.parametrize(('first', 'second', 'result'), (
+        (IntInterval([1, 3]), IntInterval([1, 2]), [1, 2]),
+        (IntInterval([-2, 2]), 1, [1, 1])
+    ))
+    def test_inf(self, first, second, result):
+        assert first.inf(second) == IntInterval(result)
+
+    @mark.parametrize(('first', 'second', 'result'), (
+        (IntInterval([1, 3]), IntInterval([1, 2]), [1, 3]),
+        (IntInterval([-2, 2]), 1, [-2, 2])
+    ))
+    def test_sup(self, first, second, result):
+        assert first.sup(second) == IntInterval(result)
