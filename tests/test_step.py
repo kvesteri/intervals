@@ -30,10 +30,10 @@ class TestStepWithDecimals(object):
             step=Decimal('0.5')
         )
         assert interval.lower == 0
-        assert interval.upper == 0.5
+        assert interval.upper == Decimal('0.5')
         assert not interval.lower_inc
         assert not interval.upper_inc
-        assert interval.step == 0.5
+        assert interval.step == Decimal('0.5')
 
     def test_step_rounding(self):
         interval = DecimalInterval(
