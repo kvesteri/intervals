@@ -22,7 +22,7 @@ extras_require = {
 
 setup(
     name='intervals',
-    version='0.2.3',
+    version='0.2.4',
     url='https://github.com/kvesteri/intervals',
     license='BSD',
     author='Konsta Vesterinen',

@@ -4,6 +4,11 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
+0.2.4 (2014-02-25)
+^^^^^^^^^^^^^^^^^^
+
+- Added step argument to AbstractInterval constructor
+
 0.2.3 (2014-02-25)
 ^^^^^^^^^^^^^^^^^^
 
