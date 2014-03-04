@@ -83,6 +83,7 @@ class TestIntervalInit(object):
 
     def test_supports_integers(self):
         interval = IntInterval(3)
+        assert interval.lower.__class__ == int
         assert interval.lower == 3
         assert interval.upper == 3
         assert interval.lower_inc

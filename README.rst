@@ -187,6 +187,31 @@ Discrete intervals
     Interval([2, 4]) == Interval((1, 5))    # True
 
 
+Using interval steps
+^^^^^^^^^^^^^^^^^^^^
+
+You can assign given interval to use optional step argument. By default IntInterval uses step=1. When the interval encounters a value that is not a multiplier of the step argument it tries to round it to the nearest multiplier of the step.
+
+
+.. code-block:: python
+
+
+    interval = IntInterval([0, 5], step=2)
+    interval.lower  # 0
+    interval.upper  # 6
+
+
+You can also use steps for FloatIntervals and DecimalIntervals. Same rounding rules apply here.
+
+.. code-block:: python
+
+
+    interval = FloatInterval([0.2, 0.8], step=0.5)
+    interval.lower  # 0
+    interval.upper  # 1
+
+
+
 Arithmetics
 -----------
 

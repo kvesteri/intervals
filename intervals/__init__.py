@@ -92,6 +92,7 @@ class AbstractInterval(object):
         bounds,
         lower_inc=None,
         upper_inc=None,
+        step=None
     ):
         """
         Parses given args and assigns lower and upper bound for this number
@@ -160,6 +161,8 @@ class AbstractInterval(object):
             30
 
         """
+        if step is not None:
+            self.step = step
         self.lower, self.upper, self.lower_inc, self.upper_inc = (
             self.parser(bounds, lower_inc, upper_inc)
         )
@@ -203,7 +206,7 @@ class AbstractInterval(object):
         if value is None:
             self._lower = -inf
         else:
-            self._lower = value
+            self._lower = self.round_value_by_step(value)
 
     @property
     def upper(self):
@@ -215,7 +218,10 @@ class AbstractInterval(object):
         if value is None:
             self._upper = inf
         else:
-            self._upper = value
+            self._upper = self.round_value_by_step(value)
+
+    def round_value_by_step(self, value):
+        return value
 
     @property
     def open(self):
@@ -368,7 +374,8 @@ class AbstractInterval(object):
         """
         [a, b] + [c, d] = [a + c, b + d]
         """
-        return self.__class__([
+        return self.__class__(
+            [
                 self.lower + other.lower,
                 self.upper + other.upper
             ],
@@ -397,7 +404,8 @@ class AbstractInterval(object):
 
         :param other: AbstractInterval instance
         """
-        return self.__class__([
+        return self.__class__(
+            [
                 min(self.lower, other.lower),
                 min(self.upper, other.upper)
             ],
@@ -412,7 +420,8 @@ class AbstractInterval(object):
 
         :param other: AbstractInterval instance
         """
-        return self.__class__([
+        return self.__class__(
+            [
                 max(self.lower, other.lower),
                 max(self.upper, other.upper),
             ],
@@ -427,7 +436,8 @@ class AbstractInterval(object):
 
         :param other: AbstractInterval instance
         """
-        return self.__class__([
+        return self.__class__(
+            [
                 max(self.lower, other.lower),
                 min(self.upper, other.upper),
             ],
@@ -442,7 +452,8 @@ class AbstractInterval(object):
 
         :param other: AbstractInterval instance
         """
-        return self.__class__([
+        return self.__class__(
+            [
                 min(self.lower, other.lower),
                 max(self.upper, other.upper),
             ],
@@ -484,7 +495,17 @@ class AbstractInterval(object):
         return intersection
 
 
-class IntInterval(AbstractInterval):
+class NumberInterval(AbstractInterval):
+    def round_value_by_step(self, value):
+        if self.step and not is_infinite(value):
+            return self.type(
+                self.step *
+                round((self.type(Decimal('1.0')) / self.step) * value)
+            )
+        return value
+
+
+class IntInterval(NumberInterval):
     step = 1
     type = int
 
@@ -504,16 +525,24 @@ class DateInterval(AbstractInterval):
     type = date
 
 
-class DateTimeInterval(AbstractInterval):
+class DateTimeInterval(NumberInterval):
     type = datetime
 
 
-class FloatInterval(AbstractInterval):
+class FloatInterval(NumberInterval):
     type = float
 
 
-class DecimalInterval(AbstractInterval):
+class DecimalInterval(NumberInterval):
     type = Decimal
+
+    def round_value_by_step(self, value):
+        if self.step and not is_infinite(value):
+            return self.type(str(
+                float(self.step) *
+                round(1.0 / float(self.step) * float(value))
+            ))
+        return value
 
 
 class IntervalFactory(object):
@@ -525,10 +554,15 @@ class IntervalFactory(object):
         DateTimeInterval
     ]
 
-    def __call__(self, bounds, lower_inc=None, upper_inc=None):
+    def __call__(self, bounds, lower_inc=None, upper_inc=None, step=None):
         for interval_class in self.interval_classes:
             try:
-                return interval_class(bounds, lower_inc, upper_inc)
+                return interval_class(
+                    bounds,
+                    lower_inc=lower_inc,
+                    upper_inc=upper_inc,
+                    step=step
+                )
             except IntervalException:
                 pass
         raise IntervalException(
