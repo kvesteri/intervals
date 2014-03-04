@@ -111,7 +111,7 @@ Properties
 
 .. code-block:: python
 
-    Interval([1, 4]).radius             # 2.5
+    Interval([1, 4]).radius             # 1.5
 
 * `length` gives the length of an interval.
 
