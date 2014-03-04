@@ -88,7 +88,8 @@ class TestIntervalInit(object):
         assert interval.lower_inc
         assert interval.upper_inc
 
-    @mark.parametrize(('number_range', 'lower', 'upper'),
+    @mark.parametrize(
+        ('number_range', 'lower', 'upper'),
         (
             ('-2-2', -2, 2),
             ('-3--2', -3, -2),
@@ -102,7 +103,8 @@ class TestIntervalInit(object):
         assert interval.lower == lower
         assert interval.upper == upper
 
-    @mark.parametrize('number_range',
+    @mark.parametrize(
+        'number_range',
         (
             (3, 2),
             [4, 2],
@@ -117,7 +119,8 @@ class TestIntervalInit(object):
 
 
 class TestTypeGuessing(object):
-    @mark.parametrize(('number_range', 'type'),
+    @mark.parametrize(
+        ('number_range', 'type'),
         (
             ((2, 3), int),
             ([-6, 8], int),

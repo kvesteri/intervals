@@ -21,4 +21,3 @@ def test_str_representation(interval, string):
 ))
 def test_hyphenized(interval, string):
     assert IntInterval(interval).hyphenized == string
-

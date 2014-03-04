@@ -8,7 +8,8 @@ from infinity import inf
 
 
 class TestIntervalProperties(object):
-    @mark.parametrize(('number_range', 'length'),
+    @mark.parametrize(
+        ('number_range', 'length'),
         (
             ([1, 4], 3),
             ([-1, 1], 2),
@@ -19,7 +20,8 @@ class TestIntervalProperties(object):
     def test_length(self, number_range, length):
         assert IntInterval(number_range).length == length
 
-    @mark.parametrize(('number_range', 'radius'),
+    @mark.parametrize(
+        ('number_range', 'radius'),
         (
             ([1, 4], 1.5),
             ([-1, 1], 1.0),
@@ -31,7 +33,8 @@ class TestIntervalProperties(object):
     def test_radius(self, number_range, radius):
         assert IntInterval(number_range).radius == radius
 
-    @mark.parametrize(('number_range', 'centre'),
+    @mark.parametrize(
+        ('number_range', 'centre'),
         (
             ([1, 4], 2.5),
             ([-1, 1], 0),
@@ -42,7 +45,8 @@ class TestIntervalProperties(object):
     def test_centre(self, number_range, centre):
         assert IntInterval(number_range).centre == centre
 
-    @mark.parametrize(('number_range', 'is_open'),
+    @mark.parametrize(
+        ('number_range', 'is_open'),
         (
             ((2, 3), True),
             ('(2, 5)', True),
@@ -56,7 +60,8 @@ class TestIntervalProperties(object):
     def test_open(self, number_range, is_open):
         assert IntInterval(number_range).open == is_open
 
-    @mark.parametrize(('number_range', 'is_closed'),
+    @mark.parametrize(
+        ('number_range', 'is_closed'),
         (
             ((2, 3), False),
             ('(2, 5)', False),
@@ -70,7 +75,8 @@ class TestIntervalProperties(object):
     def test_closed(self, number_range, is_closed):
         assert IntInterval(number_range).closed == is_closed
 
-    @mark.parametrize(('number_range', 'empty'),
+    @mark.parametrize(
+        ('number_range', 'empty'),
         (
             ((2, 3), True),
             ([2, 3], False),
@@ -85,7 +91,8 @@ class TestIntervalProperties(object):
     def test_empty(self, number_range, empty):
         assert IntInterval(number_range).empty == empty
 
-    @mark.parametrize(('number_range', 'degenerate'),
+    @mark.parametrize(
+        ('number_range', 'degenerate'),
         (
             ((2, 4), False),
             ('(2, 2)', True),
@@ -95,7 +102,8 @@ class TestIntervalProperties(object):
     def test_degenerate(self, number_range, degenerate):
         assert IntInterval(number_range).degenerate == degenerate
 
-    @mark.parametrize(('interval', 'discrete'),
+    @mark.parametrize(
+        ('interval', 'discrete'),
         (
             (IntInterval((2, 3)), True),
             (IntInterval(5), True),
