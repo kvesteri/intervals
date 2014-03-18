@@ -133,7 +133,38 @@ Properties
     Interval([1, 2]).degenerate         # False
 
 
+Emptiness
+---------
 
+An interval is empty if it contains no points:
+
+
+.. code-block:: python
+
+    Interval('(1, 1]').empty            # True
+
+
+Data type coercion
+------------------
+
+* Interval evaluates as True if its non-empty
+
+.. code-block:: python
+
+    bool(Interval([1, 6]))  # True
+    bool(Interval([0, 0]))  # True
+
+    bool(Interval('(1, 1]'))  # False
+
+
+* Integer intervals can be coerced to integer if they contain only one point, otherwise passing them to int() throws a ValueError
+
+
+.. code-block:: python
+
+    int(Interval([1, 6]))  # raises ValueError
+
+    int(Interval('[1, 1]'))  # 1
 
 
 

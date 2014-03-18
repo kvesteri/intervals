@@ -7,6 +7,7 @@ Here you can see the full list of changes between each intervals release.
 ^^^^^^^^^^^^^^^^^^
 
 - Added __bool__ implementation for all interval types
+- Added __int__ support for IntInterval
 
 
 0.2.4 (2014-02-25)
