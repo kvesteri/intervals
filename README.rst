@@ -147,7 +147,7 @@ An interval is empty if it contains no points:
 Data type coercion
 ------------------
 
-* Interval evaluates as True if its non-empty
+Interval evaluates as True if its non-empty
 
 .. code-block:: python
 
@@ -157,7 +157,7 @@ Data type coercion
     bool(Interval('(1, 1]'))  # False
 
 
-* Integer intervals can be coerced to integer if they contain only one point, otherwise passing them to int() throws a ValueError
+Integer intervals can be coerced to integer if they contain only one point, otherwise passing them to int() throws a ValueError
 
 
 .. code-block:: python
