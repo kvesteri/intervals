@@ -3,6 +3,11 @@ Changelog
 
 Here you can see the full list of changes between each intervals release.
 
+0.2.5 (2014-03-18)
+^^^^^^^^^^^^^^^^^^
+
+- Added __bool__ implementation for all interval types
+
 
 0.2.4 (2014-02-25)
 ^^^^^^^^^^^^^^^^^^

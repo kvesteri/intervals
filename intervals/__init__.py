@@ -349,6 +349,12 @@ class AbstractInterval(object):
             and not (self.lower_inc and self.upper_inc)
         )
 
+    def __bool__(self):
+        return not self.empty
+
+    def __nonzero__(self):
+        return not self.empty
+
     @property
     def centre(self):
         return float((self.lower + self.upper)) / 2
