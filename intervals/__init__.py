@@ -525,6 +525,16 @@ class IntInterval(NumberInterval):
             return int(obj)
         return obj
 
+    def __int__(self):
+        if self.empty:
+            raise TypeError('Empty intervals cannot be coerced to integers')
+        if self.lower != self.upper:
+            raise TypeError(
+                'Only intervals containing single point can be coerced to'
+                ' integers'
+            )
+        return self.lower
+
 
 class DateInterval(AbstractInterval):
     step = timedelta(days=1)

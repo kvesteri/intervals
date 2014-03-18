@@ -133,8 +133,16 @@ Properties
     Interval([1, 2]).degenerate         # False
 
 
-Coercion rules
---------------
+
+
+
+
+Operators
+---------
+
+
+Operator coercion rules
+^^^^^^^^^^^^^^^^^^^^^^^
 
 All the operators and arithmetic functions use special coercion rules. These rules are made for convenience.
 
@@ -160,9 +168,8 @@ Which is also the same as typing:
     Interval([1, 5]) > 3
 
 
-
-Operators
----------
+Comparison operators
+^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
