@@ -86,10 +86,9 @@ class ClosedInterval(type):
         return self(bounds, lower_inc, upper_inc)
 
 
+@six.add_metaclass(ClosedInterval)
 @total_ordering
 class AbstractInterval(object):
-    __metaclass__ = ClosedInterval
-
     step = None
     type = None
     parser = IntervalParser()
