@@ -271,6 +271,11 @@ Arithmetic operators
     Interval([2, 6]) & Interval([3, 8])     # IntInterval([3, 6])
 
 
+    # union
+
+    Interval([2, 6]) | Interval([3, 8])     # IntInterval([2, 8])
+
+
 Arithmetic functions
 ^^^^^^^^^^^^^^^^^^^^
 
