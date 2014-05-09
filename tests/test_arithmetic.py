@@ -33,7 +33,9 @@ class TestArithmeticOperators(object):
     @mark.parametrize(('first', 'second', 'intersection'), (
         ('[1, 5]', '[2, 9]', '[2, 5]'),
         ('[3, 4]', '[3, 9]', '[3, 4]'),
-        ('(3, 6]', '[2, 6)', '(3, 6)')
+        ('(3, 6]', '[2, 6)', '(3, 6)'),
+        ('[1, 9]', '[2, 5]', '[2, 5]'),
+        ('[2, 5]', '[1, 9]', '[2, 5]'),
     ))
     def test_intersection(self, first, second, intersection):
         IntInterval(first) & IntInterval(second) == IntInterval(intersection)

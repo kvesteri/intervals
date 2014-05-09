@@ -498,6 +498,8 @@ class AbstractInterval(object):
                 other.lower_inc if other.lower > self.lower else self.lower_inc
             )
             intersection.upper_inc = other.upper_inc
+        else:
+            return other & self
         return intersection
 
     def __or__(self, other):
