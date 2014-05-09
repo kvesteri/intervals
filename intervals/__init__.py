@@ -500,6 +500,16 @@ class AbstractInterval(object):
             intersection.upper_inc = other.upper_inc
         return intersection
 
+    def __or__(self, other):
+        """
+        Defines the union operator
+        """
+        if self.upper < other.lower or other.upper < self.lower:
+            raise IntervalException(
+                'Union is not continuous.'
+            )
+        return self.sup(other)
+
 
 class NumberInterval(AbstractInterval):
     def round_value_by_step(self, value):
