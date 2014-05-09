@@ -14,8 +14,7 @@ PY3 = sys.version_info[0] == 3
 extras_require = {
     'test': [
         'pytest==2.2.3',
-        'Pygments>=1.2',
-        'six>=1.4.1'
+        'Pygments>=1.2'
     ],
 }
 
@@ -39,6 +38,7 @@ setup(
     dependency_links=[],
     install_requires=[
         'infinity>=0.1.3',
+        'six>=1.4.1',
         'total_ordering>=0.1'
         if sys.version_info[0] == 2 and sys.version_info[1] < 7 else ''
     ],
