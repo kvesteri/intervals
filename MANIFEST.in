@@ -1,0 +1,5 @@
+include README.rst
+include LICENSE
+include CHANGES.rst
+recursive-include tests *
+recursive-exclude tests *.pyc

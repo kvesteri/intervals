@@ -4,7 +4,7 @@ intervals
 
 Python tools for handling intervals (ranges of comparable objects).
 """
-from setuptools import setup, find_packages
+from setuptools import setup
 import sys
 
 
@@ -30,8 +30,7 @@ setup(
         'Python tools for handling intervals (ranges of comparable objects).'
     ),
     long_description=__doc__,
-    packages=find_packages('.'),
-    py_modules=['intervals'],
+    packages=['intervals'],
     zip_safe=False,
     include_package_data=True,
     platforms='any',
