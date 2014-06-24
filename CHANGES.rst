@@ -3,6 +3,13 @@ Changelog
 
 Here you can see the full list of changes between each intervals release.
 
+
+0.3.1 (2014-06-24)
+^^^^^^^^^^^^^^^^^^
+
+- Fixed setup.py packages
+
+
 0.3.0 (2014-03-18)
 ^^^^^^^^^^^^^^^^^^
 
