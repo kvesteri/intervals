@@ -10,10 +10,6 @@ www.wikipedia.org/Interval
 from datetime import datetime, date, timedelta
 from decimal import Decimal
 import operator
-try:
-    from functools import total_ordering
-except ImportError:
-    from total_ordering import total_ordering
 from infinity import inf, is_infinite
 import six
 from .parser import IntervalParser
