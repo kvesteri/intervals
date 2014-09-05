@@ -144,7 +144,7 @@ Properties
       >>> Interval([-1, 1]).centre
       0.0
 
-* Interval [a, b] is ``degenerate`` if a == b
+* Interval :math:`[a, b]` is ``degenerate`` if :math:`a = b`
 
   .. code-block:: python
 
