@@ -26,7 +26,8 @@ Interval initialization
 Open, half-open and closed intervals
 ------------------------------------
 
-Intervals can be either open, half-open or closed. Properties ``lower_inc`` and ``upper_inc`` denote whether or not given endpoint is included (open) or not.
+Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
+``upper_inc`` denote whether or not given endpoint is included (open) or not.
 
 * An open interval is an interval where both endpoints are open.
 
@@ -64,7 +65,10 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and 
 Interval types
 --------------
 
-Each interval encapsulates a type. Interval is not actually a class. Its a convenient factory that generates ``AbstractInterval`` subclasses. Whenever you call ``Interval()`` the ``IntervalFactory`` tries to guess to best matching interval for given bounds.
+Each interval encapsulates a type. Interval is not actually a class. Its a
+convenient factory that generates ``AbstractInterval`` subclasses. Whenever you
+call ``Interval()`` the ``IntervalFactory`` tries to guess to best matching
+interval for given bounds.
 
 
 
@@ -86,7 +90,8 @@ Each interval encapsulates a type. Interval is not actually a class. Its a conve
     interval.type                   # date
 
 
-You can also create interval subtypes directly (this is also faster than using ``Interval``).
+You can also create interval subtypes directly (this is also faster than using
+``Interval``).
 
 
 .. code-block:: python
@@ -157,7 +162,8 @@ Interval evaluates as ``True`` if its non-empty
     bool(Interval('(1, 1]'))  # False
 
 
-Integer intervals can be coerced to integer if they contain only one point, otherwise passing them to ``int()`` throws a ``ValueError``
+Integer intervals can be coerced to integer if they contain only one point,
+otherwise passing them to ``int()`` throws a ``ValueError``
 
 
 .. code-block:: python
@@ -175,7 +181,8 @@ Operators
 Operator coercion rules
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-All the operators and arithmetic functions use special coercion rules. These rules are made for convenience.
+All the operators and arithmetic functions use special coercion rules. These
+rules are made for convenience.
 
 So for example when you type:
 
@@ -228,7 +235,10 @@ Discrete intervals
 Using interval steps
 ^^^^^^^^^^^^^^^^^^^^
 
-You can assign given interval to use optional ``step`` argument. By default ``IntInterval`` uses ``step=1``. When the interval encounters a value that is not a multiplier of the ``step`` argument it tries to round it to the nearest multiplier of the ``step``.
+You can assign given interval to use optional ``step`` argument. By default
+``IntInterval`` uses ``step=1``. When the interval encounters a value that is
+not a multiplier of the ``step`` argument it tries to round it to the nearest
+multiplier of the ``step``.
 
 
 .. code-block:: python
@@ -239,7 +249,8 @@ You can assign given interval to use optional ``step`` argument. By default ``In
     interval.upper  # 6
 
 
-You can also use steps for ``FloatInterval`` and ``DecimalInterval`` classes. Same rounding rules apply here.
+You can also use steps for ``FloatInterval`` and ``DecimalInterval`` classes.
+Same rounding rules apply here.
 
 .. code-block:: python
 
