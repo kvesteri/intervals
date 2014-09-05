@@ -40,8 +40,7 @@ def canonicalize_upper(interval, inc=False):
 
 def canonicalize(interval, lower_inc=True, upper_inc=False):
     """
-    Canonicalize converts equivalent discrete intervals to different
-    representations.
+    Convert equivalent discrete intervals to different representations.
     """
     if not interval.discrete:
         raise TypeError('Only discrete ranges can be canonicalized')
@@ -83,7 +82,7 @@ class AbstractInterval(object):
         step=None
     ):
         """
-        Parses given args and assigns lower and upper bound for this number
+        Parse given args and assign lower and upper bound for this number
         range.
 
         1. Comma separated string argument
@@ -214,7 +213,7 @@ class AbstractInterval(object):
     @property
     def open(self):
         """
-        Returns whether or not this object is an open interval.
+        Return whether or not this object is an open interval.
 
         ::
 
@@ -229,7 +228,7 @@ class AbstractInterval(object):
     @property
     def closed(self):
         """
-        Returns whether or not this object is a closed interval.
+        Return whether or not this object is a closed interval.
 
         ::
 
@@ -307,7 +306,7 @@ class AbstractInterval(object):
     @property
     def discrete(self):
         """
-        Returns whether or not this interval is discrete.
+        Return whether or not this interval is discrete.
         """
         return self.step is not None
 
@@ -382,7 +381,7 @@ class AbstractInterval(object):
     @coerce_interval
     def __sub__(self, other):
         """
-        Defines the substraction operator.
+        Define the substraction operator.
 
         [a, b] - [c, d] = [a - d, b - c]
         """
@@ -464,7 +463,7 @@ class AbstractInterval(object):
 
     def __and__(self, other):
         """
-        Defines the intersection operator
+        Define the intersection operator
         """
         if self.upper < other.lower or other.upper < self.lower:
             return self.__class__((0, 0))
@@ -492,7 +491,7 @@ class AbstractInterval(object):
 
     def __or__(self, other):
         """
-        Defines the union operator
+        Define the union operator
         """
         if self.upper < other.lower or other.upper < self.lower:
             raise IntervalException(

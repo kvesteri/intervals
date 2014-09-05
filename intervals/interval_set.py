@@ -56,7 +56,7 @@ class IntervalSet(object):
     @coerce_interval
     def __and__(self, other):
         """
-        Defines the intersection operator
+        Define the intersection operator
         """
         return self.__class__((
             interval & other_interval
@@ -67,7 +67,7 @@ class IntervalSet(object):
     @coerce_interval
     def __or__(self, other):
         """
-        Defines the union operator
+        Define the union operator
         """
         return self.__class__(self.intervals + other.intervals)
 
