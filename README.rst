@@ -293,21 +293,21 @@ Arithmetic functions
 .. code-block:: python
 
 
-        interval = IntInterval([1, 3])
+    interval = IntInterval([1, 3])
 
-        # greatest lower bound
-        interval.glb(IntInterval([1, 2]))   # IntInterval([1, 2])
-
-
-        # least upper bound
-        interval.lub(IntInterval([1, 2]))   # IntInterval([1, 2])
-
-        # infimum
-        interval.inf(IntInterval[1, 2])     # IntInterval([1, 2])
+    # greatest lower bound
+    interval.glb(IntInterval([1, 2]))   # IntInterval([1, 2])
 
 
-        # supremum
-        interval.sup(IntInterval[1, 2])     # IntInterval([1, 3])
+    # least upper bound
+    interval.lub(IntInterval([1, 2]))   # IntInterval([1, 2])
+
+    # infimum
+    interval.inf(IntInterval[1, 2])     # IntInterval([1, 2])
+
+
+    # supremum
+    interval.sup(IntInterval[1, 2])     # IntInterval([1, 3])
 
 
 
