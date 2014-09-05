@@ -5,10 +5,20 @@ intervals
 Python tools for handling intervals (ranges of comparable objects).
 """
 from setuptools import setup
+import os
+import re
 import sys
 
-
+HERE = os.path.dirname(os.path.abspath(__file__))
 PY3 = sys.version_info[0] == 3
+
+
+def get_version():
+    filename = os.path.join(HERE, 'intervals', '__init__.py')
+    with open(filename) as f:
+        contents = f.read()
+    pattern = r"^__version__ = '(.*?)'$"
+    return re.search(pattern, contents, re.MULTILINE).group(1)
 
 
 extras_require = {
@@ -21,7 +31,7 @@ extras_require = {
 
 setup(
     name='intervals',
-    version='0.3.1',
+    version=get_version(),
     url='https://github.com/kvesteri/intervals',
     license='BSD',
     author='Konsta Vesterinen',
