@@ -93,7 +93,6 @@ class AbstractInterval(object):
             >>> range.upper
             45
 
-
             >>> range = IntInterval('(23, 45]')
             >>> range.lower_inc
             False
@@ -113,7 +112,6 @@ class AbstractInterval(object):
             45
             >>> range.closed
             True
-
 
             >>> range = IntInterval((23, 45))
             >>> range.lower
@@ -205,11 +203,14 @@ class AbstractInterval(object):
 
         Examples::
 
-            range = Interval('(23, 45)')
-            range.open  # True
+            >>> range = Interval('(23, 45)')
+            >>> range.open
+            True
 
-            range = Interval('[23, 45]')
-            range.open  # False
+            >>> range = Interval('[23, 45]')
+            >>> range.open
+            False
+
         """
         return not self.lower_inc and not self.upper_inc
 
@@ -220,11 +221,14 @@ class AbstractInterval(object):
 
         Examples::
 
-            range = Interval('(23, 45)')
-            range.closed  # False
+            >>> range = Interval('(23, 45)')
+            >>> range.closed
+            False
 
-            range = Interval('[23, 45]')
-            range.closed  # True
+            >>> range = Interval('[23, 45]')
+            >>> range.closed
+            True
+
         """
         return self.lower_inc and self.upper_inc
 
