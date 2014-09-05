@@ -26,7 +26,7 @@ Interval initialization
 Open, half-open and closed intervals
 ------------------------------------
 
-Intervals can be either open, half-open or closed. Properties `lower_inc` and `upper_inc` denote whether or not given endpoint is included (open) or not.
+Intervals can be either open, half-open or closed. Properties ``lower_inc`` and ``upper_inc`` denote whether or not given endpoint is included (open) or not.
 
 * An open interval is an interval where both endpoints are open.
 
@@ -64,7 +64,7 @@ Intervals can be either open, half-open or closed. Properties `lower_inc` and `u
 Interval types
 --------------
 
-Each interval encapsulates a type. Interval is not actually a class. Its a convenient factory that generates `AbstractInterval` subclasses. Whenever you call `Interval()` the IntervalFactory tries to guess to best matching interval for given bounds.
+Each interval encapsulates a type. Interval is not actually a class. Its a convenient factory that generates ``AbstractInterval`` subclasses. Whenever you call ``Interval()`` the ``IntervalFactory`` tries to guess to best matching interval for given bounds.
 
 
 
@@ -86,7 +86,7 @@ Each interval encapsulates a type. Interval is not actually a class. Its a conve
     interval.type                   # date
 
 
-You can also create interval subtypes directly (this is also faster than using `Interval`).
+You can also create interval subtypes directly (this is also faster than using ``Interval``).
 
 
 .. code-block:: python
@@ -97,35 +97,35 @@ You can also create interval subtypes directly (this is also faster than using `
 
 Currently provided subtypes are:
 
-* `IntInterval`
-* `FloatInterval`
-* `DecimalInterval`
-* `DateInterval`
-* `DateTimeInterval`
+* ``IntInterval``
+* ``FloatInterval``
+* ``DecimalInterval``
+* ``DateInterval``
+* ``DateTimeInterval``
 
 
 Properties
 ----------
 
-* `radius` gives the half-length of an interval
+* ``radius`` gives the half-length of an interval
 
 .. code-block:: python
 
     Interval([1, 4]).radius             # 1.5
 
-* `length` gives the length of an interval.
+* ``length`` gives the length of an interval.
 
 .. code-block:: python
 
     Interval([1, 4]).length             # 3
 
-* `centre` gives the centre (midpoint) of an interval
+* ``centre`` gives the centre (midpoint) of an interval
 
 .. code-block:: python
 
     Interval([-1, 1]).centre            # 0
 
-* Interval [a, b] is `degenerate` if a == b
+* Interval [a, b] is ``degenerate`` if a == b
 
 .. code-block:: python
 
@@ -147,7 +147,7 @@ An interval is empty if it contains no points:
 Data type coercion
 ------------------
 
-Interval evaluates as True if its non-empty
+Interval evaluates as ``True`` if its non-empty
 
 .. code-block:: python
 
@@ -157,7 +157,7 @@ Interval evaluates as True if its non-empty
     bool(Interval('(1, 1]'))  # False
 
 
-Integer intervals can be coerced to integer if they contain only one point, otherwise passing them to int() throws a ValueError
+Integer intervals can be coerced to integer if they contain only one point, otherwise passing them to ``int()`` throws a ``ValueError``
 
 
 .. code-block:: python
@@ -228,7 +228,7 @@ Discrete intervals
 Using interval steps
 ^^^^^^^^^^^^^^^^^^^^
 
-You can assign given interval to use optional step argument. By default IntInterval uses step=1. When the interval encounters a value that is not a multiplier of the step argument it tries to round it to the nearest multiplier of the step.
+You can assign given interval to use optional ``step`` argument. By default ``IntInterval`` uses ``step=1``. When the interval encounters a value that is not a multiplier of the ``step`` argument it tries to round it to the nearest multiplier of the ``step``.
 
 
 .. code-block:: python
@@ -239,7 +239,7 @@ You can assign given interval to use optional step argument. By default IntInter
     interval.upper  # 6
 
 
-You can also use steps for FloatIntervals and DecimalIntervals. Same rounding rules apply here.
+You can also use steps for ``FloatInterval`` and ``DecimalInterval`` classes. Same rounding rules apply here.
 
 .. code-block:: python
 
