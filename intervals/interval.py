@@ -85,10 +85,7 @@ class AbstractInterval(object):
         Parse given args and assign lower and upper bound for this number
         range.
 
-        1. Comma separated string argument
-
-        ::
-
+        1. Comma separated string argument::
 
             >>> range = IntInterval('[23, 45]')
             >>> range.lower
@@ -107,10 +104,7 @@ class AbstractInterval(object):
             >>> range.upper_inc
             False
 
-        2. Lists and tuples as an argument
-
-        ::
-
+        2. Lists and tuples as an argument::
 
             >>> range = IntInterval([23, 45])
             >>> range.lower
@@ -127,19 +121,13 @@ class AbstractInterval(object):
             >>> range.closed
             False
 
-        3. Integer argument
-
-        ::
-
+        3. Integer argument::
 
             >>> range = IntInterval(34)
             >>> range.lower == range.upper == 34
             True
 
-
-        4. Object argument
-
-        ::
+        4. Object argument::
 
             >>> range = IntInterval(IntInterval(20, 30))
             >>> range.lower
@@ -215,7 +203,7 @@ class AbstractInterval(object):
         """
         Return whether or not this object is an open interval.
 
-        ::
+        Examples::
 
             range = Interval('(23, 45)')
             range.open  # True
@@ -230,7 +218,7 @@ class AbstractInterval(object):
         """
         Return whether or not this object is a closed interval.
 
-        ::
+        Examples::
 
             range = Interval('(23, 45)')
             range.closed  # False
