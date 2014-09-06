@@ -1,11 +1,5 @@
 from decimal import Decimal
-from intervals import (
-    DecimalInterval,
-    FloatInterval,
-    Interval,
-    IntInterval,
-    RangeBoundsException
-)
+from intervals import DecimalInterval, FloatInterval
 
 
 class TestStepWithFloats(object):
