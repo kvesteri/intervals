@@ -127,7 +127,7 @@ class AbstractInterval(object):
 
         4. Object argument::
 
-            >>> range = IntInterval(IntInterval(20, 30))
+            >>> range = IntInterval(IntInterval((20, 30)))
             >>> range.lower
             20
             >>> range.upper

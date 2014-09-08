@@ -323,7 +323,7 @@ Arithmetic functions
 
     >>> # least upper bound
     >>> interval.lub(IntInterval([1, 2]))
-    IntInterval('[1, 2]')
+    IntInterval('[1, 3]')
 
     >>> # infimum
     >>> interval.inf(IntInterval([1, 2]))
