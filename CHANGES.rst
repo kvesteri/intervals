@@ -4,6 +4,14 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
+0.3.2 (2014-10-21)
+^^^^^^^^^^^^^^^^^^
+
+- Fixed interval datetime type guessing
+- Fixed code examples in docs
+- Added better test suite (now docs are tested also)
+
+
 0.3.1 (2014-06-24)
 ^^^^^^^^^^^^^^^^^^
 
