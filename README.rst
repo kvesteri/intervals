@@ -90,7 +90,7 @@ interval for given bounds.
 
     >>> interval = Interval([1.5, 4])
     >>> interval
-    FloatInterval('[1.5, 4]')
+    FloatInterval('[1.5, 4.0]')
     >>> interval.type
     <type 'float'>
 
