@@ -9,6 +9,7 @@ Here you can see the full list of changes between each intervals release.
 
 - Fixed interval datetime type guessing
 - Fixed code examples in docs
+- Fixed IntInterval step rounding
 - Added better test suite (now docs are tested also)
 
 

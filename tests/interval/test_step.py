@@ -1,9 +1,21 @@
 from decimal import Decimal
-from intervals import DecimalInterval, FloatInterval
+from intervals import DecimalInterval, FloatInterval, IntInterval
+
+
+class TestStepWithIntegers(object):
+    def test_integers_with_step(self):
+        interval = IntInterval([1, 2], step=2)
+        assert interval.lower == 2
+        assert interval.upper == 2
+
+    def test_step_rounding(self):
+        interval = IntInterval([1, 5], step=2)
+        assert interval.lower == 2
+        assert interval.upper == 6
 
 
 class TestStepWithFloats(object):
-    def test_decimals_with_step(self):
+    def test_floats_with_step(self):
         interval = FloatInterval((0, 0.5), step=0.5)
         assert interval.lower == 0
         assert interval.upper == 0.5

@@ -495,11 +495,19 @@ class AbstractInterval(object):
 
 
 class NumberInterval(AbstractInterval):
+    rounding_type = Decimal
+
     def round_value_by_step(self, value):
         if self.step and not is_infinite(value):
             return self.type(
-                self.step *
-                round((self.type(Decimal('1.0')) / self.step) * value)
+                self.rounding_type(self.step) *
+                self.rounding_type(
+                    round(
+                        self.rounding_type('1.0') /
+                        self.rounding_type(self.step) *
+                        self.rounding_type(value)
+                    )
+                )
             )
         return value
 
@@ -540,6 +548,7 @@ class DateTimeInterval(AbstractInterval):
 
 class FloatInterval(NumberInterval):
     type = float
+    rounding_type = float
 
 
 class DecimalInterval(NumberInterval):
