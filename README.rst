@@ -96,9 +96,10 @@ interval for given bounds.
 
     >>> interval = Interval([date(2000, 1, 1), inf])
     >>> interval
-    DateInterval('[2000-1-1,)')
+    DateInterval('[2000-01-01,]')
     >>> interval.type
-    date
+    <type 'datetime.date'>
+
 
 You can also create interval subtypes directly (this is also faster than using
 ``Interval``).
