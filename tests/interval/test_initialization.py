@@ -1,3 +1,4 @@
+from datetime import date
 from decimal import Decimal
 from pytest import raises, mark
 from intervals import (
@@ -128,6 +129,7 @@ class TestTypeGuessing(object):
             (8.5, float),
             ([Decimal(2), 9], int),
             ([Decimal('0.5'), 9], float),
+            ([date(2000, 1, 1), inf], date)
         )
     )
     def test_guesses_types(self, number_range, type):

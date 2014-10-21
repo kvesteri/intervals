@@ -173,6 +173,8 @@ class AbstractInterval(object):
             return None
         elif is_infinite(value):
             return value
+        elif isinstance(value, self.type):
+            return value
         elif isinstance(value, six.string_types):
             return self.coerce_string(value)
         else:
@@ -182,7 +184,7 @@ class AbstractInterval(object):
         return self.type(value)
 
     def coerce_obj(self, obj):
-        return obj
+        return self.type(obj)
 
     @property
     def lower(self):
@@ -541,7 +543,7 @@ class DateInterval(AbstractInterval):
     type = date
 
 
-class DateTimeInterval(NumberInterval):
+class DateTimeInterval(AbstractInterval):
     type = datetime
 
 
@@ -566,8 +568,8 @@ class IntervalFactory(object):
         IntInterval,
         FloatInterval,
         DecimalInterval,
+        DateTimeInterval,
         DateInterval,
-        DateTimeInterval
     ]
 
     def __call__(self, bounds, lower_inc=None, upper_inc=None, step=None):
@@ -579,7 +581,7 @@ class IntervalFactory(object):
                     upper_inc=upper_inc,
                     step=step
                 )
-            except IntervalException:
+            except (IntervalException, TypeError):
                 pass
         raise IntervalException(
             'Could not initialize interval.'
