@@ -461,27 +461,14 @@ class AbstractInterval(object):
         """
         if self.upper < other.lower or other.upper < self.lower:
             return self.__class__((0, 0))
-        if self.lower <= other.lower <= self.upper:
-            intersection = self.__class__([
-                other.lower,
-                other.upper if other.upper < self.upper else self.upper
-            ])
-            intersection.lower_inc = other.lower_inc
-            intersection.upper_inc = (
-                other.upper_inc if other.upper < self.upper else self.upper_inc
-            )
-        elif self.lower <= other.upper <= self.upper:
-            intersection = self.__class__([
-                other.lower if other.lower > self.lower else self.lower,
-                other.upper
-            ])
-            intersection.lower_inc = (
-                other.lower_inc if other.lower > self.lower else self.lower_inc
-            )
-            intersection.upper_inc = other.upper_inc
-        else:
-            return other & self
-        return intersection
+
+        lower = max(self.lower, other.lower)
+        upper = min(self.upper, other.upper)
+        return self.__class__(
+            [lower, upper],
+            lower_inc=lower in self and lower in other,
+            upper_inc=upper in self and upper in other,
+        )
 
     def __or__(self, other):
         """
