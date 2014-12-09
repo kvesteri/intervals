@@ -100,11 +100,13 @@ class TestDiscreteRangeComparison(object):
 class TestBinaryOperators(object):
     @mark.parametrize(('interval1', 'interval2', 'result'), (
         ((2, 3), (3, 4), (3, 3)),
-        ((2, 3), [3, 4], '[3, 3)'),
+        ((2, 3), [3, 4], (3, 3)),
         ((2, 5), (3, 10), (3, 5)),
         ('(2, 3]', '[3, 4)', [3, 3]),
         ('(2, 10]', '[3, 40]', [3, 10]),
         ((2, 10), (3, 8), (3, 8)),
+        ((1, 2), [1, 2], (1, 2)),
+        ([1, 2], (1, 2), (1, 2)),
     ))
     def test_and_operator(self, interval1, interval2, result):
         assert (
