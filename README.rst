@@ -85,8 +85,8 @@ interval for given bounds.
     >>> interval = Interval([1, 4])
     >>> interval
     IntInterval('[1, 4]')
-    >>> interval.type
-    <type 'int'>
+    >>> interval.type.__name__
+    'int'
 
     >>> interval = Interval([1.5, 4])
     >>> interval
@@ -97,8 +97,8 @@ interval for given bounds.
     >>> interval = Interval([date(2000, 1, 1), inf])
     >>> interval
     DateInterval('[2000-01-01,]')
-    >>> interval.type
-    <type 'datetime.date'>
+    >>> interval.type.__name__
+    'date'
 
 
 You can also create interval subtypes directly (this is also faster than using
