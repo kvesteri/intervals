@@ -240,6 +240,26 @@ Comparison operators
     False
 
 
+Intervals are hashable
+^^^^^^^^^^^^^^^^^^^^^^
+
+Intervals are hashed on the same attributes that affect comparison: the values
+of the upper and lower bounds, ``lower_inc`` and ``upper_inc``, and the
+``type`` of the interval. This enables the use of intervals as keys in dict()
+objects.
+
+.. code-block:: python
+
+    >>> Interval([3, 7]) in {Interval([0, 10]): 'zero to ten'}
+    True
+    >>> Interval([3, 7]) in set([Interval([3, 7])])
+    True
+    >>> Interval((3, 7)) in set([Interval([3, 7])])
+    False
+    >>> IntInterval([3, 7]) in set([FloatInterval([3, 7])])
+    False
+
+
 Discrete intervals
 ------------------
 
