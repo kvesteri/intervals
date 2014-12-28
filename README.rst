@@ -88,6 +88,12 @@ interval for given bounds.
     >>> interval.type.__name__
     'int'
 
+    >>> interval = Interval(['a', 'd'])
+    >>> interval
+    CharacterInterval('[a, d]')
+    >>> interval.type.__name__
+    'str'
+
     >>> interval = Interval([1.5, 4])
     >>> interval
     FloatInterval('[1.5, 4.0]')
@@ -115,6 +121,7 @@ You can also create interval subtypes directly (this is also faster than using
 Currently provided subtypes are:
 
 * ``IntInterval``
+* ``CharacterInterval``
 * ``FloatInterval``
 * ``DecimalInterval``
 * ``DateInterval``

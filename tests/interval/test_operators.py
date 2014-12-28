@@ -100,6 +100,7 @@ class TestComparisonOperators(object):
     def test_hash_operator_with_interval_attributes(self, interval1, interval2, expected):
         actual = (interval1.__hash__() == interval2.__hash__())
         assert actual == expected
+
     @mark.parametrize(('contains_check', 'expected'), (
         (IntInterval([0, 2]) in {IntInterval([0, 2]): ''}, True),
         (IntInterval([0, 2]) in {IntInterval((0, 2)): ''}, False),
@@ -107,6 +108,7 @@ class TestComparisonOperators(object):
     ))
     def test_hash_operator_with_collections(self, contains_check, expected):
         assert contains_check is expected
+
 
 class TestDiscreteRangeComparison(object):
     @mark.parametrize(('interval', 'interval2'), (

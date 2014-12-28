@@ -262,6 +262,7 @@ class AbstractInterval(object):
 
     def __hash__(self):
         return (self.upper, self.lower, self.upper_inc, self.lower_inc, self.type).__hash__()
+
     def __ne__(self, other):
         return not (self == other)
 
@@ -552,8 +553,18 @@ class DecimalInterval(NumberInterval):
         return value
 
 
+class CharacterInterval(AbstractInterval):
+    type = str
+
+    def coerce_obj(self, obj):
+        if not isinstance(obj, str):
+            raise IntervalException('Type %s is not a string.')
+        return obj
+
+
 class IntervalFactory(object):
     interval_classes = [
+        CharacterInterval,
         IntInterval,
         FloatInterval,
         DecimalInterval,
