@@ -4,6 +4,13 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
+0.4.0 (2014-10-30)
+^^^^^^^^^^^^^^^^^^
+
+- Made intervals hashable
+- Added CharacterInterval class
+
+
 0.3.2 (2014-10-21)
 ^^^^^^^^^^^^^^^^^^
 

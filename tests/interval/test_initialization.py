@@ -119,7 +119,7 @@ class TestIntervalInit(object):
         assert interval.lower_inc
         assert not interval.upper_inc
 
-    def test_empty_string_as_lower_bound(self):
+    def test_empty_string_as_lower_bound_for_char_interval(self):
         interval = CharacterInterval('[,a)')
         assert interval.lower == -inf
         assert interval.upper == 'a'
@@ -156,7 +156,11 @@ class TestIntervalInit(object):
             (CharacterInterval, '[d, c]'),
         )
     )
-    def test_raises_exception_for_badly_constructed_range(self, constructor, number_range):
+    def test_raises_exception_for_badly_constructed_range(
+        self,
+        constructor,
+        number_range
+    ):
         with raises(RangeBoundsException):
             constructor(number_range)
 

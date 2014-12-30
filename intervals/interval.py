@@ -261,7 +261,13 @@ class AbstractInterval(object):
             return NotImplemented
 
     def __hash__(self):
-        return (self.upper, self.lower, self.upper_inc, self.lower_inc, self.type).__hash__()
+        return (
+            self.upper,
+            self.lower,
+            self.upper_inc,
+            self.lower_inc,
+            self.type
+        ).__hash__()
 
     def __ne__(self, other):
         return not (self == other)
