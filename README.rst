@@ -12,10 +12,10 @@ Interval initialization
 
 .. code-block:: python
 
-    >>> from intervals import Interval
+    >>> from intervals import IntInterval
 
     >>> # All integers between 1 and 4
-    >>> interval = Interval([1, 4])
+    >>> interval = IntInterval([1, 4])
     >>> interval.lower
     1
     >>> interval.upper
@@ -36,7 +36,7 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
 
   .. code-block:: python
 
-      >>> interval = Interval((1, 4))
+      >>> interval = IntInterval((1, 4))
       >>> interval.open
       True
       >>> interval.lower_inc
@@ -135,30 +135,30 @@ Properties
 
   .. code-block:: python
 
-      >>> Interval([1, 4]).radius
+      >>> IntInterval([1, 4]).radius
       1.5
 
 * ``length`` gives the length of an interval.
 
   .. code-block:: python
 
-      >>> Interval([1, 4]).length
+      >>> IntInterval([1, 4]).length
       3
 
 * ``centre`` gives the centre (midpoint) of an interval
 
   .. code-block:: python
 
-      >>> Interval([-1, 1]).centre
+      >>> IntInterval([-1, 1]).centre
       0.0
 
 * Interval :math:`[a, b]` is ``degenerate`` if :math:`a = b`
 
   .. code-block:: python
 
-      >>> Interval([1, 1]).degenerate
+      >>> IntInterval([1, 1]).degenerate
       True
-      >>> Interval([1, 2]).degenerate
+      >>> IntInterval([1, 2]).degenerate
       False
 
 
@@ -169,7 +169,7 @@ An interval is empty if it contains no points:
 
 .. code-block:: python
 
-    >>> Interval('(1, 1]').empty
+    >>> IntInterval('(1, 1]').empty
     True
 
 
@@ -180,11 +180,11 @@ Interval evaluates as ``True`` if its non-empty
 
 .. code-block:: python
 
-    >>> bool(Interval([1, 6]))
+    >>> bool(IntInterval([1, 6]))
     True
-    >>> bool(Interval([0, 0]))
+    >>> bool(IntInterval([0, 0]))
     True
-    >>> bool(Interval('(1, 1]'))
+    >>> bool(IntInterval('(1, 1]'))
     False
 
 Integer intervals can be coerced to integer if they contain only one point,
@@ -192,12 +192,12 @@ otherwise passing them to ``int()`` throws a ``TypeError``
 
 .. code-block:: python
 
-    >>> int(Interval([1, 6]))
+    >>> int(IntInterval([1, 6]))
     Traceback (most recent call last):
         ...
     TypeError: Only intervals containing single point can be coerced to integers
 
-    >>> int(Interval('[1, 1]'))
+    >>> int(IntInterval('[1, 1]'))
     1
 
 
@@ -215,19 +215,19 @@ So for example when you type:
 
 .. code-block:: python
 
-    Interval([1, 5]) > Interval([3, 3])
+    IntInterval([1, 5]) > IntInterval([3, 3])
 
 Its actually the same as typing:
 
 .. code-block:: python
 
-    Interval([1, 5]) > [3, 3]
+    IntInterval([1, 5]) > [3, 3]
 
 Which is also the same as typing:
 
 .. code-block:: python
 
-    Interval([1, 5]) > 3
+    IntInterval([1, 5]) > 3
 
 
 Comparison operators
@@ -235,15 +235,15 @@ Comparison operators
 
 .. code-block:: python
 
-    >>> Interval([1, 5]) > Interval([0, 3])
+    >>> IntInterval([1, 5]) > IntInterval([0, 3])
     True
-    >>> Interval([1, 5]) == Interval([1, 5])
+    >>> IntInterval([1, 5]) == IntInterval([1, 5])
     True
-    >>> Interval([2, 3]) in Interval([2, 6])
+    >>> IntInterval([2, 3]) in IntInterval([2, 6])
     True
-    >>> Interval([2, 3]) in Interval([2, 3])
+    >>> IntInterval([2, 3]) in IntInterval([2, 3])
     True
-    >>> Interval([2, 3]) in Interval((2, 3))
+    >>> IntInterval([2, 3]) in IntInterval((2, 3))
     False
 
 
@@ -257,11 +257,11 @@ objects.
 
 .. code-block:: python
 
-    >>> Interval([3, 7]) in {Interval([3, 7]): 'zero to ten'}
+    >>> IntInterval([3, 7]) in {IntInterval([3, 7]): 'zero to ten'}
     True
-    >>> Interval([3, 7]) in set([Interval([3, 7])])
+    >>> IntInterval([3, 7]) in set([IntInterval([3, 7])])
     True
-    >>> Interval((3, 7)) in set([Interval([3, 7])])
+    >>> IntInterval((3, 7)) in set([IntInterval([3, 7])])
     False
     >>> IntInterval([3, 7]) in set([FloatInterval([3, 7])])
     False
@@ -272,7 +272,7 @@ Discrete intervals
 
 .. code-block:: python
 
-    >>> Interval([2, 4]) == Interval((1, 5))
+    >>> IntInterval([2, 4]) == IntInterval((1, 5))
     True
 
 
