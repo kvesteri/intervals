@@ -36,6 +36,7 @@ class IntervalParser(object):
         Parse hyphen ranges such as: 2 - 5, -2 - -1, -3 - 5
         """
         values = value.strip().split('-')
+        values = map(strip, values)
         if len(values) == 1:
             lower = upper = value.strip()
         elif len(values) == 2:

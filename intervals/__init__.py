@@ -2,6 +2,7 @@
 from .exc import RangeBoundsException
 from .interval import (
     AbstractInterval,
+    CharacterInterval,
     DateInterval,
     DateTimeInterval,
     DecimalInterval,
@@ -15,6 +16,7 @@ from .interval import (
 
 __all__ = (
     'AbstractInterval',
+    'CharacterInterval',
     'DateInterval',
     'DateTimeInterval',
     'DecimalInterval',

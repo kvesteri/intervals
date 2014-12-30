@@ -1,6 +1,7 @@
 from pytest import mark
 from infinity import inf
 from intervals import IntInterval
+from intervals import FloatInterval
 
 
 class TestComparisonOperators(object):
@@ -85,6 +86,28 @@ class TestComparisonOperators(object):
     ))
     def test_contains_operator_for_non_inclusive_interval(self, value):
         assert value not in IntInterval((-1, 2))
+
+    @mark.parametrize(('interval1', 'interval2', 'expected'), (
+        (IntInterval((0, 2)), IntInterval((0, 2)), True),
+        (IntInterval([0, 2]), IntInterval([0, 2]), True),
+        (IntInterval('[0, 2)'), IntInterval('[0, 2)'), True),
+        (IntInterval('(0, 2]'), IntInterval('(0, 2]'), True),
+        (IntInterval((0, 2)), IntInterval((1, 2)), False),
+        (IntInterval((0, 2)), IntInterval((0, 1)), False),
+        (IntInterval((0, 2)), IntInterval([0, 1]), False),
+        (IntInterval((0, 2)), FloatInterval((0, 1)), False),
+    ))
+    def test_hash_operator_with_interval_attributes(self, interval1, interval2, expected):
+        actual = (interval1.__hash__() == interval2.__hash__())
+        assert actual == expected
+
+    @mark.parametrize(('contains_check', 'expected'), (
+        (IntInterval([0, 2]) in {IntInterval([0, 2]): ''}, True),
+        (IntInterval([0, 2]) in {IntInterval((0, 2)): ''}, False),
+        (IntInterval([0, 2]) in set([IntInterval([0, 2])]), True),
+    ))
+    def test_hash_operator_with_collections(self, contains_check, expected):
+        assert contains_check is expected
 
 
 class TestDiscreteRangeComparison(object):

@@ -88,6 +88,12 @@ interval for given bounds.
     >>> interval.type.__name__
     'int'
 
+    >>> interval = Interval(['a', 'd'])
+    >>> interval
+    CharacterInterval('[a, d]')
+    >>> interval.type.__name__
+    'str'
+
     >>> interval = Interval([1.5, 4])
     >>> interval
     FloatInterval('[1.5, 4.0]')
@@ -115,6 +121,7 @@ You can also create interval subtypes directly (this is also faster than using
 Currently provided subtypes are:
 
 * ``IntInterval``
+* ``CharacterInterval``
 * ``FloatInterval``
 * ``DecimalInterval``
 * ``DateInterval``
@@ -237,6 +244,26 @@ Comparison operators
     >>> Interval([2, 3]) in Interval([2, 3])
     True
     >>> Interval([2, 3]) in Interval((2, 3))
+    False
+
+
+Intervals are hashable
+^^^^^^^^^^^^^^^^^^^^^^
+
+Intervals are hashed on the same attributes that affect comparison: the values
+of the upper and lower bounds, ``lower_inc`` and ``upper_inc``, and the
+``type`` of the interval. This enables the use of intervals as keys in dict()
+objects.
+
+.. code-block:: python
+
+    >>> Interval([3, 7]) in {Interval([3, 7]): 'zero to ten'}
+    True
+    >>> Interval([3, 7]) in set([Interval([3, 7])])
+    True
+    >>> Interval((3, 7)) in set([Interval([3, 7])])
+    False
+    >>> IntInterval([3, 7]) in set([FloatInterval([3, 7])])
     False
 
 

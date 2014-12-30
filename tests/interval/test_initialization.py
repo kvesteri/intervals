@@ -2,6 +2,7 @@ from datetime import date
 from decimal import Decimal
 from pytest import raises, mark
 from intervals import (
+    CharacterInterval,
     DecimalInterval,
     FloatInterval,
     Interval,
@@ -90,6 +91,41 @@ class TestIntervalInit(object):
         assert interval.lower_inc
         assert interval.upper_inc
 
+    def test_supports_character_intervals(self):
+        interval = CharacterInterval(('a', 'z'))
+        assert interval.lower == 'a'
+        assert interval.upper == 'z'
+        assert not interval.lower_inc
+        assert not interval.upper_inc
+
+    def test_supports_characters_from_strings(self):
+        interval = CharacterInterval('A-Z')
+        assert interval.lower == 'A'
+        assert interval.upper == 'Z'
+        assert interval.lower_inc
+        assert interval.upper_inc
+
+    def test_supports_characters_with_spaces(self):
+        interval = CharacterInterval('A - Z')
+        assert interval.lower == 'A'
+        assert interval.upper == 'Z'
+        assert interval.lower_inc
+        assert interval.upper_inc
+
+    def test_empty_string_as_upper_character_bound(self):
+        interval = CharacterInterval('[a,)')
+        assert interval.lower == 'a'
+        assert interval.upper == inf
+        assert interval.lower_inc
+        assert not interval.upper_inc
+
+    def test_empty_string_as_lower_bound(self):
+        interval = CharacterInterval('[,a)')
+        assert interval.lower == -inf
+        assert interval.upper == 'a'
+        assert interval.lower_inc
+        assert not interval.upper_inc
+
     @mark.parametrize(
         ('number_range', 'lower', 'upper'),
         (
@@ -106,18 +142,23 @@ class TestIntervalInit(object):
         assert interval.upper == upper
 
     @mark.parametrize(
-        'number_range',
+        ('constructor', 'number_range'),
         (
-            (3, 2),
-            [4, 2],
-            '5-2',
-            (float('inf'), 2),
-            '[4, 3]',
+            (IntInterval, (3, 2)),
+            (IntInterval, [4, 2]),
+            (IntInterval, '5-2'),
+            (IntInterval, (float('inf'), 2)),
+            (IntInterval, '[4, 3]'),
+            (CharacterInterval, ('c', 'b')),
+            (CharacterInterval, ('d', 'b')),
+            (CharacterInterval, 'e-b'),
+            (CharacterInterval, (inf, 'b')),
+            (CharacterInterval, '[d, c]'),
         )
     )
-    def test_raises_exception_for_badly_constructed_range(self, number_range):
+    def test_raises_exception_for_badly_constructed_range(self, constructor, number_range):
         with raises(RangeBoundsException):
-            IntInterval(number_range)
+            constructor(number_range)
 
 
 class TestTypeGuessing(object):
@@ -129,7 +170,8 @@ class TestTypeGuessing(object):
             (8.5, float),
             ([Decimal(2), 9], int),
             ([Decimal('0.5'), 9], float),
-            ([date(2000, 1, 1), inf], date)
+            ([date(2000, 1, 1), inf], date),
+            (('a', 'e'), str),
         )
     )
     def test_guesses_types(self, number_range, type):
