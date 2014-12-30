@@ -257,7 +257,7 @@ objects.
 
 .. code-block:: python
 
-    >>> Interval([3, 7]) in {Interval([0, 10]): 'zero to ten'}
+    >>> Interval([3, 7]) in {Interval([3, 7]): 'zero to ten'}
     True
     >>> Interval([3, 7]) in set([Interval([3, 7])])
     True
