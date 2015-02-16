@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .exc import RangeBoundsException
+from .exc import IntervalException, RangeBoundsException
 from .interval import (
     AbstractInterval,
     CharacterInterval,
@@ -22,6 +22,7 @@ __all__ = (
     'DecimalInterval',
     'FloatInterval',
     'Interval',
+    'IntervalException',
     'IntervalFactory',
     'IntInterval',
     'NumberInterval',
