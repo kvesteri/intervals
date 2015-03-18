@@ -48,6 +48,8 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
 
   .. code-block:: python
 
+      >>> from intervals import Interval
+
       >>> interval = Interval('[1, 4)')
       >>> interval.open
       False
