@@ -8,4 +8,9 @@ python:
 install:
   - pip install -e ".[test]"
 script:
-  - py.test --doctest-modules --doctest-glob="*.rst" --ignore setup.py
+  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]];
+    then
+        py.test --doctest-modules --doctest-glob="*.rst" --ignore setup.py;
+    else
+        py.test;
+    fi
