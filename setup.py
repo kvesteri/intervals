@@ -23,7 +23,7 @@ def get_version():
 
 extras_require = {
     'test': [
-        'pytest==2.2.3',
+        'pytest>=2.2.3',
         'Pygments>=1.2'
     ],
 }
