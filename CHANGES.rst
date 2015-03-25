@@ -4,6 +4,12 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
+0.5.0 (2014-03-25)
+^^^^^^^^^^^^^^^^^^
+
+- Drop python 2.6 support
+
+
 0.4.0 (2014-10-30)
 ^^^^^^^^^^^^^^^^^^
 
