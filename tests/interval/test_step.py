@@ -4,13 +4,13 @@ from intervals import DecimalInterval, FloatInterval, IntInterval
 
 class TestStepWithIntegers(object):
     def test_integers_with_step(self):
-        interval = IntInterval([1, 2], step=2)
-        assert interval.lower == 2
-        assert interval.upper == 2
+        interval = IntInterval([1, 2], step=3)
+        assert interval.lower == 0
+        assert interval.upper == 3
 
     def test_step_rounding(self):
-        interval = IntInterval([1, 5], step=2)
-        assert interval.lower == 2
+        interval = IntInterval([1, 5], step=3)
+        assert interval.lower == 0
         assert interval.upper == 6
 
 
