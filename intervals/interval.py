@@ -7,6 +7,7 @@ www.wikipedia.org/Interval
 """
 
 # -*- coding: utf-8 -*-
+from __future__ import division
 from datetime import datetime, date, timedelta
 from decimal import Decimal
 import operator
@@ -321,7 +322,7 @@ class AbstractInterval(object):
     def radius(self):
         if self.length == inf:
             return inf
-        return float(self.length) / 2
+        return self.length / 2
 
     @property
     def degenerate(self):
@@ -347,7 +348,7 @@ class AbstractInterval(object):
 
     @property
     def centre(self):
-        return float((self.lower + self.upper)) / 2
+        return (self.lower + self.upper) / 2
 
     def __repr__(self):
         return "%s(%r)" % (self.__class__.__name__, str(self))
@@ -554,7 +555,7 @@ class DecimalInterval(NumberInterval):
         if self.step and not is_infinite(value):
             return self.type(str(
                 float(self.step) *
-                round(1.0 / float(self.step) * float(value))
+                round(1 / self.step * value)
             ))
         return value
 
