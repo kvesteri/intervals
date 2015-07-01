@@ -99,8 +99,8 @@ interval for given bounds.
     >>> interval = Interval([1.5, 4])
     >>> interval
     FloatInterval('[1.5, 4.0]')
-    >>> interval.type
-    <type 'float'>
+    >>> interval.type == type(5.5)
+    True
 
     >>> interval = Interval([date(2000, 1, 1), inf])
     >>> interval
