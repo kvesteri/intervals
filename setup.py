@@ -47,7 +47,6 @@ setup(
     dependency_links=[],
     install_requires=[
         'infinity>=0.1.3',
-        'six>=1.4.1',
     ],
     extras_require=extras_require,
     classifiers=[
