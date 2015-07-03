@@ -1,6 +1,9 @@
 from collections import Iterable
-import six
 from .exc import IntervalException
+try:
+    string_types = basestring,  # Python 2
+except NameError:
+    string_types = str,  # Python 3
 
 
 strip = lambda a: a.strip()
@@ -64,7 +67,7 @@ class IntervalParser(object):
         return lower, upper, True, True
 
     def __call__(self, bounds, lower_inc=None, upper_inc=None):
-        if isinstance(bounds, six.string_types):
+        if isinstance(bounds, string_types):
             values = self.parse_string(bounds)
         elif isinstance(bounds, Iterable):
             values = self.parse_sequence(bounds)

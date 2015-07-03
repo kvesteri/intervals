@@ -12,9 +12,12 @@ from decimal import Decimal
 import operator
 from infinity import inf, is_infinite
 from math import floor, ceil
-import six
 from .parser import IntervalParser
 from .exc import IntervalException, RangeBoundsException
+try:
+    string_types = basestring,  # Python 2
+except NameError:
+    string_types = str,  # Python 3
 
 
 def is_number(number):
@@ -178,7 +181,7 @@ class AbstractInterval(object):
             return value
         elif isinstance(value, self.type):
             return value
-        elif isinstance(value, six.string_types):
+        elif isinstance(value, string_types):
             return self.coerce_string(value)
         else:
             return self.coerce_obj(value)
