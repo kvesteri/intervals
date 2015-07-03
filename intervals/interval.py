@@ -11,6 +11,7 @@ from datetime import datetime, date, timedelta
 from decimal import Decimal
 import operator
 from infinity import inf, is_infinite
+from math import floor, ceil
 import six
 from .parser import IntervalParser
 from .exc import IntervalException, RangeBoundsException
@@ -19,6 +20,23 @@ from .exc import IntervalException, RangeBoundsException
 def is_number(number):
     return isinstance(number, (float, int, Decimal))
 
+
+def py2round(value):
+    """Round values as in Python 2, for Python 3 compatibility.
+
+    All x.5 values are rounded away from zero.
+
+    In Python 3, this has changed to avoid bias: when x is even,
+    rounding is towards zero, when x is odd, rounding is away
+    from zero. Thus, in Python 3, round(2.5) results in 2,
+    round(3.5) is 4.
+
+    Python 3 also returns an int; Python 2 returns a float.
+    """
+    if value > 0:
+        return float(floor(float(value)+0.5))
+    else:
+        return float(ceil(float(value)-0.5))
 
 def canonicalize_lower(interval, inc=True):
     if not interval.lower_inc and inc:
@@ -498,7 +516,7 @@ class NumberInterval(AbstractInterval):
             return self.type(
                 self.rounding_type(self.step) *
                 self.rounding_type(
-                    round(
+                    py2round(
                         self.rounding_type('1.0') /
                         self.rounding_type(self.step) *
                         self.rounding_type(value)
@@ -554,7 +572,7 @@ class DecimalInterval(NumberInterval):
         if self.step and not is_infinite(value):
             return self.type(str(
                 float(self.step) *
-                round(1.0 / float(self.step) * float(value))
+                py2round(1.0 / float(self.step) * float(value))
             ))
         return value
 
