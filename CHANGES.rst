@@ -4,11 +4,11 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
-0.6.0 (2016-01-xx)
+0.6.0 (2016-01-28)
 ^^^^^^^^^^^^^^^^^^
 
-- Remove interval constructor string parsing
-- Add new class method from_string
+- Removed interval constructor string parsing
+- Added new class method from_string
 
 
 0.5.0 (2014-03-25)
