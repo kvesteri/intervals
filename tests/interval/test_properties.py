@@ -1,10 +1,16 @@
-from datetime import datetime, date
+from datetime import date, datetime
 from decimal import Decimal
-from pytest import mark
-from intervals import (
-    IntInterval, FloatInterval, DateInterval, DateTimeInterval, DecimalInterval
-)
+
 from infinity import inf
+from pytest import mark
+
+from intervals import (
+    DateInterval,
+    DateTimeInterval,
+    DecimalInterval,
+    FloatInterval,
+    IntInterval
+)
 
 
 class TestIntervalProperties(object):

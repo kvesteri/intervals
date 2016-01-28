@@ -1,6 +1,9 @@
 from datetime import date
 from decimal import Decimal
-from pytest import raises, mark
+
+from infinity import inf
+from pytest import mark, raises
+
 from intervals import (
     CharacterInterval,
     DecimalInterval,
@@ -9,7 +12,6 @@ from intervals import (
     IntInterval,
     RangeBoundsException
 )
-from infinity import inf
 
 
 class TestIntervalInit(object):

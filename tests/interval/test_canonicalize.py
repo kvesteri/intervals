@@ -1,5 +1,6 @@
 from datetime import date
-from intervals.interval import IntInterval, DateInterval, canonicalize
+
+from intervals.interval import canonicalize, DateInterval, IntInterval
 
 
 def test_canonicalize_integer_intervals():

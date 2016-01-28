@@ -8,14 +8,15 @@ www.wikipedia.org/Interval
 
 # -*- coding: utf-8 -*-
 import operator
-from datetime import datetime, date, timedelta
+from datetime import date, datetime, timedelta
 from decimal import Decimal
-from math import floor, ceil
+from math import ceil, floor
 
 from infinity import inf, is_infinite
 
-from .parser import IntervalParser, IntervalStringParser
 from .exc import IntervalException, RangeBoundsException
+from .parser import IntervalParser, IntervalStringParser
+
 try:
     string_types = basestring,  # Python 2
 except NameError:
@@ -42,6 +43,7 @@ def py2round(value):
         return float(floor(float(value)+0.5))
     else:
         return float(ceil(float(value)-0.5))
+
 
 def canonicalize_lower(interval, inc=True):
     if not interval.lower_inc and inc:

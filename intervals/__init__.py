@@ -10,9 +10,8 @@ from .interval import (
     Interval,
     IntervalFactory,
     IntInterval,
-    NumberInterval,
+    NumberInterval
 )
-
 
 __all__ = (
     'AbstractInterval',

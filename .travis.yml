@@ -13,5 +13,7 @@ script:
     then
         py.test --doctest-modules --doctest-glob="*.rst" --ignore setup.py;
     else
+        isort --recursive --diff wtforms_components tests && isort --recursive --check-only wtforms_components tests
+        flake8 wtforms_components tests
         py.test;
     fi

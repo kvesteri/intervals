@@ -1,6 +1,7 @@
-from pytest import mark, raises
-from intervals import IntInterval
 from infinity import inf
+from pytest import mark, raises
+
+from intervals import IntInterval
 
 
 @mark.parametrize(('interval', 'string'), (

@@ -1,7 +1,8 @@
 from datetime import date
 
-from pytest import mark
 from infinity import inf
+from pytest import mark
+
 from intervals import DateInterval, FloatInterval, IntInterval
 
 
@@ -18,7 +19,7 @@ class TestComparisonOperators(object):
             DateInterval([date(2011, 1, 1), date(2011, 1, 1)]),
             False
         ),
-        (IntInterval.from_string('(,)') == None, False)
+        (IntInterval.from_string('(,)') == None, False)  # noqa
     ))
     def test_eq_operator(self, comparison, result):
         assert comparison is result
@@ -30,7 +31,7 @@ class TestComparisonOperators(object):
         (IntInterval([3, 3]) != 3, False),
         (IntInterval([3, 3]) != 5, True),
         (IntInterval([3, 3]) != 'something', True),
-        (IntInterval.from_string('(,)') != None, True)
+        (IntInterval.from_string('(,)') != None, True)  # noqa
     ))
     def test_ne_operator(self, comparison, result):
         assert comparison is result
@@ -113,7 +114,12 @@ class TestComparisonOperators(object):
         (IntInterval((0, 2)), IntInterval([0, 1]), False),
         (IntInterval((0, 2)), FloatInterval((0, 1)), False),
     ))
-    def test_hash_operator_with_interval_attributes(self, interval1, interval2, expected):
+    def test_hash_operator_with_interval_attributes(
+        self,
+        interval1,
+        interval2,
+        expected
+    ):
         actual = (interval1.__hash__() == interval2.__hash__())
         assert actual == expected
 
@@ -191,4 +197,3 @@ class TestBinaryOperators(object):
             IntInterval.from_string(interval1) &
             IntInterval.from_string(interval2)
         ).empty == empty
-

@@ -24,7 +24,9 @@ def get_version():
 extras_require = {
     'test': [
         'pytest>=2.2.3',
-        'Pygments>=1.2'
+        'Pygments>=1.2',
+        'flake8>=2.4.0',
+        'isort>=4.2.2',
     ],
 }
 

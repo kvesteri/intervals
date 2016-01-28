@@ -1,4 +1,5 @@
 from decimal import Decimal
+
 from intervals import DecimalInterval, FloatInterval, IntInterval
 
 
