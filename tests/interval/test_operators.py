@@ -29,6 +29,7 @@ class TestComparisonOperators(object):
         (IntInterval([inf, inf]) != inf, False),
         (IntInterval([3, 3]) != 3, False),
         (IntInterval([3, 3]) != 5, True),
+        (IntInterval([3, 3]) != 'something', True),
         (IntInterval.from_string('(,)') != None, True)
     ))
     def test_ne_operator(self, comparison, result):
