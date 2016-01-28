@@ -160,7 +160,7 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
 
   .. code-block:: python
 
-      >>> interval = IntInterval.from_string([1, 4])
+      >>> interval = IntInterval.from_string('[1, 4]')
       >>> interval.closed
       True
       >>> interval.lower_inc

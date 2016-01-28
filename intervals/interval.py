@@ -118,17 +118,17 @@ class AbstractInterval(object):
 
         1. Comma separated string argument::
 
-            >>> range = IntInterval('[23, 45]')
+            >>> range = IntInterval.from_string('[23, 45]')
             >>> range.lower
             23
             >>> range.upper
             45
 
-            >>> range = IntInterval('(23, 45]')
+            >>> range = IntInterval.from_string('(23, 45]')
             >>> range.lower_inc
             False
 
-            >>> range = IntInterval('(23, 45)')
+            >>> range = IntInterval.from_string('(23, 45)')
             >>> range.lower_inc
             False
             >>> range.upper_inc
@@ -242,11 +242,11 @@ class AbstractInterval(object):
 
         Examples::
 
-            >>> range = Interval('(23, 45)')
+            >>> range = Interval.from_string('(23, 45)')
             >>> range.open
             True
 
-            >>> range = Interval('[23, 45]')
+            >>> range = Interval.from_string('[23, 45]')
             >>> range.open
             False
 
@@ -260,11 +260,11 @@ class AbstractInterval(object):
 
         Examples::
 
-            >>> range = Interval('(23, 45)')
+            >>> range = Interval.from_string('(23, 45)')
             >>> range.closed
             False
 
-            >>> range = Interval('[23, 45]')
+            >>> range = Interval.from_string('[23, 45]')
             >>> range.closed
             True
 
