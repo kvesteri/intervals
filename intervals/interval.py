@@ -7,12 +7,14 @@ www.wikipedia.org/Interval
 """
 
 # -*- coding: utf-8 -*-
+import operator
 from datetime import datetime, date, timedelta
 from decimal import Decimal
-import operator
-from infinity import inf, is_infinite
 from math import floor, ceil
-from .parser import IntervalParser
+
+from infinity import inf, is_infinite
+
+from .parser import IntervalParser, IntervalStringParser
 from .exc import IntervalException, RangeBoundsException
 try:
     string_types = basestring,  # Python 2
@@ -81,12 +83,20 @@ def canonicalize(interval, lower_inc=True, upper_inc=False):
 
 def coerce_interval(func):
     def wrapper(self, arg):
-        try:
-            if arg is not None:
-                arg = self.__class__(arg)
-            return func(self, arg)
-        except IntervalException:
-            return NotImplemented
+        if (
+            isinstance(arg, list) or
+            isinstance(arg, tuple) or
+            isinstance(arg, self.type) or
+            isinstance(arg, type(self)) or
+            arg == inf or arg == -inf
+        ):
+            try:
+                if arg is not None:
+                    arg = self.__class__(arg)
+                return func(self, arg)
+            except IntervalException:
+                return NotImplemented
+        return func(self, arg)
     return wrapper
 
 
@@ -166,6 +176,12 @@ class AbstractInterval(object):
                 self.lower,
                 self.upper
             )
+
+    @classmethod
+    def from_string(cls, bounds_string):
+        return cls(
+            *IntervalStringParser().parse_string(bounds_string)
+        )
 
     def copy_args(self, interval):
         self.lower_inc = interval.lower_inc
@@ -608,6 +624,17 @@ class IntervalFactory(object):
                     upper_inc=upper_inc,
                     step=step
                 )
+            except (IntervalException, TypeError):
+                pass
+        raise IntervalException(
+            'Could not initialize interval.'
+        )
+
+    @classmethod
+    def from_string(self, value):
+        for interval_class in self.interval_classes:
+            try:
+                return interval_class.from_string(value)
             except (IntervalException, TypeError):
                 pass
         raise IntervalException(

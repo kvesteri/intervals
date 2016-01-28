@@ -38,7 +38,10 @@ class TestArithmeticOperators(object):
         ('[2, 5]', '[1, 9]', '[2, 5]'),
     ))
     def test_intersection(self, first, second, intersection):
-        IntInterval(first) & IntInterval(second) == IntInterval(intersection)
+        assert (
+            IntInterval.from_string(first) &
+            IntInterval.from_string(second)
+        ) == IntInterval.from_string(intersection)
 
 
 class TestArithmeticFunctions(object):

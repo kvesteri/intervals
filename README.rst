@@ -50,7 +50,7 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
 
       >>> from intervals import Interval
 
-      >>> interval = Interval('[1, 4)')
+      >>> interval = Interval.from_string('[1, 4)')
       >>> interval.open
       False
       >>> interval.lower_inc
@@ -62,7 +62,7 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
 
   .. code-block:: python
 
-      >>> interval = Interval([1, 4])
+      >>> interval = Interval.from_string([1, 4])
       >>> interval.closed
       True
       >>> interval.lower_inc
@@ -171,7 +171,7 @@ An interval is empty if it contains no points:
 
 .. code-block:: python
 
-    >>> IntInterval('(1, 1]').empty
+    >>> IntInterval.from_string('(1, 1]').empty
     True
 
 
@@ -186,7 +186,7 @@ Interval evaluates as ``True`` if its non-empty
     True
     >>> bool(IntInterval([0, 0]))
     True
-    >>> bool(IntInterval('(1, 1]'))
+    >>> bool(IntInterval.from_string('(1, 1]'))
     False
 
 Integer intervals can be coerced to integer if they contain only one point,
@@ -199,7 +199,7 @@ otherwise passing them to ``int()`` throws a ``TypeError``
         ...
     TypeError: Only intervals containing single point can be coerced to integers
 
-    >>> int(IntInterval('[1, 1]'))
+    >>> int(IntInterval([1, 1]))
     1
 
 

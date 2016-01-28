@@ -35,7 +35,7 @@ class TestIntervalInit(object):
         assert not interval.upper_inc
 
     def test_supports_strings(self):
-        interval = IntInterval('1-3')
+        interval = IntInterval.from_string('1-3')
         assert interval.lower == 1
         assert interval.upper == 3
         assert interval.lower_inc
@@ -49,35 +49,35 @@ class TestIntervalInit(object):
         assert not interval.upper_inc
 
     def test_supports_strings_with_spaces(self):
-        interval = IntInterval('1 - 3')
+        interval = IntInterval.from_string('1 - 3')
         assert interval.lower == 1
         assert interval.upper == 3
         assert interval.lower_inc
         assert interval.upper_inc
 
     def test_supports_strings_with_bounds(self):
-        interval = IntInterval('[1, 3]')
+        interval = IntInterval.from_string('[1, 3]')
         assert interval.lower == 1
         assert interval.upper == 3
         assert interval.lower_inc
         assert interval.upper_inc
 
     def test_empty_string_as_upper_bound(self):
-        interval = IntInterval('[1,)')
+        interval = IntInterval.from_string('[1,)')
         assert interval.lower == 1
         assert interval.upper == inf
         assert interval.lower_inc
         assert not interval.upper_inc
 
     def test_empty_string_as_lower_bound(self):
-        interval = IntInterval('[,1)')
+        interval = IntInterval.from_string('[,1)')
         assert interval.lower == -inf
         assert interval.upper == 1
         assert interval.lower_inc
         assert not interval.upper_inc
 
     def test_supports_exact_ranges_as_strings(self):
-        interval = IntInterval('3')
+        interval = IntInterval.from_string('3')
         assert interval.lower == 3
         assert interval.upper == 3
         assert interval.lower_inc
@@ -99,28 +99,28 @@ class TestIntervalInit(object):
         assert not interval.upper_inc
 
     def test_supports_characters_from_strings(self):
-        interval = CharacterInterval('A-Z')
+        interval = CharacterInterval.from_string('A-Z')
         assert interval.lower == 'A'
         assert interval.upper == 'Z'
         assert interval.lower_inc
         assert interval.upper_inc
 
     def test_supports_characters_with_spaces(self):
-        interval = CharacterInterval('A - Z')
+        interval = CharacterInterval.from_string('A - Z')
         assert interval.lower == 'A'
         assert interval.upper == 'Z'
         assert interval.lower_inc
         assert interval.upper_inc
 
     def test_empty_string_as_upper_character_bound(self):
-        interval = CharacterInterval('[a,)')
+        interval = CharacterInterval.from_string('[a,)')
         assert interval.lower == 'a'
         assert interval.upper == inf
         assert interval.lower_inc
         assert not interval.upper_inc
 
     def test_empty_string_as_lower_bound_for_char_interval(self):
-        interval = CharacterInterval('[,a)')
+        interval = CharacterInterval.from_string('[,a)')
         assert interval.lower == -inf
         assert interval.upper == 'a'
         assert interval.lower_inc
@@ -137,7 +137,7 @@ class TestIntervalInit(object):
         )
     )
     def test_hyphen_format(self, number_range, lower, upper):
-        interval = IntInterval(number_range)
+        interval = IntInterval.from_string(number_range)
         assert interval.lower == lower
         assert interval.upper == upper
 
@@ -146,14 +146,10 @@ class TestIntervalInit(object):
         (
             (IntInterval, (3, 2)),
             (IntInterval, [4, 2]),
-            (IntInterval, '5-2'),
             (IntInterval, (float('inf'), 2)),
-            (IntInterval, '[4, 3]'),
             (CharacterInterval, ('c', 'b')),
             (CharacterInterval, ('d', 'b')),
-            (CharacterInterval, 'e-b'),
             (CharacterInterval, (inf, 'b')),
-            (CharacterInterval, '[d, c]'),
         )
     )
     def test_raises_exception_for_badly_constructed_range(

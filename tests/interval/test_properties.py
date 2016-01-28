@@ -46,61 +46,61 @@ class TestIntervalProperties(object):
         assert IntInterval(number_range).centre == centre
 
     @mark.parametrize(
-        ('number_range', 'is_open'),
+        ('interval', 'is_open'),
         (
-            ((2, 3), True),
-            ('(2, 5)', True),
-            ('[3, 4)', False),
-            ('(4, 5]', False),
-            ('3 - 4', False),
-            ([4, 5], False),
-            ('[4, 5]', False)
+            (IntInterval((2, 3)), True),
+            (IntInterval.from_string('(2, 5)'), True),
+            (IntInterval.from_string('[3, 4)'), False),
+            (IntInterval.from_string('(4, 5]'), False),
+            (IntInterval.from_string('3 - 4'), False),
+            (IntInterval([4, 5]), False),
+            (IntInterval.from_string('[4, 5]'), False)
         )
     )
-    def test_open(self, number_range, is_open):
-        assert IntInterval(number_range).open == is_open
+    def test_open(self, interval, is_open):
+        assert interval.open == is_open
 
     @mark.parametrize(
-        ('number_range', 'is_closed'),
+        ('interval', 'is_closed'),
         (
-            ((2, 3), False),
-            ('(2, 5)', False),
-            ('[3, 4)', False),
-            ('(4, 5]', False),
-            ('3 - 4', True),
-            ([4, 5], True),
-            ('[4, 5]', True)
+            (IntInterval((2, 3)), False),
+            (IntInterval.from_string('(2, 5)'), False),
+            (IntInterval.from_string('[3, 4)'), False),
+            (IntInterval.from_string('(4, 5]'), False),
+            (IntInterval.from_string('3 - 4'), True),
+            (IntInterval([4, 5]), True),
+            (IntInterval.from_string('[4, 5]'), True)
         )
     )
-    def test_closed(self, number_range, is_closed):
-        assert IntInterval(number_range).closed == is_closed
+    def test_closed(self, interval, is_closed):
+        assert interval.closed == is_closed
 
     @mark.parametrize(
-        ('number_range', 'empty'),
+        ('interval', 'empty'),
         (
-            ((2, 3), True),
-            ([2, 3], False),
-            ([2, 2], False),
-            ((2, 2), True),
-            ('[2, 2)', True),
-            ('(2, 2]', True),
-            ('[2, 3)', False),
-            ((2, 10), False),
+            (IntInterval((2, 3)), True),
+            (IntInterval([2, 3]), False),
+            (IntInterval([2, 2]), False),
+            (IntInterval((2, 2)), True),
+            (IntInterval.from_string('[2, 2)'), True),
+            (IntInterval.from_string('(2, 2]'), True),
+            (IntInterval.from_string('[2, 3)'), False),
+            (IntInterval((2, 10)), False),
         )
     )
-    def test_empty(self, number_range, empty):
-        assert IntInterval(number_range).empty == empty
+    def test_empty(self, interval, empty):
+        assert interval.empty == empty
 
     @mark.parametrize(
-        ('number_range', 'degenerate'),
+        ('interval', 'degenerate'),
         (
-            ((2, 4), False),
-            ('(2, 2)', True),
-            ('[0, 0)', True),
+            (IntInterval((2, 4)), False),
+            (IntInterval.from_string('(2, 2)'), True),
+            (IntInterval.from_string('[0, 0)'), True),
         )
     )
-    def test_degenerate(self, number_range, degenerate):
-        assert IntInterval(number_range).degenerate == degenerate
+    def test_degenerate(self, interval, degenerate):
+        assert interval.degenerate == degenerate
 
     @mark.parametrize(
         ('interval', 'discrete'),

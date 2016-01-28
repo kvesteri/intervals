@@ -3,11 +3,11 @@ from intervals import IntInterval
 
 
 @mark.parametrize(('interval', 'string'), (
-    ((1, 3), '2'),
-    ([1, 1], '1'),
-    ([1, 3], '1 - 3'),
-    ('(1, 5]', '2 - 5'),
-    ('[1,]', '1 -')
+    (IntInterval((1, 3)), '2'),
+    (IntInterval([1, 1]), '1'),
+    (IntInterval([1, 3]), '1 - 3'),
+    (IntInterval.from_string('(1, 5]'), '2 - 5'),
+    (IntInterval.from_string('[1,]'), '1 -')
 ))
 def test_hyphenized(interval, string):
-    assert IntInterval(interval).hyphenized == string
+    assert interval.hyphenized == string

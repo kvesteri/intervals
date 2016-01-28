@@ -15,14 +15,14 @@ def test_str_representation(interval, string):
 @mark.parametrize(
     ('number_range', 'empty'),
     (
-        ((2, 3), True),
-        ([2, 3], False),
-        ([2, 2], False),
-        ((2, 2), True),
-        ('[2, 2)', True),
-        ('(2, 2]', True),
-        ('[2, 3)', False),
-        ((2, 10), False),
+        (IntInterval((2, 3)), True),
+        (IntInterval([2, 3]), False),
+        (IntInterval([2, 2]), False),
+        (IntInterval((2, 2)), True),
+        (IntInterval.from_string('[2, 2)'), True),
+        (IntInterval.from_string('(2, 2]'), True),
+        (IntInterval.from_string('[2, 3)'), False),
+        (IntInterval((2, 10)), False),
     )
 )
 def test_bool(number_range, empty):
@@ -49,7 +49,7 @@ def test_int_with_single_point_interval(number_range, coerced_value):
 )
 def test_int_with_empty_interval(number_range):
     with raises(TypeError):
-        int(IntInterval(number_range))
+        int(IntInterval.from_string(number_range))
 
 
 @mark.parametrize(
