@@ -479,7 +479,7 @@ Arithmetic functions
 
 .. |Build Status| image:: https://travis-ci.org/kvesteri/intervals.png?branch=master
    :target: https://travis-ci.org/kvesteri/intervals
-.. |Version Status| image:: https://pypip.in/v/intervals/badge.png
-   :target: https://crate.io/packages/intervals/
-.. |Downloads| image:: https://pypip.in/d/intervals/badge.png
-   :target: https://crate.io/packages/intervals/
+.. |Version Status| image:: https://img.shields.io/pypi/v/intervals.svg
+   :target: https://pypi.python.org/pypi/intervals/
+.. |Downloads| image:: https://img.shields.io/pypi/dm/intervals.svg
+   :target: https://pypi.python.org/pypi/intervals/
