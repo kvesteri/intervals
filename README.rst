@@ -116,8 +116,6 @@ You can also initialize unbounded ranges.
 .. code-block:: python
 
     >>> from intervals import IntInterval
-
-    >>> # All integers between 1 and 4
     >>> interval = IntInterval.from_string('1 - ')
     >>> interval.lower
     1
@@ -150,7 +148,7 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
 
       >>> from intervals import Interval
 
-      >>> interval = Interval.from_string('[1, 4)')
+      >>> interval = IntInterval.from_string('[1, 4)')
       >>> interval.open
       False
       >>> interval.lower_inc
@@ -162,7 +160,7 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
 
   .. code-block:: python
 
-      >>> interval = Interval.from_string([1, 4])
+      >>> interval = IntInterval.from_string([1, 4])
       >>> interval.closed
       True
       >>> interval.lower_inc
@@ -176,13 +174,13 @@ Unbounded intervals
 
 Unbounded intervals are intervals where either one of the bounds is infinite.
 
-  .. code-block:: python
+.. code-block:: python
 
-      >>> from intervals import Interval
-      >>> from infinity import inf
+    >>> from infinity import inf
+    >>> from intervals import IntInterval
 
-      >>> interval = Interval([1, inf])
-      >>> interval = Interval([-inf, inf])
+    >>> interval = IntInterval([1, inf])
+    >>> interval = IntInterval([-inf, inf])
 
 Interval types
 --------------
