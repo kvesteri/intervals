@@ -10,6 +10,11 @@ Interval initialization
 -----------------------
 
 
+Intervals can be initialized using the class constructor or ``from_string``
+class method. The first argument of class constructor should define the bounds
+of the interval.
+
+
 .. code-block:: python
 
     >>> from intervals import IntInterval
@@ -24,6 +29,101 @@ Interval initialization
     True
     >>> interval.upper_inc
     True
+
+
+You can also pass a scalar as the first constructor argument.
+
+
+.. code-block:: python
+
+    >>> from intervals import IntInterval
+
+    >>> # All integers between 1 and 4
+    >>> interval = IntInterval(1)
+    >>> interval.lower
+    1
+    >>> interval.upper
+    1
+
+
+Initializing an interval from string
+------------------------------------
+
+The ``from_string`` method accepts two different formats.
+
+1. Standard string format
+
+
+.. code-block:: python
+
+    >>> from intervals import IntInterval
+
+    >>> # All integers between 1 and 4
+    >>> interval = IntInterval.from_string('[1, 4]')
+    >>> interval.lower
+    1
+    >>> interval.upper
+    4
+
+By using standard string format you can easily initialize half-open intervals.
+
+
+.. code-block:: python
+
+    >>> from intervals import IntInterval
+
+    >>> interval = IntInterval.from_string('[1, 4)')
+    >>> interval.lower
+    1
+    >>> interval.upper
+    4
+    >>> interval.upper_inc
+    False
+
+
+Unbounded intervals are supported as well.
+
+.. code-block:: python
+
+    >>> from intervals import IntInterval
+
+    >>> interval = IntInterval.from_string('[1, ]')
+    >>> interval.lower
+    1
+    >>> interval.upper
+    inf
+
+
+
+2. Hyphenized format
+
+
+.. code-block:: python
+
+    >>> from intervals import IntInterval
+
+    >>> # All integers between 1 and 4
+    >>> interval = IntInterval.from_string('1 - 4')
+    >>> interval.lower
+    1
+    >>> interval.upper
+    4
+
+
+You can also initialize unbounded ranges.
+
+
+.. code-block:: python
+
+    >>> from intervals import IntInterval
+
+    >>> # All integers between 1 and 4
+    >>> interval = IntInterval.from_string('1 - ')
+    >>> interval.lower
+    1
+    >>> interval.upper
+    inf
+
 
 
 Open, half-open and closed intervals
@@ -70,6 +170,19 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
       >>> interval.upper_inc
       True
 
+
+Unbounded intervals
+-------------------
+
+Unbounded intervals are intervals where either one of the bounds is infinite.
+
+  .. code-block:: python
+
+      >>> from intervals import Interval
+      >>> from infinity import inf
+
+      >>> interval = Interval([1, inf])
+      >>> interval = Interval([-inf, inf])
 
 Interval types
 --------------
