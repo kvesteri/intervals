@@ -4,6 +4,14 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
+0.7.0 (2016-02-27)
+^^^^^^^^^^^^^^^^^^
+
+- Added canonicalize to main module import
+- Added factory methods for easier interval initialization ``open``, ``closed``, ``open_closed``, ``closed_open``, ``greater_than``, ``at_least``, ``less_than``, ``at_most`` and ``all``
+- Renamed ``open`` and ``closed`` properties to ``is_open`` and ``is_closed``
+
+
 0.6.0 (2016-01-28)
 ^^^^^^^^^^^^^^^^^^
 

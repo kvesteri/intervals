@@ -10,9 +10,42 @@ Interval initialization
 -----------------------
 
 
-Intervals can be initialized using the class constructor or ``from_string``
-class method. The first argument of class constructor should define the bounds
-of the interval.
+Intervals can be initialized using the class constructor, various factory methods or ``from_string`` class method. The recommended way is to use the factory methods.
+
+========= =================== ================
+Notation  Definition           Factory method
+========= =================== ================
+(a..b)     {x | a < x < b}      open
+[a..b]     {x | a <= x <= b}    closed
+(a..b]     {x | a < x <= b}     open_closed
+[a..b)     {x | a <= x < b}     closed_open
+(a..+∞)    {x | x > a}          greater_than
+[a..+∞)    {x | x >= a}         at_least
+(-∞..b)    {x | x < b}          less_than
+(-∞..b]    {x | x <= b}         at_most
+(-∞..+∞)   {x}                  all
+========= =================== ================
+
+
+.. code-block:: python
+
+    >>> from intervals import IntInterval
+    >>> interval = IntInterval.open_closed(1, 5)
+    >>> interval.lower
+    1
+    >>> interval.upper
+    5
+    >>> interval.upper_inc
+    True
+
+    >>> interval = IntInterval.all()
+    >>> interval.lower
+    -inf
+    >>> interval.upper
+    inf
+
+
+The first argument of class constructor should define the bounds of the interval.
 
 
 .. code-block:: python
@@ -135,7 +168,7 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
   .. code-block:: python
 
       >>> interval = IntInterval((1, 4))
-      >>> interval.open
+      >>> interval.is_open
       True
       >>> interval.lower_inc
       False
@@ -149,7 +182,7 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
       >>> from intervals import Interval
 
       >>> interval = IntInterval.from_string('[1, 4)')
-      >>> interval.open
+      >>> interval.is_open
       False
       >>> interval.lower_inc
       True
@@ -161,7 +194,7 @@ Intervals can be either open, half-open or closed. Properties ``lower_inc`` and
   .. code-block:: python
 
       >>> interval = IntInterval.from_string('[1, 4]')
-      >>> interval.closed
+      >>> interval.is_closed
       True
       >>> interval.lower_inc
       True
@@ -179,8 +212,8 @@ Unbounded intervals are intervals where either one of the bounds is infinite.
     >>> from infinity import inf
     >>> from intervals import IntInterval
 
-    >>> interval = IntInterval([1, inf])
-    >>> interval = IntInterval([-inf, inf])
+    >>> interval = IntInterval.closed_open(1, inf)
+    >>> interval = IntInterval.open(-inf, inf)
 
 Interval types
 --------------

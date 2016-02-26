@@ -63,8 +63,8 @@ class TestIntervalProperties(object):
             (IntInterval.from_string('[4, 5]'), False)
         )
     )
-    def test_open(self, interval, is_open):
-        assert interval.open == is_open
+    def test_is_open(self, interval, is_open):
+        assert interval.is_open == is_open
 
     @mark.parametrize(
         ('interval', 'is_closed'),
@@ -79,7 +79,7 @@ class TestIntervalProperties(object):
         )
     )
     def test_closed(self, interval, is_closed):
-        assert interval.closed == is_closed
+        assert interval.is_closed == is_closed
 
     @mark.parametrize(
         ('interval', 'empty'),

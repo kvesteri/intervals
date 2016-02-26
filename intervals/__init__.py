@@ -2,6 +2,7 @@
 from .exc import IntervalException, RangeBoundsException
 from .interval import (
     AbstractInterval,
+    canonicalize,
     CharacterInterval,
     DateInterval,
     DateTimeInterval,
@@ -16,6 +17,7 @@ from .interval import (
 __all__ = (
     'AbstractInterval',
     'CharacterInterval',
+    'canonicalize',
     'DateInterval',
     'DateTimeInterval',
     'DecimalInterval',
@@ -29,4 +31,4 @@ __all__ = (
 )
 
 
-__version__ = '0.6.0'
+__version__ = '0.7.0'

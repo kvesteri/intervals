@@ -143,13 +143,13 @@ class AbstractInterval(object):
             23
             >>> range.upper
             45
-            >>> range.closed
+            >>> range.is_closed
             True
 
             >>> range = IntInterval((23, 45))
             >>> range.lower
             23
-            >>> range.closed
+            >>> range.is_closed
             False
 
         3. Integer argument::
@@ -178,6 +178,87 @@ class AbstractInterval(object):
                 self.lower,
                 self.upper
             )
+
+    @classmethod
+    def open(cls, lower_bound, upper_bound, **kwargs):
+        return cls(
+            [lower_bound, upper_bound],
+            lower_inc=False,
+            upper_inc=False,
+            **kwargs
+        )
+
+    @classmethod
+    def closed(cls, lower_bound, upper_bound, **kwargs):
+        return cls(
+            [lower_bound, upper_bound],
+            lower_inc=True,
+            upper_inc=True,
+            **kwargs
+        )
+
+    @classmethod
+    def open_closed(cls, lower_bound, upper_bound, **kwargs):
+        return cls(
+            [lower_bound, upper_bound],
+            lower_inc=False,
+            upper_inc=True,
+            **kwargs
+        )
+
+    @classmethod
+    def closed_open(cls, lower_bound, upper_bound, **kwargs):
+        return cls(
+            [lower_bound, upper_bound],
+            lower_inc=True,
+            upper_inc=False,
+            **kwargs
+        )
+
+    @classmethod
+    def greater_than(cls, lower_bound, **kwargs):
+        return cls(
+            [lower_bound, inf],
+            lower_inc=False,
+            upper_inc=False,
+            **kwargs
+        )
+
+    @classmethod
+    def at_least(cls, lower_bound, **kwargs):
+        return cls(
+            [lower_bound, inf],
+            lower_inc=True,
+            upper_inc=False,
+            **kwargs
+        )
+
+    @classmethod
+    def less_than(cls, upper_bound, **kwargs):
+        return cls(
+            [-inf, upper_bound],
+            lower_inc=False,
+            upper_inc=False,
+            **kwargs
+        )
+
+    @classmethod
+    def at_most(cls, upper_bound, **kwargs):
+        return cls(
+            [-inf, upper_bound],
+            lower_inc=False,
+            upper_inc=True,
+            **kwargs
+        )
+
+    @classmethod
+    def all(cls, **kwargs):
+        return cls(
+            [-inf, inf],
+            lower_inc=False,
+            upper_inc=False,
+            **kwargs
+        )
 
     @classmethod
     def from_string(cls, bounds_string):
@@ -238,36 +319,36 @@ class AbstractInterval(object):
         return value
 
     @property
-    def open(self):
+    def is_open(self):
         """
         Return whether or not this object is an open interval.
 
         Examples::
 
             >>> range = Interval.from_string('(23, 45)')
-            >>> range.open
+            >>> range.is_open
             True
 
             >>> range = Interval.from_string('[23, 45]')
-            >>> range.open
+            >>> range.is_open
             False
 
         """
         return not self.lower_inc and not self.upper_inc
 
     @property
-    def closed(self):
+    def is_closed(self):
         """
         Return whether or not this object is a closed interval.
 
         Examples::
 
             >>> range = Interval.from_string('(23, 45)')
-            >>> range.closed
+            >>> range.is_closed
             False
 
             >>> range = Interval.from_string('[23, 45]')
-            >>> range.closed
+            >>> range.is_closed
             True
 
         """
