@@ -64,6 +64,12 @@ class TestIntervalInit(object):
         assert interval.lower_inc
         assert interval.upper_inc
 
+    def test_step_argument_for_from_string(self):
+        interval = IntInterval.from_string('[2,)', step=2)
+        assert interval.lower == 2
+        assert interval.upper == inf
+        assert interval.step == 2
+
     def test_empty_string_as_upper_bound(self):
         interval = IntInterval.from_string('[1,)')
         assert interval.lower == 1

@@ -261,9 +261,10 @@ class AbstractInterval(object):
         )
 
     @classmethod
-    def from_string(cls, bounds_string):
+    def from_string(cls, bounds_string, **kwargs):
         return cls(
-            *IntervalStringParser().parse_string(bounds_string)
+            *IntervalStringParser().parse_string(bounds_string),
+            **kwargs
         )
 
     def copy_args(self, interval):

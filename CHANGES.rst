@@ -4,6 +4,12 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
+0.7.1 (2016-03-xx)
+^^^^^^^^^^^^^^^^^^
+
+- Added support for step argument in ``from_string`` factory method
+
+
 0.7.0 (2016-02-27)
 ^^^^^^^^^^^^^^^^^^
 
