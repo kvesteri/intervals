@@ -15,6 +15,15 @@ from intervals import (
 
 
 class TestIntervalInit(object):
+    def test_string_as_constructor_param(self):
+        with raises(TypeError) as e:
+            FloatInterval('(0.2, 0.5)')
+        assert str(e.value) == (
+            'First argument should be a list or tuple. If you wish to '
+            'initialize an interval from string, use from_string factory '
+            'method.'
+        )
+
     def test_floats(self):
         interval = FloatInterval((0.2, 0.5))
         assert interval.lower == 0.2

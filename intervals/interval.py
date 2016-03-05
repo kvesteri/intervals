@@ -167,6 +167,13 @@ class AbstractInterval(object):
             30
 
         """
+        if isinstance(bounds, string_types):
+            raise TypeError(
+                'First argument should be a list or tuple. If you wish to '
+                'initialize an interval from string, use from_string factory '
+                'method.'
+            )
+
         if step is not None:
             self.step = step
         self.lower, self.upper, self.lower_inc, self.upper_inc = (
