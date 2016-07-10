@@ -10,6 +10,7 @@ Here you can see the full list of changes between each intervals release.
 - Added is_connected utility method
 - Made interval constructor throw IllegalArgument exception for intervals such as (a..a)
 - Fixed some edge cases with interval intersections
+- Fixed interval union (#33)
 
 
 0.7.1 (2016-03-05)

@@ -177,7 +177,6 @@ class TestBinaryOperators(object):
     @mark.parametrize(('interval1', 'interval2'), (
         ('[2, 2]', '[5, 7)'),
         ('(2, 3]', '[4, 40]'),
-
         ('(2, 3)', '(3, 4)'),
     ))
     def test_and_operator_with_illegal_arguments(self, interval1, interval2):
@@ -186,3 +185,38 @@ class TestBinaryOperators(object):
                 IntInterval.from_string(interval1) &
                 IntInterval.from_string(interval2)
             )
+
+    @mark.parametrize(('interval1', 'interval2'), (
+        ('[2, 2]', '[5, 7)'),
+        ('(2, 3]', '[4, 40]'),
+        ('(2, 3)', '(3, 4)'),
+    ))
+    def test_or_operator_with_illegal_arguments(self, interval1, interval2):
+        with raises(IllegalArgument):
+            (
+                IntInterval.from_string(interval1) |
+                IntInterval.from_string(interval2)
+            )
+
+    @mark.parametrize(('interval1', 'interval2', 'result'), (
+        ('(2, 3]', '[3, 4)', IntInterval.from_string('(2, 4)')),
+        ('(2, 10]', '[3, 40]', IntInterval.from_string('(2, 40]')),
+        ('[0, 0]', '[0, 0]', IntInterval.from_string('[0, 0]')),
+        ('[0, 0]', '(0, 0]', IntInterval.from_string('[0, 0]')),
+        ('[0, 0)', '[0, 0]', IntInterval.from_string('[0, 0]')),
+        ('(2, 2]', '(2, 2]', IntInterval.from_string('(2, 2]')),
+        ('[2, 2)', '[2, 2)', IntInterval.from_string('[2, 2)')),
+        ('(2, 3)', '[3, 4]', IntInterval.from_string('(2, 4]')),
+        ('[2, 3]', '(3, 4)', IntInterval.from_string('[2, 4)')),
+    ))
+    def test_or_operator(
+        self,
+        interval1,
+        interval2,
+        result
+    ):
+        assert (
+            IntInterval.from_string(interval1) |
+            IntInterval.from_string(interval2) ==
+            result
+        )

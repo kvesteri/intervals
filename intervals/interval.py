@@ -3,7 +3,7 @@ http://grouper.ieee.org/groups/1788/PositionPapers/ARITHYY.pdf
 
 http://grouper.ieee.org/groups/1788/PositionPapers/overlapping.pdf
 
-www.wikipedia.org/Interval
+https://en.wikipedia.org/wiki/Interval_(mathematics)
 """
 
 # -*- coding: utf-8 -*-
@@ -569,34 +569,21 @@ class AbstractInterval(object):
     @coerce_interval
     def inf(self, other):
         """
-        Return the infimum of given intervals.
+        Return the infimum of given intervals. This is the same as
+        intersection.
 
         :param other: AbstractInterval instance
         """
-        return self.__class__(
-            [
-                max(self.lower, other.lower),
-                min(self.upper, other.upper),
-            ],
-            lower_inc=self.lower_inc if self < other else other.lower_inc,
-            upper_inc=self.upper_inc if self > other else other.upper_inc,
-        )
+        return self & other
 
     @coerce_interval
     def sup(self, other):
         """
-        Return the supremum of given intervals.
+        Return the supremum of given intervals. This is the same as union.
 
         :param other: AbstractInterval instance
         """
-        return self.__class__(
-            [
-                min(self.lower, other.lower),
-                max(self.upper, other.upper),
-            ],
-            lower_inc=self.lower_inc if self < other else other.lower_inc,
-            upper_inc=self.upper_inc if self > other else other.upper_inc,
-        )
+        return self | other
 
     @coerce_interval
     def __rsub__(self, other):
@@ -641,11 +628,30 @@ class AbstractInterval(object):
         """
         Define the union operator
         """
-        if self.upper < other.lower or other.upper < self.lower:
-            raise IllegalArgument(
-                'Union is not continuous.'
-            )
-        return self.sup(other)
+        if not self.is_connected(other):
+            raise IllegalArgument('Union is not continuous.')
+        lower = min(self.lower, other.lower)
+        upper = max(self.upper, other.upper)
+
+        if self.lower < other.lower:
+            lower_inc = self.lower_inc
+        elif self.lower > other.lower:
+            lower_inc = other.lower_inc
+        else:
+            lower_inc = self.lower_inc or other.lower_inc
+
+        if self.upper > other.upper:
+            upper_inc = self.upper_inc
+        elif self.upper < other.upper:
+            upper_inc = other.upper_inc
+        else:
+            upper_inc = self.upper_inc or other.upper_inc
+
+        return self.__class__(
+            [lower, upper],
+            lower_inc=lower_inc,
+            upper_inc=upper_inc
+        )
 
     def is_connected(self, other):
         """
