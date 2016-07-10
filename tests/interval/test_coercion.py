@@ -19,7 +19,6 @@ def test_str_representation(interval, string):
         (IntInterval((2, 3)), True),
         (IntInterval([2, 3]), False),
         (IntInterval([2, 2]), False),
-        (IntInterval((2, 2)), True),
         (IntInterval.from_string('[2, 2)'), True),
         (IntInterval.from_string('(2, 2]'), True),
         (IntInterval.from_string('[2, 3)'), False),

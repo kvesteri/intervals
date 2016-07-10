@@ -87,7 +87,6 @@ class TestIntervalProperties(object):
             (IntInterval((2, 3)), True),
             (IntInterval([2, 3]), False),
             (IntInterval([2, 2]), False),
-            (IntInterval((2, 2)), True),
             (IntInterval.from_string('[2, 2)'), True),
             (IntInterval.from_string('(2, 2]'), True),
             (IntInterval.from_string('[2, 3)'), False),
@@ -101,7 +100,7 @@ class TestIntervalProperties(object):
         ('interval', 'degenerate'),
         (
             (IntInterval((2, 4)), False),
-            (IntInterval.from_string('(2, 2)'), True),
+            (IntInterval.from_string('[2, 2]'), True),
             (IntInterval.from_string('[0, 0)'), True),
         )
     )

@@ -462,6 +462,10 @@ class AbstractInterval(object):
 
     @property
     def degenerate(self):
+        """
+        An interval is considered degenerate if it only contains one item or
+        if it is empty.
+        """
         return self.upper == self.lower
 
     @property
@@ -612,10 +616,25 @@ class AbstractInterval(object):
 
         lower = max(self.lower, other.lower)
         upper = min(self.upper, other.upper)
+
+        if self.lower < other.lower:
+            lower_inc = other.lower_inc
+        elif self.lower > other.lower:
+            lower_inc = self.lower_inc
+        else:
+            lower_inc = self.lower_inc and other.lower_inc
+
+        if self.upper > other.upper:
+            upper_inc = other.upper_inc
+        elif self.upper < other.upper:
+            upper_inc = self.upper_inc
+        else:
+            upper_inc = self.upper_inc and other.upper_inc
+
         return self.__class__(
             [lower, upper],
-            lower_inc=lower in self and lower in other,
-            upper_inc=upper in self and upper in other,
+            lower_inc=lower_inc,
+            upper_inc=upper_inc
         )
 
     def __or__(self, other):

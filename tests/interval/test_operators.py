@@ -152,28 +152,17 @@ class TestDiscreteRangeComparison(object):
 
 class TestBinaryOperators(object):
     @mark.parametrize(('interval1', 'interval2', 'result'), (
-        ((2, 3), (3, 4), (3, 3)),
-        ((2, 3), [3, 4], (3, 3)),
-        ((2, 5), (3, 10), (3, 5)),
-        ((2, 10), (3, 8), (3, 8)),
-        ((1, 2), [1, 2], (1, 2)),
-        ([1, 2], (1, 2), (1, 2)),
-    ))
-    def test_and_operator(self, interval1, interval2, result):
-        assert (
-            IntInterval(interval1) & IntInterval(interval2) ==
-            IntInterval(result)
-        )
-
-    @mark.parametrize(('interval1', 'interval2', 'result'), (
         ('(2, 3]', '[3, 4)', IntInterval([3, 3])),
         ('(2, 10]', '[3, 40]', IntInterval([3, 10])),
         ('[0, 0]', '[0, 0]', IntInterval.from_string('[0, 0]')),
-        ('(2, 3)', '(3, 4)', IntInterval.from_string('(3, 3)')),
-        ('(2, 3)', '[3, 4]', IntInterval.from_string('(3, 3)')),
-        ('[2, 3]', '(3, 4)', IntInterval.from_string('[3, 3)')),
+        ('[0, 0]', '(0, 0]', IntInterval.from_string('(0, 0]')),
+        ('[0, 0)', '[0, 0]', IntInterval.from_string('[0, 0)')),
+        ('(2, 2]', '(2, 2]', IntInterval.from_string('(2, 2]')),
+        ('[2, 2)', '[2, 2)', IntInterval.from_string('[2, 2)')),
+        ('(2, 3)', '[3, 4]', IntInterval.from_string('[3, 3)')),
+        ('[2, 3]', '(3, 4)', IntInterval.from_string('(3, 3]')),
     ))
-    def test_and_operator_with_half_open_intervals(
+    def test_and_operator(
         self,
         interval1,
         interval2,
@@ -188,6 +177,8 @@ class TestBinaryOperators(object):
     @mark.parametrize(('interval1', 'interval2'), (
         ('[2, 2]', '[5, 7)'),
         ('(2, 3]', '[4, 40]'),
+
+        ('(2, 3)', '(3, 4)'),
     ))
     def test_and_operator_with_illegal_arguments(self, interval1, interval2):
         with raises(IllegalArgument):
