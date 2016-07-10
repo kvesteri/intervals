@@ -1,6 +1,6 @@
 from pytest import mark
 
-from intervals import IntInterval, DecimalInterval
+from intervals import DecimalInterval, IntInterval
 
 
 @mark.parametrize(

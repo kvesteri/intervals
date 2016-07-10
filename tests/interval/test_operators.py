@@ -3,12 +3,7 @@ from datetime import date
 from infinity import inf
 from pytest import mark, raises
 
-from intervals import (
-    DateInterval,
-    FloatInterval,
-    IntInterval,
-    IllegalArgument
-)
+from intervals import DateInterval, FloatInterval, IllegalArgument, IntInterval
 
 
 class TestComparisonOperators(object):
