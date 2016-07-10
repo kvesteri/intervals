@@ -27,6 +27,13 @@ Notation  Definition           Factory method
 ========= =================== ================
 
 
+When both endpoints exist, the upper endpoint may not be less than the lower. The endpoints may be equal only if at least one of the bounds is closed:
+
+* [a..a]: a singleton range (contains only one value)
+* [a..a), (a..a]: empty ranges
+* (a..a): invalid; an ``IllegalArgument`` exception will be thrown
+
+
 .. code-block:: python
 
     >>> from intervals import IntInterval
