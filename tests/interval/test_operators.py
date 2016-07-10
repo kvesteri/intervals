@@ -168,7 +168,7 @@ class TestBinaryOperators(object):
     @mark.parametrize(('interval1', 'interval2', 'result'), (
         ('(2, 3]', '[3, 4)', IntInterval([3, 3])),
         ('(2, 10]', '[3, 40]', IntInterval([3, 10])),
-        ('(0, 0)', '[0, 0]', IntInterval.from_string('(0, 0)')),
+        ('[0, 0]', '[0, 0]', IntInterval.from_string('[0, 0]')),
         ('(2, 3)', '(3, 4)', IntInterval.from_string('(3, 3)')),
         ('(2, 3)', '[3, 4]', IntInterval.from_string('(3, 3)')),
         ('[2, 3]', '(3, 4)', IntInterval.from_string('[3, 3)')),

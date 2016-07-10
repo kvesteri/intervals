@@ -8,6 +8,7 @@ Here you can see the full list of changes between each intervals release.
 ^^^^^^^^^^^^^^^^^^
 
 - Added is_connected utility method
+- Made interval constructor throw IllegalArgument exception for intervals such as (a..a)
 
 
 0.7.1 (2016-03-05)

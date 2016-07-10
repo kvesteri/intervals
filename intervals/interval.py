@@ -185,6 +185,15 @@ class AbstractInterval(object):
                 self.lower,
                 self.upper
             )
+        if (
+            self.lower == self.upper and
+            not self.lower_inc and
+            not self.upper_inc
+        ):
+            raise IllegalArgument(
+                'The bounds may be equal only if at least one of the bounds '
+                'is closed.'
+            )
 
     @classmethod
     def open(cls, lower_bound, upper_bound, **kwargs):

@@ -8,6 +8,7 @@ from intervals import (
     CharacterInterval,
     DecimalInterval,
     FloatInterval,
+    IllegalArgument,
     Interval,
     IntInterval,
     RangeBoundsException
@@ -22,6 +23,14 @@ class TestIntervalInit(object):
             'First argument should be a list or tuple. If you wish to '
             'initialize an interval from string, use from_string factory '
             'method.'
+        )
+
+    def test_invalid_argument(self):
+        with raises(IllegalArgument) as e:
+            FloatInterval((0, 0))
+        assert str(e.value) == (
+            'The bounds may be equal only if at least one of the bounds is '
+            'closed.'
         )
 
     def test_floats(self):
