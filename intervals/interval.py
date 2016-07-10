@@ -14,7 +14,7 @@ from math import ceil, floor
 
 from infinity import inf, is_infinite
 
-from .exc import IntervalException, RangeBoundsException
+from .exc import IllegalArgument, IntervalException, RangeBoundsException
 from .parser import IntervalParser, IntervalStringParser
 
 try:
@@ -596,8 +596,10 @@ class AbstractInterval(object):
         """
         Define the intersection operator
         """
-        if self.upper < other.lower or other.upper < self.lower:
-            return self.__class__((0, 0))
+        if not self.is_connected(other):
+            raise IllegalArgument(
+                'Intersection is only supported for connected intervals.'
+            )
 
         lower = max(self.lower, other.lower)
         upper = min(self.upper, other.upper)
@@ -612,10 +614,30 @@ class AbstractInterval(object):
         Define the union operator
         """
         if self.upper < other.lower or other.upper < self.lower:
-            raise IntervalException(
+            raise IllegalArgument(
                 'Union is not continuous.'
             )
         return self.sup(other)
+
+    def is_connected(self, other):
+        """
+        Returns ``True`` if there exists a (possibly empty) range which is
+        enclosed by both this range and other.
+
+        Examples:
+
+        * [1, 3] and [5, 7] are not connected
+        * [5, 7] and [1, 3] are not connected
+        * [2, 4) and [3, 5) are connected, because both enclose [3, 4)
+        * [1, 3) and [3, 5) are connected, because both enclose the empty range
+          [3, 3)
+        * [1, 3) and (3, 5) are not connected
+        """
+        return self.upper > other.lower and other.upper > self.lower or (
+            self.upper == other.lower and (self.upper_inc or other.lower_inc)
+        ) or (
+            self.lower == other.upper and (self.lower_inc or other.upper_inc)
+        )
 
 
 class NumberInterval(AbstractInterval):

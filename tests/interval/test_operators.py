@@ -1,9 +1,14 @@
 from datetime import date
 
 from infinity import inf
-from pytest import mark
+from pytest import mark, raises
 
-from intervals import DateInterval, FloatInterval, IntInterval
+from intervals import (
+    DateInterval,
+    FloatInterval,
+    IntInterval,
+    IllegalArgument
+)
 
 
 class TestComparisonOperators(object):
@@ -161,8 +166,12 @@ class TestBinaryOperators(object):
         )
 
     @mark.parametrize(('interval1', 'interval2', 'result'), (
-        ('(2, 3]', '[3, 4)', [3, 3]),
-        ('(2, 10]', '[3, 40]', [3, 10]),
+        ('(2, 3]', '[3, 4)', IntInterval([3, 3])),
+        ('(2, 10]', '[3, 40]', IntInterval([3, 10])),
+        ('(0, 0)', '[0, 0]', IntInterval.from_string('(0, 0)')),
+        ('(2, 3)', '(3, 4)', IntInterval.from_string('(3, 3)')),
+        ('(2, 3)', '[3, 4]', IntInterval.from_string('(3, 3)')),
+        ('[2, 3]', '(3, 4)', IntInterval.from_string('[3, 3)')),
     ))
     def test_and_operator_with_half_open_intervals(
         self,
@@ -173,27 +182,16 @@ class TestBinaryOperators(object):
         assert (
             IntInterval.from_string(interval1) &
             IntInterval.from_string(interval2) ==
-            IntInterval(result)
+            result
         )
 
-    @mark.parametrize(('interval1', 'interval2', 'empty'), (
-        ((2, 3), (3, 4), True),
-        ((2, 3), [3, 4], True),
-        ([2, 3], (3, 4), True),
+    @mark.parametrize(('interval1', 'interval2'), (
+        ('[2, 2]', '[5, 7)'),
+        ('(2, 3]', '[4, 40]'),
     ))
-    def test_and_operator_for_empty_results(self, interval1, interval2, empty):
-        assert (IntInterval(interval1) & IntInterval(interval2)).empty == empty
-
-    @mark.parametrize(('interval1', 'interval2', 'empty'), (
-        ('(2, 3]', '[3, 4)', False),
-    ))
-    def test_and_operator_for_half_open_intervals_with_empty_results(
-        self,
-        interval1,
-        interval2,
-        empty
-    ):
-        assert (
-            IntInterval.from_string(interval1) &
-            IntInterval.from_string(interval2)
-        ).empty == empty
+    def test_and_operator_with_illegal_arguments(self, interval1, interval2):
+        with raises(IllegalArgument):
+            (
+                IntInterval.from_string(interval1) &
+                IntInterval.from_string(interval2)
+            )

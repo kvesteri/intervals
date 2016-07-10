@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .exc import IntervalException, RangeBoundsException
+from .exc import IllegalArgument, IntervalException, RangeBoundsException
 from .interval import (
     AbstractInterval,
     canonicalize,
@@ -26,9 +26,10 @@ __all__ = (
     'IntervalException',
     'IntervalFactory',
     'IntInterval',
+    'IllegalArgument',
     'NumberInterval',
     'RangeBoundsException'
 )
 
 
-__version__ = '0.7.1'
+__version__ = '0.8.0'

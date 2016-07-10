@@ -31,19 +31,6 @@ class TestArithmeticOperators(object):
         range_ += IntInterval([1, 2])
         assert range_ == IntInterval([2, 4])
 
-    @mark.parametrize(('first', 'second', 'intersection'), (
-        ('[1, 5]', '[2, 9]', '[2, 5]'),
-        ('[3, 4]', '[3, 9]', '[3, 4]'),
-        ('(3, 6]', '[2, 6)', '(3, 6)'),
-        ('[1, 9]', '[2, 5]', '[2, 5]'),
-        ('[2, 5]', '[1, 9]', '[2, 5]'),
-    ))
-    def test_intersection(self, first, second, intersection):
-        assert (
-            IntInterval.from_string(first) &
-            IntInterval.from_string(second)
-        ) == IntInterval.from_string(intersection)
-
 
 class TestArithmeticFunctions(object):
     @mark.parametrize(('first', 'second', 'result'), (

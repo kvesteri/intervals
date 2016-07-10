@@ -4,6 +4,12 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
+0.8.0 (2016-xx-xx)
+^^^^^^^^^^^^^^^^^^
+
+- Added is_connected utility method
+
+
 0.7.1 (2016-03-05)
 ^^^^^^^^^^^^^^^^^^
 

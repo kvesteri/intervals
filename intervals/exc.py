@@ -8,3 +8,8 @@ class RangeBoundsException(IntervalException):
             min_value,
             max_value
         )
+
+
+class IllegalArgument(IntervalException):
+    def __init__(self, message):
+        self.message = message
