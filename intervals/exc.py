@@ -4,12 +4,14 @@ class IntervalException(Exception):
 
 class RangeBoundsException(IntervalException):
     def __init__(self, min_value, max_value):
-        self.message = 'Min value %s is bigger than max value %s.' % (
-            min_value,
-            max_value
+        super(RangeBoundsException, self).__init__(
+            'Min value %s is bigger than max value %s.' % (
+                min_value,
+                max_value
+            )
         )
 
 
 class IllegalArgument(IntervalException):
     def __init__(self, message):
-        self.message = message
+        super(IntervalException, self).__init__(message)
