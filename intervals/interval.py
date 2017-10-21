@@ -667,11 +667,8 @@ class AbstractInterval(object):
           [3, 3)
         * [1, 3) and (3, 5) are not connected
         """
-        return self.upper > other.lower and other.upper > self.lower or (
-            self.upper == other.lower and (self.upper_inc or other.lower_inc)
-        ) or (
-            self.lower == other.upper and (self.lower_inc or other.upper_inc)
-        )
+        gap = self.gap_interval(other)
+        return gap is None or gap.empty
 
     def gap_interval(self, other):
         """Find the gap between the two given intervals if it exists.
