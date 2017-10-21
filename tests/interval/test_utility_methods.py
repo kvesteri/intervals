@@ -31,7 +31,12 @@ from intervals import DecimalInterval, IntInterval
             DecimalInterval.from_string('[1, 3)'),
             DecimalInterval.from_string('(3, 4]'),
             False
-        )
+        ),
+        (
+            IntInterval([1, 2]),
+            IntInterval([3, 4]),
+            True
+        ),
     )
 )
 def test_is_connected(interval1, interval2, result):
