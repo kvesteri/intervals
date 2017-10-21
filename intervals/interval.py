@@ -673,6 +673,43 @@ class AbstractInterval(object):
             self.lower == other.upper and (self.lower_inc or other.upper_inc)
         )
 
+    def gap_interval(self, other):
+        """Find the gap between the two given intervals if it exists.
+
+        Examples:
+
+        * [1, 3] and [5, 7] have a gap of (3, 5)
+        * [5, 7] and [1, 3] have a gap of (3, 5)
+        * [2, 4) and [3, 5) do not have a gap
+        * [1, 3) and [3, 5) have an empty gap of [3, 3)
+        * [1, 3] and [4, 5] have an empty gap of (3, 4)
+        * [1, 3) and (3, 5) have a gap of [3, 3]
+        """
+        lower = self.upper
+        lower_inc = self.upper_inc
+        if other.upper < self.upper:
+            lower = other.upper
+            lower_inc = other.upper_inc
+        elif self.upper == other.upper:
+            lower_inc = self.upper_inc or other.upper_inc
+
+        upper = self.lower
+        upper_inc = self.lower_inc
+        if other.lower > self.lower:
+            upper = other.lower
+            upper_inc = other.lower_inc
+        elif self.lower == other.lower:
+            upper_inc = self.lower_inc or other.lower_inc
+
+        try:
+            return self.__class__(
+                [lower, upper],
+                lower_inc=not lower_inc,
+                upper_inc=not upper_inc,
+            )
+        except (RangeBoundsException, IllegalArgument):
+            return None
+
 
 class NumberInterval(AbstractInterval):
     rounding_type = Decimal

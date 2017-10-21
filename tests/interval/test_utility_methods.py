@@ -41,3 +41,49 @@ from intervals import DecimalInterval, IntInterval
 )
 def test_is_connected(interval1, interval2, result):
     assert interval1.is_connected(interval2) is result
+
+
+@mark.parametrize(
+    'interval_1, interval_2, result',
+    [
+        (
+            IntInterval([1, 4]),
+            IntInterval([7, 10]),
+            IntInterval((4, 7)),
+        ), (
+            IntInterval([1, 4]),
+            IntInterval([5, 6]),
+            IntInterval((4, 5)),
+        ), (
+            IntInterval([1, 4]),
+            IntInterval.from_string('(4, 6]'),
+            IntInterval.from_string('(4, 4]'),
+        ), (
+            IntInterval.from_string('[1, 4)'),
+            IntInterval.from_string('(4, 6]'),
+            IntInterval([4, 4]),
+        ), (
+            IntInterval.from_string('[1, 1)'),
+            IntInterval.from_string('(3, 3]'),
+            IntInterval([1, 3]),
+        ), (
+            IntInterval.from_string('[1, 1)'),
+            IntInterval.from_string('[3, 3)'),
+            IntInterval.from_string('[1, 3)'),
+        ), (
+            IntInterval.from_string('(1, 1]'),
+            IntInterval.from_string('(3, 3]'),
+            IntInterval.from_string('(1, 3]'),
+        ), (
+            IntInterval([1, 4]),
+            IntInterval([2, 6]),
+            None,
+        ), (
+            IntInterval([1, 4]),
+            IntInterval([1, 4]),
+            None,
+        ),
+    ])
+def test_gap_interval(interval_1, interval_2, result):
+    assert interval_1.gap_interval(interval_2) == result
+    assert interval_2.gap_interval(interval_1) == result
