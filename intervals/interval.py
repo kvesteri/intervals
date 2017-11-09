@@ -694,7 +694,7 @@ class AbstractInterval(object):
         """
         lower = self.upper
         lower_inc = self.upper_inc
-        if other.upper < self.upper:
+        if self.upper > other.upper:
             lower = other.upper
             lower_inc = other.upper_inc
         elif self.upper == other.upper:
@@ -702,7 +702,7 @@ class AbstractInterval(object):
 
         upper = self.lower
         upper_inc = self.lower_inc
-        if other.lower > self.lower:
+        if self.lower < other.lower:
             upper = other.lower
             upper_inc = other.lower_inc
         elif self.lower == other.lower:
