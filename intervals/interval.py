@@ -675,7 +675,12 @@ class AbstractInterval(object):
         * [2, 4) and [3, 5) are connected, because both enclose [3, 4)
         * [1, 3) and [3, 5) are connected, because both enclose the empty range
           [3, 3)
+        * [1, 3] and [4, 5] are connected because both enclose the empty range
+          (3, 4) because it's a discrete interval
         * [1, 3) and (3, 5) are not connected
+        * [1/1/2012, 1/3/2012] and [1/4/2012, 1/5/2012] are not connected
+          because it encloses (1/3/2012, 1/4/2012) which is not empty because
+          it's not a discrete interval
         """
         gap = self.gap_interval(other)
         return gap is None or gap.empty
@@ -691,6 +696,9 @@ class AbstractInterval(object):
         * [1, 3) and [3, 5) have an empty gap of [3, 3)
         * [1, 3] and [4, 5] have an empty gap of (3, 4)
         * [1, 3) and (3, 5) have a gap of [3, 3]
+        * [1/1/2012, 1/3/2012] and [1/4/2012, 1/5/2012] have a gap of
+          (1/3/2012, 1/4/2012) which is not empty because it's not a discrete
+          interval
         """
         lower = self.upper
         lower_inc = self.upper_inc

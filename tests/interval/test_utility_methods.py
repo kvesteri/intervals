@@ -3,6 +3,7 @@ from pytest import mark
 from intervals import DecimalInterval, IntInterval
 
 
+# TODO: test with non-discrete intervals
 @mark.parametrize(
     ('interval1', 'interval2', 'result'),
     (
@@ -43,6 +44,7 @@ def test_is_connected(interval1, interval2, result):
     assert interval1.is_connected(interval2) is result
 
 
+# TODO: test with non-discrete intervals
 @mark.parametrize(
     'interval_1, interval_2, result',
     [
