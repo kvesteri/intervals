@@ -604,6 +604,16 @@ class AbstractInterval(object):
         lower = max(self.lower, other.lower)
         upper = min(self.upper, other.upper)
 
+        # If self and other were connected but lower > upper,
+        # then they must have been adjacent in which case there is
+        # no intersection and we return an empty interval
+        if lower > upper:
+            return self.__class__(
+                [upper, upper],
+                lower_inc=True,
+                upper_inc=False
+            )
+
         if self.lower < other.lower:
             lower_inc = other.lower_inc
         elif self.lower > other.lower:
