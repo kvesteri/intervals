@@ -604,6 +604,16 @@ class AbstractInterval(object):
         lower = max(self.lower, other.lower)
         upper = min(self.upper, other.upper)
 
+        # If self and other were connected but lower > upper,
+        # then they must have been adjacent in which case there is
+        # no intersection and we return an empty interval
+        if lower > upper:
+            return self.__class__(
+                [upper, upper],
+                lower_inc=True,
+                upper_inc=False
+            )
+
         if self.lower < other.lower:
             lower_inc = other.lower_inc
         elif self.lower > other.lower:
@@ -665,13 +675,55 @@ class AbstractInterval(object):
         * [2, 4) and [3, 5) are connected, because both enclose [3, 4)
         * [1, 3) and [3, 5) are connected, because both enclose the empty range
           [3, 3)
+        * [1, 3] and [4, 5] are connected because both enclose the empty range
+          (3, 4) because it's a discrete interval
         * [1, 3) and (3, 5) are not connected
+        * [1/1/2012, 1/3/2012] and [1/4/2012, 1/5/2012] are not connected
+          because it encloses (1/3/2012, 1/4/2012) which is not empty because
+          it's not a discrete interval
         """
-        return self.upper > other.lower and other.upper > self.lower or (
-            self.upper == other.lower and (self.upper_inc or other.lower_inc)
-        ) or (
-            self.lower == other.upper and (self.lower_inc or other.upper_inc)
-        )
+        gap = self.gap_interval(other)
+        return gap is None or gap.empty
+
+    def gap_interval(self, other):
+        """Find the gap between the two given intervals if it exists.
+
+        Examples:
+
+        * [1, 3] and [5, 7] have a gap of (3, 5)
+        * [5, 7] and [1, 3] have a gap of (3, 5)
+        * [2, 4) and [3, 5) do not have a gap
+        * [1, 3) and [3, 5) have an empty gap of [3, 3)
+        * [1, 3] and [4, 5] have an empty gap of (3, 4)
+        * [1, 3) and (3, 5) have a gap of [3, 3]
+        * [1/1/2012, 1/3/2012] and [1/4/2012, 1/5/2012] have a gap of
+          (1/3/2012, 1/4/2012) which is not empty because it's not a discrete
+          interval
+        """
+        lower = self.upper
+        lower_inc = self.upper_inc
+        if self.upper > other.upper:
+            lower = other.upper
+            lower_inc = other.upper_inc
+        elif self.upper == other.upper:
+            lower_inc = self.upper_inc or other.upper_inc
+
+        upper = self.lower
+        upper_inc = self.lower_inc
+        if self.lower < other.lower:
+            upper = other.lower
+            upper_inc = other.lower_inc
+        elif self.lower == other.lower:
+            upper_inc = self.lower_inc or other.lower_inc
+
+        try:
+            return self.__class__(
+                [lower, upper],
+                lower_inc=not lower_inc,
+                upper_inc=not upper_inc,
+            )
+        except (RangeBoundsException, IllegalArgument):
+            return None
 
 
 class NumberInterval(AbstractInterval):
