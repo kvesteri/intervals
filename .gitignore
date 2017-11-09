@@ -30,7 +30,11 @@ nosetests.xml
 # Translations
 *.mo
 
+# Development Environment
 # Mr Developer
 .mr.developer.cfg
 .project
 .pydevproject
+
+.python-version
+.cache
