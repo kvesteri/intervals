@@ -3,7 +3,6 @@ from pytest import mark
 from intervals import DecimalInterval, IntInterval
 
 
-# TODO: test with non-discrete intervals
 @mark.parametrize(
     ('interval1', 'interval2', 'result'),
     (
@@ -84,6 +83,14 @@ def test_is_connected(interval1, interval2, result):
             IntInterval([1, 4]),
             IntInterval([1, 4]),
             None,
+        ), (
+            DecimalInterval([1, 3]),
+            DecimalInterval([4, 5]),
+            DecimalInterval((3, 4)),
+        ), (
+            DecimalInterval((1, 3)),
+            DecimalInterval([3, 5]),
+            DecimalInterval.from_string('[3, 3)'),
         ),
     ])
 def test_gap_interval(interval_1, interval_2, result):
