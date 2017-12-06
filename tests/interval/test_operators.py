@@ -83,6 +83,7 @@ class TestComparisonOperators(object):
     @mark.parametrize('value', (
         IntInterval([0, 2]),
         1,
+        1.0,
         (-1, 1),
     ))
     def test_contains_operator_for_inclusive_interval(self, value):

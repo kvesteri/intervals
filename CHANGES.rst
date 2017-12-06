@@ -4,6 +4,12 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
+0.8.1 (2017-12-06)
+^^^^^^^^^^^^^^^^^^
+
+- Fixed interval coercion (#41)
+
+
 0.8.0 (2016-07-10)
 ^^^^^^^^^^^^^^^^^^
 

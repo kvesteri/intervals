@@ -94,10 +94,14 @@ def coerce_interval(func):
         ):
             try:
                 if arg is not None:
-                    arg = self.__class__(arg)
+                    arg = type(self)(arg)
                 return func(self, arg)
             except IntervalException:
                 return NotImplemented
+        try:
+            arg = type(self)(self.type(arg))
+        except (ValueError, TypeError):
+            pass
         return func(self, arg)
     return wrapper
 
