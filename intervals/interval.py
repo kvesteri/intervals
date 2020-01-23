@@ -40,9 +40,9 @@ def py2round(value):
     Python 3 also returns an int; Python 2 returns a float.
     """
     if value > 0:
-        return float(floor(float(value) + 0.5))
+        return float(floor(float(value)+0.5))
     else:
-        return float(ceil(float(value) - 0.5))
+        return float(ceil(float(value)-0.5))
 
 
 def canonicalize_lower(interval, inc=True):
@@ -86,11 +86,11 @@ def canonicalize(interval, lower_inc=True, upper_inc=False):
 def coerce_interval(func):
     def wrapper(self, arg):
         if (
-                isinstance(arg, list) or
-                isinstance(arg, tuple) or
-                isinstance(arg, self.type) or
-                isinstance(arg, type(self)) or
-                arg == inf or arg == -inf
+            isinstance(arg, list) or
+            isinstance(arg, tuple) or
+            isinstance(arg, self.type) or
+            isinstance(arg, type(self)) or
+            arg == inf or arg == -inf
         ):
             try:
                 if arg is not None:
@@ -103,7 +103,6 @@ def coerce_interval(func):
         except (ValueError, TypeError):
             pass
         return func(self, arg)
-
     return wrapper
 
 
@@ -113,11 +112,11 @@ class AbstractInterval(object):
     parser = IntervalParser()
 
     def __init__(
-            self,
-            bounds,
-            lower_inc=None,
-            upper_inc=None,
-            step=None
+        self,
+        bounds,
+        lower_inc=None,
+        upper_inc=None,
+        step=None
     ):
         """
         Parse given args and assign lower and upper bound for this number
@@ -400,11 +399,11 @@ class AbstractInterval(object):
 
     def equals(self, other):
         return (
-                self.lower == other.lower and
-                self.upper == other.upper and
-                self.lower_inc == other.lower_inc and
-                self.upper_inc == other.upper_inc and
-                self.type == other.type
+            self.lower == other.lower and
+            self.upper == other.upper and
+            self.lower_inc == other.lower_inc and
+            self.upper_inc == other.upper_inc and
+            self.type == other.type
         )
 
     @coerce_interval
@@ -458,8 +457,8 @@ class AbstractInterval(object):
             else operator.gt
         )
         return (
-                lower_op(self.lower, other.lower) and
-                upper_op(self.upper, other.upper)
+            lower_op(self.lower, other.lower) and
+            upper_op(self.upper, other.upper)
         )
 
     @property
@@ -491,12 +490,12 @@ class AbstractInterval(object):
     def empty(self):
         if self.discrete and not self.degenerate:
             return (
-                    self.upper - self.lower == self.step
-                    and not (self.upper_inc or self.lower_inc)
+                self.upper - self.lower == self.step
+                and not (self.upper_inc or self.lower_inc)
             )
         return (
-                self.upper == self.lower
-                and not (self.lower_inc and self.upper_inc)
+            self.upper == self.lower
+            and not (self.lower_inc and self.upper_inc)
         )
 
     def __bool__(self):
@@ -687,10 +686,10 @@ class AbstractInterval(object):
         * [1, 3) and (3, 5) are not connected
         """
         return self.upper > other.lower and other.upper > self.lower or (
-                self.upper == other.lower and (self.upper_inc or other.lower_inc)
+            self.upper == other.lower and (self.upper_inc or other.lower_inc)
         ) or (
-                       self.lower == other.upper and (self.lower_inc or other.upper_inc)
-               )
+            self.lower == other.upper and (self.lower_inc or other.upper_inc)
+        )
 
 
 class NumberInterval(AbstractInterval):
@@ -806,6 +805,5 @@ class IntervalFactory(object):
         raise IntervalException(
             'Could not initialize interval.'
         )
-
 
 Interval = IntervalFactory()

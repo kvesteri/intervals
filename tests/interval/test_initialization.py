@@ -20,18 +20,18 @@ class TestIntervalInit(object):
         with raises(TypeError) as e:
             FloatInterval('(0.2, 0.5)')
         assert (
-                   'First argument should be a list or tuple. If you wish to '
-                   'initialize an interval from string, use from_string factory '
-                   'method.'
-               ) in str(e)
+            'First argument should be a list or tuple. If you wish to '
+            'initialize an interval from string, use from_string factory '
+            'method.'
+        ) in str(e)
 
     def test_invalid_argument(self):
         with raises(IllegalArgument) as e:
             FloatInterval((0, 0))
         assert (
-                   'The bounds may be equal only if at least one of the bounds is '
-                   'closed.'
-               ) in str(e)
+            'The bounds may be equal only if at least one of the bounds is '
+            'closed.'
+        ) in str(e)
 
     def test_floats(self):
         interval = FloatInterval((0.2, 0.5))
@@ -155,11 +155,11 @@ class TestIntervalInit(object):
     @mark.parametrize(
         ('number_range', 'lower', 'upper'),
         (
-                ('-2-2', -2, 2),
-                ('-3--2', -3, -2),
-                ('2-3', 2, 3),
-                ('2-', 2, inf),
-                ('-5', -5, -5)
+            ('-2-2', -2, 2),
+            ('-3--2', -3, -2),
+            ('2-3', 2, 3),
+            ('2-', 2, inf),
+            ('-5', -5, -5)
         )
     )
     def test_hyphen_format(self, number_range, lower, upper):
@@ -170,18 +170,18 @@ class TestIntervalInit(object):
     @mark.parametrize(
         ('constructor', 'number_range'),
         (
-                (IntInterval, (3, 2)),
-                (IntInterval, [4, 2]),
-                (IntInterval, (float('inf'), 2)),
-                (CharacterInterval, ('c', 'b')),
-                (CharacterInterval, ('d', 'b')),
-                (CharacterInterval, (inf, 'b')),
+            (IntInterval, (3, 2)),
+            (IntInterval, [4, 2]),
+            (IntInterval, (float('inf'), 2)),
+            (CharacterInterval, ('c', 'b')),
+            (CharacterInterval, ('d', 'b')),
+            (CharacterInterval, (inf, 'b')),
         )
     )
     def test_raises_exception_for_badly_constructed_range(
-            self,
-            constructor,
-            number_range
+        self,
+        constructor,
+        number_range
     ):
         with raises(RangeBoundsException):
             constructor(number_range)
@@ -191,13 +191,13 @@ class TestTypeGuessing(object):
     @mark.parametrize(
         ('number_range', 'type'),
         (
-                ((2, 3), int),
-                ([-6, 8], int),
-                (8.5, float),
-                ([Decimal(2), 9], int),
-                ([Decimal('0.5'), 9], float),
-                ([date(2000, 1, 1), inf], date),
-                (('a', 'e'), str),
+            ((2, 3), int),
+            ([-6, 8], int),
+            (8.5, float),
+            ([Decimal(2), 9], int),
+            ([Decimal('0.5'), 9], float),
+            ([date(2000, 1, 1), inf], date),
+            (('a', 'e'), str),
         )
     )
     def test_guesses_types(self, number_range, type):
@@ -208,12 +208,12 @@ class TestIntervalChanging(object):
     @mark.parametrize(
         ('constructor', 'number_range', 'bad_lower'),
         (
-                (IntInterval, (1, 2), 3),
-                (IntInterval, [1, 2], 3),
-                (IntInterval, (1, 2), float('inf')),
-                (CharacterInterval, ('a', 'b'), 'c'),
-                (CharacterInterval, ('a', 'b'), 'd'),
-                (CharacterInterval, ('a', 'b'), inf),
+            (IntInterval, (1, 2), 3),
+            (IntInterval, [1, 2], 3),
+            (IntInterval, (1, 2), float('inf')),
+            (CharacterInterval, ('a', 'b'), 'c'),
+            (CharacterInterval, ('a', 'b'), 'd'),
+            (CharacterInterval, ('a', 'b'), inf),
         )
     )
     def test_raises_exception_for_badly_lower_changing(
@@ -229,12 +229,12 @@ class TestIntervalChanging(object):
     @mark.parametrize(
         ('constructor', 'number_range', 'bad_upper'),
         (
-                (IntInterval, (1, 2), 0),
-                (IntInterval, [1, 2], 0),
-                (IntInterval, (1, 2), float('-inf')),
-                (CharacterInterval, ('b', 'c'), 'a'),
-                (CharacterInterval, ('b', 'd'), 'a'),
-                (CharacterInterval, ('b', 'c'), -inf),
+            (IntInterval, (1, 2), 0),
+            (IntInterval, [1, 2], 0),
+            (IntInterval, (1, 2), float('-inf')),
+            (CharacterInterval, ('b', 'c'), 'a'),
+            (CharacterInterval, ('b', 'd'), 'a'),
+            (CharacterInterval, ('b', 'c'), -inf),
         )
     )
     def test_raises_exception_for_badly_upper_changing(
