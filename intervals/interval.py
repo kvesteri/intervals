@@ -194,9 +194,9 @@ class AbstractInterval(object):
                 upper
             )
         if (
-                lower == upper and
-                not lower_inc and
-                not upper_inc
+            lower == upper and
+            not lower_inc and
+            not upper_inc
         ):
             raise IllegalArgument(
                 'The bounds may be equal only if at least one of the bounds '
