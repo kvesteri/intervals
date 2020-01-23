@@ -202,3 +202,47 @@ class TestTypeGuessing(object):
     )
     def test_guesses_types(self, number_range, type):
         assert Interval(number_range).type == type
+
+
+class TestIntervalChanging(object):
+    @mark.parametrize(
+        ('constructor', 'number_range', 'bad_lower'),
+        (
+            (IntInterval, (1, 2), 3),
+            (IntInterval, [1, 2], 3),
+            (IntInterval, (1, 2), float('inf')),
+            (CharacterInterval, ('a', 'b'), 'c'),
+            (CharacterInterval, ('a', 'b'), 'd'),
+            (CharacterInterval, ('a', 'b'), inf),
+        )
+    )
+    def test_raises_exception_for_badly_lower_changing(
+        self,
+        constructor,
+        number_range,
+        bad_lower
+    ):
+        with raises(RangeBoundsException):
+            interval = constructor(number_range)
+            interval.lower = bad_lower
+
+    @mark.parametrize(
+        ('constructor', 'number_range', 'bad_upper'),
+        (
+            (IntInterval, (1, 2), 0),
+            (IntInterval, [1, 2], 0),
+            (IntInterval, (1, 2), float('-inf')),
+            (CharacterInterval, ('b', 'c'), 'a'),
+            (CharacterInterval, ('b', 'd'), 'a'),
+            (CharacterInterval, ('b', 'c'), -inf),
+        )
+    )
+    def test_raises_exception_for_badly_upper_changing(
+        self,
+        constructor,
+        number_range,
+        bad_upper
+    ):
+        with raises(RangeBoundsException):
+            interval = constructor(number_range)
+            interval.upper = bad_upper

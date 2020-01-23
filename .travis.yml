@@ -1,11 +1,25 @@
 language: python
-python:
-  - 2.7
-  - 3.3
-  - 3.4
-  - 3.5
-  - pypy
-  - pypy3
+matrix:
+    include:
+        - python: 2.7
+          dist: trusty
+          sudo: false
+        - python: 3.3
+          dist: trusty
+          sudo: false
+        - python: 3.4
+          dist: trusty
+          sudo: false
+        - python: 3.5
+          dist: trusty
+          sudo: false
+        - python: pypy
+          dist: trusty
+          sudo: false
+        - python: pypy3
+          dist: trusty
+          sudo: false
+       
 install:
   - pip install -e ".[test]"
 script:

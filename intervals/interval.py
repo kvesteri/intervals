@@ -184,15 +184,19 @@ class AbstractInterval(object):
             self.parser(bounds, lower_inc, upper_inc)
         )
 
-        if self.lower > self.upper:
+        self.range_init_and_setter_exception_detect(self.lower, self.upper, self.lower_inc, self.upper_inc)
+
+    @classmethod
+    def range_init_and_setter_exception_detect(cls, lower, upper, lower_inc, upper_inc):
+        if lower > upper:
             raise RangeBoundsException(
-                self.lower,
-                self.upper
+                lower,
+                upper
             )
         if (
-            self.lower == self.upper and
-            not self.lower_inc and
-            not self.upper_inc
+            lower == upper and
+            not lower_inc and
+            not upper_inc
         ):
             raise IllegalArgument(
                 'The bounds may be equal only if at least one of the bounds '
@@ -320,8 +324,13 @@ class AbstractInterval(object):
     def lower(self, value):
         value = self.coerce_value(value)
         if value is None:
+            if hasattr(self, 'upper_inc'):
+                self.range_init_and_setter_exception_detect(-inf, self.upper, self.lower_inc, self.upper_inc)
             self._lower = -inf
         else:
+            if hasattr(self, 'upper_inc'):
+                self.range_init_and_setter_exception_detect(self.round_value_by_step(value), self.upper, self.lower_inc,
+                                                            self.upper_inc)
             self._lower = self.round_value_by_step(value)
 
     @property
@@ -332,8 +341,13 @@ class AbstractInterval(object):
     def upper(self, value):
         value = self.coerce_value(value)
         if value is None:
+            if hasattr(self, 'upper_inc'):
+                self.range_init_and_setter_exception_detect(self.lower, inf, self.lower_inc, self.upper_inc)
             self._upper = inf
         else:
+            if hasattr(self, 'upper_inc'):
+                self.range_init_and_setter_exception_detect(self.lower, self.round_value_by_step(value), self.lower_inc,
+                                                            self.upper_inc)
             self._upper = self.round_value_by_step(value)
 
     def round_value_by_step(self, value):
