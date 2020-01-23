@@ -217,10 +217,10 @@ class TestIntervalChanging(object):
         )
     )
     def test_raises_exception_for_badly_lower_changing(
-            self,
-            constructor,
-            number_range,
-            bad_lower
+        self,
+        constructor,
+        number_range,
+        bad_lower
     ):
         with raises(RangeBoundsException):
             interval = constructor(number_range)
@@ -238,10 +238,10 @@ class TestIntervalChanging(object):
         )
     )
     def test_raises_exception_for_badly_upper_changing(
-            self,
-            constructor,
-            number_range,
-            bad_upper
+        self,
+        constructor,
+        number_range,
+        bad_upper
     ):
         with raises(RangeBoundsException):
             interval = constructor(number_range)
