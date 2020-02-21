@@ -725,9 +725,15 @@ class DateInterval(AbstractInterval):
     step = timedelta(days=1)
     type = date
 
+    def coerce_string(self, value):
+        return self.type.fromisoformat(value)
+
 
 class DateTimeInterval(AbstractInterval):
     type = datetime
+
+    def coerce_string(self, value):
+        return self.type.fromisoformat(value)
 
 
 class FloatInterval(NumberInterval):
