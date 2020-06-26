@@ -98,10 +98,11 @@ def coerce_interval(func):
                 return func(self, arg)
             except IntervalException:
                 return NotImplemented
-        try:
-            arg = type(self)(self.type(arg))
-        except (ValueError, TypeError):
-            pass
+        if str(type(arg)) != "<class 'sqlalchemy.util.langhelpers._symbol'>":
+            try:
+                arg = type(self)(self.type(arg))
+            except (ValueError, TypeError):
+                pass
         return func(self, arg)
     return wrapper
 
