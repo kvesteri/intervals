@@ -100,7 +100,7 @@ def coerce_interval(func):
                 return NotImplemented
         try:
             arg = type(self)(self.type(arg))
-        except (ValueError, TypeError):
+        except (ValueError, TypeError, OverflowError):
             pass
         return func(self, arg)
     return wrapper

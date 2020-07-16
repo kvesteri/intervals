@@ -19,7 +19,12 @@ class TestComparisonOperators(object):
             DateInterval([date(2011, 1, 1), date(2011, 1, 1)]),
             False
         ),
-        (IntInterval.from_string('(,)') == None, False)  # noqa
+        (IntInterval.from_string('(,)') == None, False),  # noqa
+        (
+            DateInterval(date(2000, 1, 1), date(2001, 1, 1)) ==
+            -12312321312312312312123123,
+            False
+        )
     ))
     def test_eq_operator(self, comparison, result):
         assert comparison is result
