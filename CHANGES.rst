@@ -4,6 +4,13 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
+0.9.0 (2020-07-16)
+^^^^^^^^^^^^^^^^^^
+
+- Fixed interval coercion (#42)
+- Dropped py27 and py34 support
+
+
 0.8.1 (2017-12-06)
 ^^^^^^^^^^^^^^^^^^
 
