@@ -4,6 +4,12 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
+0.9.1 (2020-12-31)
+^^^^^^^^^^^^^^^^^^
+
+- Fixed discrete interval length (#53)
+
+
 0.9.0 (2020-07-16)
 ^^^^^^^^^^^^^^^^^^
 

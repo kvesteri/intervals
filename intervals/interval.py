@@ -456,6 +456,11 @@ class AbstractInterval(object):
 
     @property
     def length(self):
+        if self.discrete:
+            if not self:
+                return 0
+            if not self.lower_inc or not self.upper_inc:
+                return canonicalize(self, lower_inc=True, upper_inc=True).length
         return abs(self.upper - self.lower)
 
     @property
