@@ -4,6 +4,12 @@ Changelog
 Here you can see the full list of changes between each intervals release.
 
 
+0.9.2 (2021-06-02)
+^^^^^^^^^^^^^^^^^^
+
+- Make invalid value coercions throw ValueCoercionException
+
+
 0.9.1 (2020-12-31)
 ^^^^^^^^^^^^^^^^^^
 
