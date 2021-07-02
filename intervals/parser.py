@@ -1,11 +1,5 @@
 from .exc import IntervalException
 
-try:
-    string_types = basestring,  # Python 2
-except NameError:
-    string_types = str,  # Python 3
-
-
 strip = lambda a: a.strip()
 
 

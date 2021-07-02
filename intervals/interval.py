@@ -17,11 +17,6 @@ from infinity import inf, is_infinite
 from .exc import IllegalArgument, IntervalException, RangeBoundsException
 from .parser import IntervalParser, IntervalStringParser
 
-try:
-    string_types = basestring,  # Python 2
-except NameError:
-    string_types = str,  # Python 3
-
 
 def is_number(number):
     return isinstance(number, (float, int, Decimal))
@@ -171,7 +166,7 @@ class AbstractInterval(object):
             30
 
         """
-        if isinstance(bounds, string_types):
+        if isinstance(bounds, str):
             raise TypeError(
                 'First argument should be a list or tuple. If you wish to '
                 'initialize an interval from string, use from_string factory '
@@ -301,7 +296,7 @@ class AbstractInterval(object):
             return value
         elif isinstance(value, self.type):
             return value
-        elif isinstance(value, string_types):
+        elif isinstance(value, str):
             return self.coerce_string(value)
         else:
             return self.coerce_obj(value)
