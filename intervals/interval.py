@@ -9,12 +9,17 @@ https://en.wikipedia.org/wiki/Interval_(mathematics)
 # -*- coding: utf-8 -*-
 import operator
 from datetime import date, datetime, timedelta
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from math import ceil, floor
 
 from infinity import inf, is_infinite
 
-from .exc import IllegalArgument, IntervalException, RangeBoundsException
+from .exc import (
+    IllegalArgument,
+    IntervalException,
+    RangeBoundsException,
+    ValueCoercionException
+)
 from .parser import IntervalParser, IntervalStringParser
 
 
@@ -302,10 +307,16 @@ class AbstractInterval(object):
             return self.coerce_obj(value)
 
     def coerce_string(self, value):
-        return self.type(value)
+        try:
+            return self.type(value)
+        except (ValueError, TypeError):
+            raise ValueCoercionException()
 
     def coerce_obj(self, obj):
-        return self.type(obj)
+        try:
+            return self.type(obj)
+        except (ValueError, TypeError):
+            raise ValueCoercionException()
 
     @property
     def lower(self):
@@ -701,14 +712,12 @@ class IntInterval(NumberInterval):
     type = int
 
     def coerce_obj(self, obj):
-        if isinstance(obj, float) or isinstance(obj, Decimal):
-            if str(int(obj)) != str(obj):
-                raise IntervalException(
-                    'Could not coerce %s to int. Decimal places would '
-                    'be lost.'
-                )
-            return int(obj)
-        return obj
+        if isinstance(obj, (float, Decimal)) and str(int(obj)) != str(obj):
+            raise IntervalException(
+                'Could not coerce %s to int. Decimal places would '
+                'be lost.'
+            )
+        super().coerce_obj(obj)
 
     def __int__(self):
         if self.empty:
@@ -746,13 +755,19 @@ class DecimalInterval(NumberInterval):
             ))
         return value
 
+    def coerce_string(self, value):
+        try:
+            return self.type(value)
+        except (InvalidOperation, TypeError):
+            raise ValueCoercionException('Could not coerce given value to decimal.')
+
 
 class CharacterInterval(AbstractInterval):
     type = str
 
     def coerce_obj(self, obj):
         if not isinstance(obj, str):
-            raise IntervalException('Type %s is not a string.')
+            raise ValueCoercionException('Type %s is not a string.')
         return obj
 
 

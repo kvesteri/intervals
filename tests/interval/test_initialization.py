@@ -10,6 +10,7 @@ from intervals import (
     FloatInterval,
     IllegalArgument,
     Interval,
+    IntervalException,
     IntInterval,
     RangeBoundsException
 )
@@ -46,6 +47,28 @@ class TestIntervalInit(object):
         assert interval.upper == Decimal('0.5')
         assert not interval.lower_inc
         assert not interval.upper_inc
+
+    @mark.parametrize('value',
+        (
+            'bogus',
+            {},
+            []
+        )
+    )
+    def test_invalid_decimals(self, value):
+        with raises(IntervalException):
+            interval = DecimalInterval((value, '1'))
+
+    @mark.parametrize('value',
+        (
+            'bogus',
+            {},
+            []
+        )
+    )
+    def test_invalid_integers(self, value):
+        with raises(IntervalException):
+            interval = IntInterval((value, '1'))
 
     def test_support_range_object(self):
         interval = IntInterval(IntInterval((1, 3)))

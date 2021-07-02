@@ -15,3 +15,10 @@ class RangeBoundsException(IntervalException):
 class IllegalArgument(IntervalException):
     def __init__(self, message):
         super(IntervalException, self).__init__(message)
+
+
+class ValueCoercionException(IntervalException):
+    def __init__(self, message=None):
+        if message is None:
+            message = 'Could not coerce value.'
+        super(IntervalException, self).__init__(message)
