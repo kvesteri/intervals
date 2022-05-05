@@ -1,4 +1,5 @@
 from datetime import date
+from datetime import datetime
 from decimal import Decimal
 
 from infinity import inf
@@ -6,11 +7,13 @@ from pytest import mark, raises
 
 from intervals import (
     CharacterInterval,
+    DateInterval,
+    DateTimeInterval,
     DecimalInterval,
     FloatInterval,
     IllegalArgument,
-    Interval,
     IntInterval,
+    Interval,
     RangeBoundsException
 )
 
@@ -185,6 +188,29 @@ class TestIntervalInit(object):
     ):
         with raises(RangeBoundsException):
             constructor(number_range)
+
+    def test_dateinterval_fromstring(self):
+        s = '[2020-01-02, 2020-03-04]'
+        interval = DateInterval.from_string(s)
+        assert interval.lower == date(2020, 1, 2)
+        assert interval.upper == date(2020, 3, 4)
+        assert interval.lower_inc
+        assert interval.upper_inc
+
+    def test_datetimeinterval_fromstring(self):
+        s = '[2020-01-02 03:04:05, 2020-06-07 08:09:10.000001]'
+        interval = DateTimeInterval.from_string(s)
+        assert interval.lower == datetime(2020, 1, 2, 3, 4, 5)
+        assert interval.upper == datetime(2020, 6, 7, 8, 9, 10, 1)
+        assert interval.lower_inc
+        assert interval.upper_inc
+        # without time part
+        s = '[2020-01-02, 2020-06-07]'
+        interval = DateTimeInterval.from_string(s)
+        assert interval.lower == datetime(2020, 1, 2, 0, 0, 0)
+        assert interval.upper == datetime(2020, 6, 7, 0, 0, 0)
+        assert interval.lower_inc
+        assert interval.upper_inc
 
 
 class TestTypeGuessing(object):

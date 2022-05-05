@@ -8,11 +8,44 @@ https://en.wikipedia.org/wiki/Interval_(mathematics)
 
 # -*- coding: utf-8 -*-
 import operator
+import sys
 from datetime import date, datetime, timedelta
 from decimal import Decimal
 from math import ceil, floor
 
 from infinity import inf, is_infinite
+
+try:
+    import arrow
+
+    def date_from_iso(s):
+        return arrow.get(s).naive.date()
+
+    def datetime_from_iso(s):
+        return arrow.get(s).naive
+
+except ImportError:
+    if (
+        sys.version_info.major > 3 or
+        (sys.version_info.major == 3 and sys.version_info.minor >= 7)
+    ):
+        def date_from_iso(s):
+            return date.fromisoformat(s)
+
+        def datetime_from_iso(s):
+            return datetime.fromisoformat(s)
+    else:
+        def date_from_iso(s):
+            return datetime.strptime(s, '%Y-%m-%d').date()
+
+        def datetime_from_iso(s):
+            n = len(s)
+            if n == 10:
+                return datetime.strptime(s, '%Y-%m-%d')
+            elif n == 19:
+                return datetime.strptime(s, '%Y-%m-%d %H:%M:%S')
+            elif n > 19:
+                return datetime.strptime(s, '%Y-%m-%d %H:%M:%S.%f')
 
 from .exc import IllegalArgument, IntervalException, RangeBoundsException
 from .parser import IntervalParser, IntervalStringParser
@@ -725,9 +758,15 @@ class DateInterval(AbstractInterval):
     step = timedelta(days=1)
     type = date
 
+    def coerce_string(self, value):
+        return date_from_iso(value)
+
 
 class DateTimeInterval(AbstractInterval):
     type = datetime
+
+    def coerce_string(self, value):
+        return datetime_from_iso(value)
 
 
 class FloatInterval(NumberInterval):
