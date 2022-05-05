@@ -15,16 +15,20 @@ from intervals import (
 
 class TestIntervalProperties(object):
     @mark.parametrize(
-        ('number_range', 'length'),
+        ('interval', 'length'),
         (
-            ([1, 4], 3),
-            ([-1, 1], 2),
-            ((-inf, inf), inf),
-            ((1, inf), inf),
+            (IntInterval([1, 4]), 3),
+            (IntInterval([-1, 1]), 2),
+            (IntInterval([-inf, inf]), inf),
+            (IntInterval([1, inf]), inf),
+            (IntInterval.from_string('(0, 3)'), 1),
+            (IntInterval.from_string('[0, 3)'), 2),
+            (IntInterval.from_string('(0, 2)'), 0),
+            (IntInterval.from_string('(0, 1)'), 0)
         )
     )
-    def test_length(self, number_range, length):
-        assert IntInterval(number_range).length == length
+    def test_length(self, interval, length):
+        assert interval.length == length
 
     @mark.parametrize(
         ('number_range', 'radius'),
